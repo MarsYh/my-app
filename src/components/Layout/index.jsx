@@ -1,8 +1,9 @@
-import { Layout, Menu, Avatar, Image, Space } from 'antd'
+import { Layout, Menu } from 'antd'
 import React, { useState } from 'react'
 import styles from './index.module.less'
+import './layout.less'
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import imgTitle from '../../assets/bg-title.svg'
+import IconTitle from '../../assets/img/bg-title.svg'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -10,10 +11,10 @@ import {
   UserOutlined,
   VideoCameraOutlined,
   MailOutlined,
-  BellOutlined,
 } from '@ant-design/icons'
+import HeaderRight from '../HeaderRight'
 
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Content, Sider } = Layout
 
 const items = [
   {
@@ -45,35 +46,23 @@ const items = [
 function LayoutPro() {
   const [collapsed, setCollapsed] = useState(false)
   const { pathname } = useLocation()
+
+  function handleCollapsed() {
+    setCollapsed(!collapsed)
+  }
+
   return (
     <div className={styles.box}>
       <Layout>
-        <Space>
-          <Header>
-            <img className="bg" src={imgTitle} alt="" />
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )}
-            <BellOutlined />
-            <span className="profile">
-              <Avatar
-                src={
-                  <Image
-                    src="https://joeschmoe.io/api/v1/random"
-                    style={{
-                      width: 32,
-                    }}
-                  />
-                }
-              />
-              <span>Users</span>
-            </span>
-          </Header>
-        </Space>
+        <Header className={styles.head}>
+          <div className={styles.left}>
+            <img src={IconTitle} alt="" />
+            <div onClick={handleCollapsed}>
+              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            </div>
+          </div>
+          <HeaderRight />
+        </Header>
         <Content>
           <Layout>
             <Sider
@@ -84,7 +73,7 @@ function LayoutPro() {
               selectedKeys={pathname}>
               <Menu items={items} />
             </Sider>
-            <Content>
+            <Content className={styles.container}>
               <Outlet />
             </Content>
           </Layout>
