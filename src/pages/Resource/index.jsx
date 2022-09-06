@@ -9,7 +9,7 @@ import classNames from "classnames";
 const Manage = () => {
   const navigate = useNavigate();
 
-  const [activeKey, setActiveKey] = useState("/resource/tiktok");
+  const [activeKey, setActiveKey] = useState(PLATFORM_CONFIG[0].route);
 
   function handleRoute(route) {
     setActiveKey(route);
