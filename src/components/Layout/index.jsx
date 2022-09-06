@@ -37,7 +37,10 @@ function LayoutPro() {
   return (
     <div className={styels.box}>
       <Layout>
-        <Header>header</Header>
+        <Header>
+          <img src="" />
+          thomas
+        </Header>
         <Content>
           <Layout>
             <Sider>
