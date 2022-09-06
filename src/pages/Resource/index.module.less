@@ -1,4 +1,25 @@
-.ant-layout-content {
-  margin-top: 20px;
-  margin-left: 39px;
+.checkBox{
+  display: flex;
+  text-align: center;
+  line-height: 32px;
+  margin-top: 24px;
+  >div{
+    margin-right: 32px;
+    background: #F7FAFA;
+    border-radius: 4px;
+    width: 94px;
+    height: 32px;     
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.8;
+    }
+  }
+
+  .active{
+    background: rgba(#475CE6,0.1);
+    border-bottom: 2px solid #475CE6;
+    color: #475CE6;
+    font-weight: bold;
+  }
 }
