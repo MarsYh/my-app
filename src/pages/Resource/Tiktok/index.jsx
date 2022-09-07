@@ -1,4 +1,4 @@
-// 小红书界面管理
+// 抖音
 import React from 'react'
 
 const TikTok = () => {

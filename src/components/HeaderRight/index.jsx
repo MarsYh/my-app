@@ -1,7 +1,7 @@
 // 头像资料
+import { Avatar } from 'antd'
 import React from 'react'
 import styles from './index.module.less'
-import { Avatar } from 'antd'
 
 const HeaderRight = () => {
   return (
@@ -11,4 +11,5 @@ const HeaderRight = () => {
     </div>
   )
 }
+
 export default HeaderRight
