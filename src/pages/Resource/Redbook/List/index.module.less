@@ -1,0 +1,56 @@
+.tableBox {
+  :global {
+    .ant-divider-horizontal {
+      margin-top: 32px;
+    }
+    .ant-table-thead {
+      white-space: nowrap;
+      & > tr > th {
+        font-weight: 400;
+        color: #889191;
+      }
+      .ant-table-cell {
+        padding: 12px 8px;
+      }
+    }
+    .ant-table-tbody {
+      tr:nth-child(odd) {
+        background: #fafafa;
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background: #fafafa;
+        }
+      }
+      .ant-table-row-selected {
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right{
+          background: #e6f7ff !important;
+        }
+        .ant-table-cell-fix-left:hover,
+        .ant-table-cell-fix-right:hover {
+          background: #dcf4ff !important;
+        }
+      }
+    }
+  }
+}
+.tableHead {
+  font-size: 14px;
+  font-family: Microsoft YaHei UI;
+  font-weight: 400;
+  color: #787a7a;
+  margin-bottom: 32px;
+}
+.tagInfo {
+  margin-top: 12px;
+  display: flex;
+  > div {
+    padding: 4px 6px;
+    border-radius: 12px;
+    background: #edf2f2;
+    margin-right: 6px;
+  }
+  > div:first-child {
+    background: #eaeefb;
+  }
+}

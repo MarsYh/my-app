@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styles from './index.module.less'
 import './layout.less'
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import IconTitle from '../../assets/img/bg-title.svg'
+import imgTitle from '../../assets/img/bg-title.svg'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -56,7 +56,7 @@ function LayoutPro() {
       <Layout>
         <Header className={styles.head}>
           <div className={styles.left}>
-            <img src={IconTitle} alt="" />
+            <img src={imgTitle} alt="" />
             <div onClick={handleCollapsed}>
               {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             </div>
