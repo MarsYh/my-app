@@ -8,7 +8,7 @@ const Redbook = () => {
   return (
     <div className={styles.container}>
       <Head />
-      <Search />
+      {/* <Search /> */}
       <List />
     </div>
   )
