@@ -8,7 +8,7 @@ import { PLATFORM_CONFIG } from './sourceData'
 
 const Manage = () => {
   const navigate = useNavigate()
-  const [activekey, setActivekey] = useState('/resource/tiktok')
+  const [activekey, setActivekey] = useState('/resource/redbook')
   function handleRoute(route) {
     setActivekey(route)
     navigate(route)
@@ -28,6 +28,7 @@ const Manage = () => {
             <span>{item.label}</span>
           </div>
         ))}
+        <div className={styles.button}>收录达人</div>
       </div>
       {/* 显示路由容器 */}
       <Outlet />
