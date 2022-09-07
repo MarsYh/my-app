@@ -6,6 +6,8 @@ function App() {
 
   const element = useRoutes(routes)
 
+  console.log("run")
+
   return (
     <div className="App">
         {element}
