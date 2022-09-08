@@ -1,5 +1,6 @@
 // 投放结案管理
 import React, { useState } from 'react'
+import { Button } from 'antd'
 import { Outlet, useNavigate } from 'react-router-dom'
 import imgResource from '../../assets/img/icon-resource.svg'
 import styles from './index.module.less'
@@ -34,6 +35,7 @@ const Manage = () => {
             <span>{item.label}</span>
           </div>
         ))}
+        <Button type="primary">收录达人</Button>
       </div>
 
       {/* 显示路由容器 */}

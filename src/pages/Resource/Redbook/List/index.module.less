@@ -36,18 +36,55 @@
         }
       }
     }
+    .ant-pagination-item-link {
+      border: none;
+    }
   }
 }
 .tableHead {
+  display: flex;
+  justify-content: space-between;
   font-size: 14px;
   font-family: Microsoft YaHei UI;
   font-weight: 400;
   color: #787a7a;
   margin-bottom: 32px;
 }
+.button {
+  border: none;
+  margin-right: 20px;
+  width: 90px;
+  height: 32px;
+  background: #edf2f2;
+  opacity: 1;
+  border-radius: 4px;
+}
+.baseInfo {
+  :global {
+    .ant-tag {
+      // width: 24px;
+      // height: 12px;
+      color: #727fff;
+      background: #eaeefb;
+      border: none;
+    }
+  }
+  & > span,
+  img {
+    margin-right: 8px;
+  }
+}
+.sex {
+  position: absolute;
+  left: 34px;
+  top: 63px;
+  background-color: #2998ff;
+  border-radius: 7px;
+}
 .tagInfo {
   margin-top: 12px;
   display: flex;
+  color: #626a6a;
   > div {
     padding: 4px 6px;
     border-radius: 12px;
@@ -57,5 +94,28 @@
   > div:first-child {
     // 在达人信息列 第三行的标签中第一个子元素的背景不同
     background: #eaeefb;
+  }
+}
+
+.locationInfo {
+  color: #626a6a;
+  & > span > img {
+    margin-right: 6px;
+  }
+}
+
+.operate {
+  :global {
+    .ant-btn {
+      width: 75px;
+      height: 32px;
+      border: 1px solid #727fff;
+      opacity: 1;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 0px;
+      color: #727fff;
+    }
   }
 }
