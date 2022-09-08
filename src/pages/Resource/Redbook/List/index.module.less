@@ -1,11 +1,121 @@
 .tableBox {
+  // 全局变量外面必须写一个父级类名样式 可以避免全局中有相同的antd组件名被更改
   :global {
-    .ant-table-thead > tr > th {
-      font-weight: 400;
-      font-style: 14px;
-      color: #889191;
+    .ant-divider-horizontal {
+      margin-top: 32px;
+    }
+    .ant-table-thead {
       white-space: nowrap;
-      padding: 12px 8px;
+      & > tr > th {
+        font-weight: 400;
+        color: #889191;
+      }
+      .ant-table-cell {
+        padding: 12px 8px;
+      }
+    }
+    // 更改列表偶数列的背景 也包括固定的首位列
+    .ant-table-tbody {
+      tr:nth-child(odd) {
+        background: #fafafa;
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background: #fafafa;
+        }
+      }
+      // 在选中时 因为只有没有被固定的列才会改变颜色 所以也要把固定列的背景颜色改为同色
+      .ant-table-row-selected {
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background: #e6f7ff !important;
+        }
+        // 同样在选中时 经过没有固定的列时也要更改不同的背景颜色
+        .ant-table-cell-fix-left:hover,
+        .ant-table-cell-fix-right:hover {
+          background: #dcf4ff !important;
+        }
+      }
+    }
+    .ant-pagination-item-link {
+      border: none;
+    }
+  }
+}
+.tableHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-family: Microsoft YaHei UI;
+  font-weight: 400;
+  color: #787a7a;
+  margin-bottom: 32px;
+}
+.button {
+  border: none;
+  margin-right: 20px;
+  width: 90px;
+  height: 32px;
+  background: #edf2f2;
+  opacity: 1;
+  border-radius: 4px;
+}
+.baseInfo {
+  :global {
+    .ant-tag {
+      // width: 24px;
+      // height: 12px;
+      color: #727fff;
+      background: #eaeefb;
+      border: none;
+    }
+  }
+  & > span,
+  img {
+    margin-right: 8px;
+  }
+}
+.sex {
+  position: absolute;
+  left: 34px;
+  top: 63px;
+  background-color: #2998ff;
+  border-radius: 7px;
+}
+.tagInfo {
+  margin-top: 12px;
+  display: flex;
+  color: #626a6a;
+  > div {
+    padding: 4px 6px;
+    border-radius: 12px;
+    background: #edf2f2;
+    margin-right: 6px;
+  }
+  > div:first-child {
+    // 在达人信息列 第三行的标签中第一个子元素的背景不同
+    background: #eaeefb;
+  }
+}
+
+.locationInfo {
+  color: #626a6a;
+  & > span > img {
+    margin-right: 6px;
+  }
+}
+
+.operate {
+  :global {
+    .ant-btn {
+      width: 75px;
+      height: 32px;
+      border: 1px solid #727fff;
+      opacity: 1;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 0px;
+      color: #727fff;
     }
   }
 }

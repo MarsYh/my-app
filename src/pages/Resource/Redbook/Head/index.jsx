@@ -1,12 +1,28 @@
-// 小红书界面头部管理
 import React from 'react'
+import { Tabs } from 'antd'
 import styles from './index.module.less'
+
+const onChange = (key) => {
+  console.log(key)
+}
+
 const Head = () => {
   return (
     <div className={styles.head}>
-      <div className={styles.trangle}></div>
-      <button>品牌传播</button>
-      <button>电商带货</button>
+      <Tabs
+        defaultActiveKey="1"
+        onChange={onChange}
+        items={[
+          {
+            label: `品牌传播`,
+            key: '1',
+          },
+          {
+            label: `电商带货`,
+            key: '2',
+          },
+        ]}
+      />
     </div>
   )
 }
