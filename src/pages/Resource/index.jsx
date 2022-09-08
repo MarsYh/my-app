@@ -1,7 +1,7 @@
 // 投放结案管理
 import React, { useState } from 'react'
 import { Button } from 'antd'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import imgResource from '../../assets/img/icon-resource.svg'
 import styles from './index.module.less'
 import { PLATFORM_CONFIG } from './sourceData'
@@ -10,7 +10,10 @@ import classNames from 'classnames'
 const Manage = () => {
   const navigate = useNavigate()
 
-  const [activeKey, setActiveKey] = useState('/resource/tiktok')
+  const { pathname } = useLocation()
+
+
+  const [activeKey, setActiveKey] = useState(pathname)
 
   function handleRoute(route) {
     setActiveKey(route)
@@ -20,7 +23,7 @@ const Manage = () => {
   return (
     <div>
       <div className={styles.resource}>
-        <img className="resource" src={imgResource} alt="" />
+        <img src={imgResource} alt="" />
       </div>
       <div className={styles.checkBox}>
         {PLATFORM_CONFIG.map((item) => (

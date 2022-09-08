@@ -16,6 +16,22 @@
       font-family: Microsoft YaHei;
       font-weight: 400;
     }
+    .ant-tabs-ink-bar{
+      display: none;
+    }
+    .ant-tabs{
+      position: relative;
+      &::before{
+        position: absolute;
+        left: 0;
+        top: 0;
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+      }
+    }
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
     .ant-tabs-tab:hover .ant-tabs-tab-active:hover .ant-tabs-tab-btn:hover {
       color: #727fff;

@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
 import './layout.less'
 import { Outlet, Link, useLocation } from 'react-router-dom'
@@ -13,6 +13,7 @@ import {
   MailOutlined,
 } from '@ant-design/icons'
 import HeaderRight from '../HeaderRight'
+import { getUserInfo } from "../../api"
 
 const { Header, Content, Sider } = Layout
 
@@ -46,6 +47,14 @@ const items = [
 function LayoutPro() {
   const [collapsed, setCollapsed] = useState(false)
   const { pathname } = useLocation()
+
+  useEffect(() => {
+    getUserInfo().then(res=>{
+      if(res.data.value?.code === "000995"){
+        window.location.href = `http://test.main.newrank.cn/user/login?displayType=login&backUrl=${encodeURIComponent(window.location.href)}&source=130&type=121&scene=adinsight_login`
+      }
+    })
+  },[])
 
   function handleCollapsed() {
     setCollapsed(!collapsed)
