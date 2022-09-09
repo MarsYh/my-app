@@ -2,41 +2,40 @@
   :global {
     .ant-radio-button {
       background: #727fff;
-      opacity: 1;
-      border-radius: 4px 4px 0px 0px;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
     }
-    .ant-radio-group-solid {
+    .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
       border-bottom: none;
+      background: transparent;
+    }
+    .ant-radio-button-wrapper:not(:first-child)::before{
+      display: none;
     }
     .ant-btn-primary {
       width: 56px;
       height: 40px;
       background: #727fff;
-      opacity: 1;
       border-radius: 7px;
     }
-    .ant-input {
-      width: 500px;
-      height: 48px;
-      background: #edf2f2;
-      opacity: 1;
-      border-radius: 4px;
+    .ant-radio-button-wrapper{
+      border: none;
     }
-    .ant-input-group {
-      display: block;
+    .ant-radio-button-wrapper-checked{
+      &::before{
+        display: none;
+      }
+    }
+    .ant-input-affix-wrapper{
+      background: #EDF2F2;
+      border-radius: 4px;
+      padding: 4px 4px 4px 12px;
+
+      >input{
+        background: #EDF2F2;
+      }
     }
   }
   margin-top: 30px;
 }
-.searchInput > .input {
-  :global {
-    .ant-input-wrapper .ant-input-group {
-      // margin-top: 30px;
-      // width: 500px;
-      // height: 48px;
-      background-color: #edf2f2;
-      opacity: 1;
-      border-radius: 4px;
-    }
-  }
-}
+
