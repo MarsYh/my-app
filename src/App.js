@@ -1,16 +1,17 @@
-import './App.css';
+import './App.css'
 import routes from "./routes"
-import { useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom"
+import "@/assets/css/common.less"
 
-function App() {
+function App () {
 
   const element = useRoutes(routes)
 
   return (
     <div className="App">
-        {element}
+      {element}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

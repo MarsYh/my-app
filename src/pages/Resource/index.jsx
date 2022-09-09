@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import imgResource from '../../assets/img/icon-resource.svg'
+import imgResource from '@/assets/img/icon-resource.svg'
 import styles from './index.module.less'
 import { PLATFORM_CONFIG } from './sourceData'
 import classNames from 'classnames'

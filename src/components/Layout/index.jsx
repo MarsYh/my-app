@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
 import './layout.less'
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import imgTitle from '../../assets/img/bg-title.svg'
+import imgTitle from '@/assets/img/bg-title.svg'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -13,7 +13,7 @@ import {
   MailOutlined,
 } from '@ant-design/icons'
 import HeaderRight from '../HeaderRight'
-import { getUserInfo } from "../../api"
+import { getUserInfo } from "@/api"
 
 const { Header, Content, Sider } = Layout
 

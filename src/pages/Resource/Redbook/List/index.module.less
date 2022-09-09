@@ -1,4 +1,5 @@
 .tableBox {
+  font-size: 12px;
   // 全局变量外面必须写一个父级类名样式 可以避免全局中有相同的antd组件名被更改
   :global {
     .ant-divider-horizontal {
@@ -22,6 +23,10 @@
         .ant-table-cell-fix-right {
           background: #fafafa;
         }
+      }
+      .ant-table-cell {
+        font-size: 16px;
+        font-family: 'DINPro';
       }
       // 在选中时 因为只有没有被固定的列才会改变颜色 所以也要把固定列的背景颜色改为同色
       .ant-table-row-selected {
@@ -50,6 +55,9 @@
   color: #787a7a;
   margin-bottom: 32px;
 }
+.name {
+  font-size: 16px;
+}
 .button {
   border: none;
   margin-right: 20px;
@@ -74,27 +82,53 @@
     margin-right: 8px;
   }
 }
-.sex {
+.gender {
+  position: relative;
+}
+.male {
   position: absolute;
-  left: 34px;
-  top: 63px;
+  left: -22px;
+  top: 11px;
+  width: 14px;
+  height: 14px;
   background-color: #2998ff;
   border-radius: 7px;
+  z-index: 2;
+}
+.female {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: -22px;
+  top: 11px;
+  background-color: #ff2742;
+  border-radius: 7px;
+  z-index: 2;
+}
+.describe {
+  display: flex;
+  > span:first-child {
+    color: #afb6b6;
+    margin-right: 6px;
+  }
+  > span:last-child {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 300px;
+  }
 }
 .tagInfo {
   margin-top: 12px;
   display: flex;
   color: #626a6a;
-  > div {
-    padding: 4px 6px;
-    border-radius: 12px;
-    background: #edf2f2;
-    margin-right: 6px;
-  }
-  > div:first-child {
-    // 在达人信息列 第三行的标签中第一个子元素的背景不同
-    background: #eaeefb;
-  }
+  // > div {
+  //   padding: 4px 6px;
+  //   border-radius: 12px;
+  //   background: #edf2f2;
+  //   margin-right: 6px;
+  // }
 }
 
 .locationInfo {
@@ -113,9 +147,40 @@
       font-weight: 400;
       color: #727fff;
 
-      &:hover{
+      &:hover {
         opacity: 0.8;
       }
     }
+  }
+}
+
+.title {
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.infoBox {
+  font-size: 12px;
+}
+
+.contentTagFirst {
+  padding: 4px 6px;
+  border-radius: 12px;
+  margin-right: 6px;
+  background: #f1f2ff;
+}
+.defaultTagFirst {
+  padding: 4px 6px;
+  border-radius: 12px;
+  margin-right: 6px;
+  background: #edf2f2;
+}
+
+.tagHover {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.75;
   }
 }

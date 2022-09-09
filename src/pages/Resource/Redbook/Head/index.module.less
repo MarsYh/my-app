@@ -1,5 +1,5 @@
 .head {
-  margin-top: 30px;
+  margin-top: 20px;
   height: 40px;
   background: rgba(114, 127, 255, 0.08);
   border: 1px solid rgba(114, 127, 255, 0.102);
@@ -16,20 +16,23 @@
       font-family: Microsoft YaHei;
       font-weight: 400;
     }
-    .ant-tabs-ink-bar{
+    .ant-tabs-ink-bar {
       display: none;
     }
-    .ant-tabs{
+    .ant-tabs {
       position: relative;
-      &::before{
+      &::before {
         position: absolute;
-        left: 0;
-        top: 0;
-        content: "";
+        left: 152px;
+        top: -19px;
+        content: '';
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-color: red;
+        width: 14px;
+        height: 9px;
+        border-width: 9px 9px 9px 9px;
+        border-style: solid;
+        border-color: transparent transparent rgba(114, 127, 255, 0.102)
+          transparent;
       }
     }
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,

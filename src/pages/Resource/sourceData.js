@@ -1,8 +1,8 @@
-import IconTiktok from '../../assets/img/icon-tiktok.svg'
-import IconRedbook from '../../assets/img/icon-redbook.svg'
-import IconWeibo from '../../assets/img/icon-weibo.svg'
-import IconWechat from '../../assets/img/icon-wechat.svg'
-import IconBiliBili from '../../assets/img/icon-bilibili.svg'
+import IconTiktok from '@/assets/img/icon-tiktok.svg'
+import IconRedbook from '@/assets/img/icon-redbook.svg'
+import IconWeibo from '@/assets/img/icon-weibo.svg'
+import IconWechat from '@/assets/img/icon-wechat.svg'
+import IconBiliBili from '@/assets/img/icon-bilibili.svg'
 
 
 export const PLATFORM_CONFIG = [
