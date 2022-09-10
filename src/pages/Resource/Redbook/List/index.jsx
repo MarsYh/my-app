@@ -434,17 +434,26 @@ const List = () => {
   }
 
   function onTableChange(pagin, filters, sorter) {
+    const o = {...params}
+
+    // 分页
     const { current, pageSize } = pagin
-    console.log("sort:",sorter)
+    o.page = {
+      pageNo: current,
+      pageSize,
+    }
 
     // 排序
-    setParams({
-      ...params,
-      page: {
-        pageNo: current,
-        pageSize,
-      },
-    })
+    const { field,order } = sorter
+    if(order){
+      o.sortName = field
+      o.sortType = order === "ascend" ? 1 : 2
+    }else{
+      delete o.sortName
+      delete o.sortType
+    }
+
+    setParams(o)
   }
 
   return (
