@@ -435,6 +435,9 @@ const List = () => {
 
   function onTableChange(pagin, filters, sorter) {
     const { current, pageSize } = pagin
+    console.log("sort:",sorter)
+
+    // 排序
     setParams({
       ...params,
       page: {
