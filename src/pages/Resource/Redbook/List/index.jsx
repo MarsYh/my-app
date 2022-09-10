@@ -1,5 +1,14 @@
 // 小红书列表
-import { Tag, Table, Space, Avatar, Divider, Button, Popover } from 'antd'
+import {
+  Tag,
+  Table,
+  Space,
+  Avatar,
+  Divider,
+  Button,
+  Popover,
+  Tooltip,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
 import { PlusOutlined } from '@ant-design/icons'
@@ -10,6 +19,13 @@ import IconMale from '@/assets/img/icon-male.svg'
 import IconFemale from '@/assets/img/icon-female.svg'
 import { reqXhsList } from '@/api/resource/redBook'
 import classNames from 'classnames'
+import IconPGY from '@/assets/img/icon-pugongying.svg'
+import { ATTRIBUTE_CONFIG } from './sourceData'
+import IconVerify from '@/assets/img/icon-verify.svg'
+import IconEst from '@/assets/img/icon-estimate.svg'
+import IconEstText from '@/assets/img/icon-estimate-text.svg'
+import IconOff from '@/assets/img/icon-official.svg'
+import IconOffText from '@/assets/img/icon-official-text.svg'
 
 const List = () => {
   // 更改复选框的状态
@@ -70,7 +86,8 @@ const List = () => {
               ))}
             </div>
           }>
-          <div className={classNames(styles.contentTagFirst, styles.tagHover)}>
+          <div
+            className={classNames(styles.contentTagFirst, styles.cursorHover)}>
             {taxonomy1_tag}
           </div>
         </Popover>
@@ -83,21 +100,65 @@ const List = () => {
   }
 
   function renderDefaultTags(tags) {
-    return tags?.map((tag) => {
-      return tag.hover ? (
-        <Popover key={tag.content} content={tag.hover}>
-          <div className={classNames(styles.defaultTagFirst, styles.tagHover)}>
-            {tag.content}
+    // 判断数组长度
+    if (!Array.isArray(tags) || !tags?.length) return null
+    if (tags.length === 1)
+      return tags[0].hover ? (
+        <Popover content={tags[0].hover}>
+          <div
+            className={classNames(styles.defaultTagFirst, styles.cursorHover)}>
+            {tags[0].content}
           </div>
         </Popover>
       ) : (
-        <div key={tag.content} className={styles.defaultTagFirst}>
-          {tag.content}
-        </div>
+        <div className={styles.defaultTagFirst}>{tags[0].content}</div>
       )
-    })
-  }
 
+    // 大于1个的情况
+
+    const firstTags = tags.slice(0, 1)[0]
+    const firstDom = firstTags.hover ? (
+      <Popover content={firstTags.hover}>
+        <div className={classNames(styles.defaultTagFirst, styles.cursorHover)}>
+          {firstTags.content}
+        </div>
+      </Popover>
+    ) : (
+      <div className={styles.defaultTagFirst}>{firstTags.content}</div>
+    )
+    // 剩余的dom
+    const restTags = tags.slice(1)
+    const restDom = (
+      <Popover
+        content={restTags.map((child) =>
+          child.hover ? (
+            <Tooltip
+              placement="right"
+              className={styles.defaultSecondTitle}
+              key={child.content}
+              title={child.hover}>
+              <div className={styles.cursorHover}>{child.content}</div>
+            </Tooltip>
+          ) : (
+            <div key={child.content}>{child.content}</div>
+          )
+        )}>
+        <div className={classNames(styles.cursorHover, styles.defaultTagFirst)}>
+          +{restTags.length}
+        </div>
+      </Popover>
+    )
+    return [firstDom, restDom]
+  }
+  function renderAttrIcon(attr) {
+    const url = ATTRIBUTE_CONFIG[attr]
+    return url ? (
+      <div className={styles.attrIcon}>
+        <img src={url} alt="" />
+        <span>{attr}</span>
+      </div>
+    ) : null
+  }
   function renderUserInfo(text, record) {
     return (
       <Space className={styles.infoBox}>
@@ -118,13 +179,38 @@ const List = () => {
             <span className={styles.name}>{text}</span>
             {/* 标签组件 */}
             <Tag>LV{record.current_level}</Tag>
-            <img src={IconGift} alt="" />
-            <img src={IconShopCart} alt="" />
+            <Popover content="支持好物推荐，通过选品中心带货，按照销售额计算佣金">
+              <img className={styles.cursorHover} src={IconGift} alt="" />
+            </Popover>
+            <Popover content="支持带货">
+              <img className={styles.cursorHover} src={IconShopCart} alt="" />
+            </Popover>
+            {record.source_form === 1 ? (
+              <Popover content="蒲公英达人">
+                <img className={styles.cursorHover} src={IconPGY} alt="" />
+              </Popover>
+            ) : null}
+            {renderAttrIcon(record.user_attribute)}
           </div>
           {/* 第二行地域信息 */}
           <div className={styles.locationInfo}>
-            <span>{record.location}</span>
+            <span>
+              <span className={styles.id}>ID</span>
+              {record.red_id}
+            </span>
             {/* 组件分割线 */}
+            {record.location ? (
+              <>
+                <Divider type="vertical" />
+                <span>{record.location}</span>
+              </>
+            ) : null}
+            {record.ip_location ? (
+              <>
+                <Divider type="vertical" />
+                <span>IP属地 {record.ip_location}</span>
+              </>
+            ) : null}
 
             {record.note_sign?.name ? (
               <>
@@ -135,9 +221,6 @@ const List = () => {
                 </span>
               </>
             ) : null}
-            {/* 组件分割线 */}
-            <Divider type="vertical" />
-            <span>年框签约-新榜</span>
           </div>
           {record.describe ? (
             <div title={record.describe} className={styles.describe}>
@@ -145,13 +228,60 @@ const List = () => {
               <span>{record.describe}</span>
             </div>
           ) : null}
-          {/* 第三行标签信息 */}
+          {/* {第三行认证信息} */}
+          {record.official_verify ? (
+            <div className={styles.verify}>
+              <img src={IconVerify} alt="" />
+              <span>{record.official_verify}</span>
+            </div>
+          ) : null}
+
+          {/* 第四行标签信息 */}
           <div className={styles.tagInfo}>
             {renderContentTags(record.content_tags)}
             {renderDefaultTags(record.tagsRes)}
           </div>
         </div>
       </Space>
+    )
+  }
+  function renderPrice(text, record) {
+    const { source_form, picture_price, video_price } = record
+    return picture_price ? (
+      <Popover
+        placement="left"
+        content={
+          <div>
+            <div>
+              {source_form === 1 ? (
+                <div>
+                  <img className={styles.icon} src={IconOff} alt="" />
+                  <img src={IconOffText} alt="" />
+                </div>
+              ) : (
+                <div>
+                  <img className={styles.icon} src={IconEst} alt="" />
+                  <img src={IconEstText} alt="" />
+                </div>
+              )}
+            </div>
+            <div className={styles.price}>
+              图文一口价：
+              <span style={{ color: 'rgb(112, 126, 255)' }}>
+                ¥ {(picture_price / 10000).toFixed(2)}w
+              </span>
+            </div>
+            <div className={styles.price}>
+              视频一口价：<span>¥ {(video_price / 10000).toFixed(2)}w</span>
+            </div>
+          </div>
+        }>
+        <div className={classNames(styles.priceTitle, styles.cursorHover)}>
+          {(picture_price / 10000).toFixed(2)}w
+        </div>
+      </Popover>
+    ) : (
+      <div className={classNames(styles.priceTitle, styles.cursorHover)}>-</div>
     )
   }
 
@@ -272,6 +402,16 @@ const List = () => {
       ellipsis: true,
       dataIndex: 'video_price',
       render: renderCount,
+    },
+    {
+      title: '推广报价',
+      width: 100,
+      sorter: true,
+      fixed: 'right',
+      // source_form picture_price, video_price
+      ellipsis: true,
+      dataIndex: 'video_price',
+      render: renderPrice,
     },
     {
       title: '操作',

@@ -68,6 +68,8 @@
   border-radius: 4px;
 }
 .baseInfo {
+  display: flex;
+  align-items: center;
   :global {
     .ant-tag {
       // width: 24px;
@@ -178,9 +180,52 @@
   background: #edf2f2;
 }
 
-.tagHover {
+.cursorHover {
   cursor: pointer;
   &:hover {
     opacity: 0.75;
   }
+}
+
+.defaultSecondTitle {
+  display: block;
+}
+.id {
+  color: #afb6b6;
+  margin-right: 6px;
+}
+.attrIcon {
+  display: flex;
+  align-items: center;
+  > img {
+    margin-right: 3px;
+  }
+  > span {
+    color: #626a6a;
+  }
+}
+
+.verify {
+  display: flex;
+  align-items: center;
+  > img {
+    margin-right: 2px;
+  }
+  > span {
+    color: #626a6a;
+  }
+}
+
+.icon {
+  margin-right: 2px;
+}
+
+.price {
+  margin-top: 10px;
+  font-family: 'DINPro';
+}
+
+.priceTitle {
+  color: rgb(112, 126, 255);
+  font-family: 'DINPro';
 }
