@@ -55,8 +55,8 @@
 }
 .male {
   position: absolute;
-  left: -22px;
-  top: 11px;
+  left: 34px;
+  top: -14px;
   width: 14px;
   height: 14px;
   background-color: #2998ff;
@@ -67,19 +67,28 @@
   position: absolute;
   width: 14px;
   height: 14px;
-  left: -22px;
-  top: 11px;
+  left: 34px;
+  top: -14px;
   background-color: #ff2742;
   border-radius: 7px;
   z-index: 2;
 }
 
 .infoBox {
+  display: flex;
+  align-items: center;
   font-size: 12px;
 }
 .baseInfo {
   display: flex;
   align-items: center;
+  > img {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  > span {
+    font-size: 14px;
+  }
 }
 
 .id {
@@ -89,6 +98,7 @@
 .locationInfo {
   display: flex;
   align-items: center;
+  margin-top: 5px;
 }
 .tableHead {
   display: flex;
@@ -107,4 +117,78 @@
   background: #edf2f2;
   opacity: 1;
   border-radius: 4px;
+}
+.infoRight {
+  font-size: 12px;
+  margin-left: 5px;
+  margin-top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #626a6a;
+}
+
+.name {
+  display: inline-block;
+  max-width: 200px;
+  font-size: 16px;
+  cursor: pointer;
+  // overflow: hidden;
+  &:hover {
+    color: rgb(112, 126, 255);
+  }
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.idInfo > span:nth-child(2) {
+  color: #626a6a;
+}
+.tagInfo {
+  display: flex;
+  align-items: center;
+  > div {
+    padding: 4px 8px;
+    border-radius: 12px;
+  }
+}
+.contentTag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #f1f2ff;
+  color: #626a6a;
+}
+.hover {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.tagBox {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.industryTag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: #626a6a;
+  background: #edf2f2;
+  margin-left: 4px;
+}
+
+.privateTag {
+  background: rgba(41, 152, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-right: 6px;
+}
+
+.privateBox {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
 }
