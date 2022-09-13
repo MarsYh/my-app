@@ -2,7 +2,7 @@
 import React from 'react'
 
 const Manage = () => {
-  return <div></div>
+  return <div>123</div>
 }
 
 export default Manage

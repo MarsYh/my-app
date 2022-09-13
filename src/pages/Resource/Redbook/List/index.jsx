@@ -26,6 +26,7 @@ import IconEst from '@/assets/img/icon-estimate.svg'
 import IconEstText from '@/assets/img/icon-estimate-text.svg'
 import IconOff from '@/assets/img/icon-official.svg'
 import IconOffText from '@/assets/img/icon-official-text.svg'
+import { useNavigate } from "react-router-dom"
 
 const List = () => {
   // 更改复选框的状态
@@ -44,6 +45,8 @@ const List = () => {
     list: [],
     total: 0,
   })
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     reqXhsList(params).then((res) => {
@@ -159,6 +162,12 @@ const List = () => {
       </div>
     ) : null
   }
+
+  // 跳转到详情页
+  function handleGoDetail(record){
+    navigate(`/resourceDetail/redbookDetail/${record.red_id}?huyue=456`,{state:record})
+  }
+
   function renderUserInfo(text, record) {
     return (
       <Space className={styles.infoBox}>
@@ -176,7 +185,7 @@ const List = () => {
         <div className={styles.infoRight}>
           {/* 第一行基本信息 */}
           <div className={styles.baseInfo}>
-            <span className={styles.name}>{text}</span>
+            <span onClick={() =>handleGoDetail(record)} className={styles.name}>{text}</span>
             {/* 标签组件 */}
             <Tag>LV{record.current_level}</Tag>
             <Popover content="支持好物推荐，通过选品中心带货，按照销售额计算佣金">
