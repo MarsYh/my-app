@@ -123,64 +123,64 @@ const List = () => {
   // }
 
   function renderContentTags(record) {
+    // 首先判断标签有无
     if (!record.contentFirLabel) return null
+    // 因为已经判断过 这里肯定是有标签的 再判断是否有二级标签(hover)
     return record.contentSecLabel ? (
-      <Popover content={record.contentSecLabel}>
-        <div className={classNames(styles.contentTag, styles.hover)}>
+      <Popover content={<div>{record.contentSecLabel}</div>}>
+        <div className={classNames(styles.hover, styles.contentTag)}>
           {record.contentFirLabel}
         </div>
       </Popover>
     ) : (
-      <div className={classNames(styles.contentTag, styles.hover)}>
+      <div className={classNames(styles.hover, styles.contentTag)}>
         {record.contentFirLabel}
       </div>
     )
   }
 
   function renderIndustryTags(record) {
+    // 行业标签只会有一个 所以只用判断存不存在即可 不用判断hover
     return record.industryLabel ? (
       <div className={styles.industryTag}>{record.industryLabel}</div>
     ) : null
   }
 
   function renderPrivateTags(record) {
-    if (!Array.isArray(record.tagsRes) || !record.tagsRes.length) return null
-    // 小于等于三
-    const preList = record.tagsRes.slice(0, 3).filter(Boolean)
+    // 判断标签是否存在
+    const { tagsRes } = record
+    if (!Array.isArray(tagsRes) || !tagsRes.length) return null
+    // 标签小于等于三个
+    const preList = tagsRes.slice(0, 3)
     const result = preList.map((tag) =>
+      // 判断是否有hover
       tag.hover ? (
-        <Popover content={<div>{tag.hover}</div>}>
-          <div className={classNames(styles.hover, styles.privateTag)}>
-            {tag.content}
-          </div>
+        <Popover key={tag.content} content={<div>{tag.hover}</div>}>
+          <div>{tag.content}</div>
         </Popover>
       ) : (
-        <div className={classNames(styles.hover, styles.privateTag)}>
-          {tag.content}
-        </div>
+        <div key={tag.content}>{tag.content}</div>
       )
     )
-    // 大于等于三
-    if (record.tagsRes.length > 3) {
-      const restList = record.tagsRes.slice(3)
+    // 标签大于三个
+    if (tagsRes.length > 3) {
+      const restList = tagsRes.slice(3)
       const restDom = (
         <Popover
           content={restList.map((tag) =>
+            // 判断是否有hover
             tag.hover ? (
-              <Tooltip placement="right" title={tag.hover}>
-                <div className={classNames(styles.hover, styles.hoverTag)}>
-                  {tag.content}
-                </div>
+              <Tooltip
+                key={tag.content}
+                placement="right"
+                title={<div>{tag.hover}</div>}>
+                <div>{tag.content}</div>
               </Tooltip>
             ) : (
-              <div className={classNames(styles.hover, styles.hoverTag)}>
-                {tag.content}
-              </div>
+              <div key={tag.content}>{tag.content}</div>
             )
           )}>
-          <div className={classNames(styles.hover, styles.privateTag)}>
-            +{restList.length}
-          </div>
+          <div>+{restList.length}</div>
         </Popover>
       )
       result.push(restDom)

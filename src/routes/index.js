@@ -10,6 +10,8 @@ import Weibo from "../pages/Resource/Weibo"
 import Wechat from "../pages/Resource/Wechat"
 import BiliBili from "../pages/Resource/Bilibili"
 import { Navigate } from "react-router-dom"
+import RedbookDetail from "../pages/ResourceDetail/Redbook"
+import ResourceDetail from "../pages/ResourceDetail"
 
 const routes = [
   {
@@ -47,6 +49,15 @@ const routes = [
           {
             path: "",
             element: <Navigate to={"/resource/tiktok"} />
+          },
+        ]
+      },
+      {
+        path: 'resourceDetail', element: <ResourceDetail />,
+        children: [
+          {
+            path: "redbookDetail",
+            element: <RedbookDetail />
           },
         ]
       },

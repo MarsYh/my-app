@@ -2,7 +2,7 @@
 import React from 'react'
 
 const Manage = () => {
-  return <div>投放结案管理</div>
+  return <div></div>
 }
 
 export default Manage
