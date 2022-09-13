@@ -156,7 +156,7 @@ const List = () => {
       dataIndex: 'address',
       width: 150,
       fixed: 'right',
-      sorter: true,
+      sorter: true, 
     },
   ]
   return (
