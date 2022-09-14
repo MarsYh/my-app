@@ -1,0 +1,36 @@
+.firstTag {
+  position: relative;
+  :global {
+    .ant-btn {
+      border-radius: 34px;
+      &::before {
+        background: none;
+        opacity: 0;
+      }
+    }
+  }
+  ::before {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    height: 0;
+    width: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 8px solid white;
+    border-right: 8px solid transparent;
+    left: 86%;
+    top: 37%;
+  }
+  > Button {
+    font-size: 16px;
+    margin-top: 24px;
+    display: block;
+    min-width: 112px;
+    align-items: center;
+    color: #fff;
+    background: #727fff;
+    width: 142px;
+    height: 40px;
+  }
+}
