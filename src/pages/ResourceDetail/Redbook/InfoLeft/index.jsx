@@ -1,6 +1,14 @@
 import React from 'react'
 import styles from './index.module.less'
 import IconXHS from './img/icon-official-xiaohongshu.svg'
+import FirstTag from './FirstTag'
+import SecondTag from './SecondTag'
+import ThirdTag from './ThirdTag'
+import FourthTag from './FourthTag'
+import FifthTag from './FifthTag'
+import SixthTag from './SixthTag'
+import { Divider } from 'antd'
+import History from './HistoryTag'
 
 const InfoLeft = () => {
   return (
@@ -10,15 +18,17 @@ const InfoLeft = () => {
         <span>小红书详情</span>
       </div>
       <div className={styles.list}>
-        <div>传播表现</div>
-        <div>性价比表现</div>
-        <div>粉丝分析</div>
-        <div>电商带货</div>
-        <div>直播分析</div>
-        <div>传播表现</div>
+        <FirstTag />
+        <SecondTag />
+        <ThirdTag />
+        <FourthTag />
+        <FifthTag />
+        <SixthTag />
       </div>
-      <div className={styles.divider}>私有数据</div>
-      <div>历史投放</div>
+      <Divider>
+        <span className={styles.dataInfo}>私有数据</span>
+      </Divider>
+      <History />
     </div>
   )
 }

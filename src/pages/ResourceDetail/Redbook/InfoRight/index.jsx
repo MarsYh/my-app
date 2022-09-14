@@ -20,23 +20,21 @@ const InfoRight = () => {
           </div>
         </div>
         <div className={styles.titleRight}>
-          <div className={styles.dataBox}>
-            <div className={styles.dataContainer}>
-              <div className={styles.infoList}>
-                <span className={styles.name}>丁郑美子</span>
-                <span>LV4</span>
-                <div>
-                  <img src={IconGift} alt="" />
-                </div>
-                <div>
-                  <img src={IconShopCart} alt="" />
-                </div>
+          <div className={styles.dataContainer}>
+            <div className={styles.infoList}>
+              <span className={styles.name}>丁郑美子</span>
+              <span>LV4</span>
+              <div>
+                <img src={IconGift} alt="" />
               </div>
-              <div></div>
-              <div></div>
+              <div>
+                <img src={IconShopCart} alt="" />
+              </div>
             </div>
-            <div className={styles.dataList}></div>
+            <div></div>
+            <div></div>
           </div>
+          <div className={styles.dataList}></div>
         </div>
       </div>
     </div>
