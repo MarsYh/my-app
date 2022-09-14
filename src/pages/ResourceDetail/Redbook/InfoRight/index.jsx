@@ -1,13 +1,20 @@
-import React from 'react'
+import React,{ useContext } from 'react'
 import { Button } from 'antd'
 import styles from './index.module.less'
 import IconHead from './img/head-photo.jpg'
 import IconGift from '@/assets/img/icon-gift.svg'
 import IconShopCart from '@/assets/img/icon-shopcart.svg'
+import context from "../context"
+import A from "./components/A"
+import B from "./components/B"
 
 const InfoRight = () => {
+
+  const { checked } = useContext(context)
+
   return (
     <div className={styles.infoRight}>
+      {/* 头部 */}
       <div className={styles.title}>
         <div className={styles.titleLeft}>
           <img src={IconHead} alt="" />
@@ -37,6 +44,14 @@ const InfoRight = () => {
             </div>
             <div className={styles.dataList}></div>
           </div>
+        </div>
+      </div>
+      {/* 内容 */}
+      <div className={styles.content}>
+        <div className={styles.contentLeft}>left</div>
+        <div className={styles.contentRight}>
+            {checked === "spread_performance" && <A />}
+            {checked === "price_performance" && <B />}
         </div>
       </div>
     </div>
