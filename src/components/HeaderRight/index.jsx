@@ -21,8 +21,11 @@ const HeaderRight = () => {
       <Popover
         content={<Button onClick={loginOut}>退出登录</Button>}
         placement="bottom">
-        <Avatar src="https://joeschmoe.io/api/v1/random" size={32} />
-        <span>Users</span>
+        <Avatar
+          src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLC2ewqicnXrICphG1SrxbhqAAuRmF6uSwgUsmAbGzymZs8AMKokveib04nt77Uyic1ibdJCZj5EHiaYIE4FtA6xGXDPKR96MVvSAQicY/132"
+          size={32}
+        />
+        <span>Thomas</span>
       </Popover>
     </div>
   )
