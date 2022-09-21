@@ -39,6 +39,7 @@ const requestProxy = axios.create({
     headers: { "n-token": "342bdbf6864146f59730fbd6eace18f9" },
 })
 function requestCallback (config) {
+    // console.log("config:", config)
     if (config.method === "get") {
         // doSomething
     }

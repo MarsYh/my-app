@@ -17,7 +17,7 @@ import IconShopCart from '@/assets/img/icon-shopcart.svg'
 import IconMCN from '@/assets/img/icon-mcn.svg'
 import IconMale from '@/assets/img/icon-male.svg'
 import IconFemale from '@/assets/img/icon-female.svg'
-import { reqXhsList } from '@/api/resource/redBook'
+import { reqXhsList } from '@/api/resource/'
 import classNames from 'classnames'
 import IconPGY from '@/assets/img/icon-pugongying.svg'
 import { ATTRIBUTE_CONFIG } from './sourceData'
@@ -50,6 +50,7 @@ const List = () => {
 
   useEffect(() => {
     reqXhsList(params).then((res) => {
+      console.log('res:', res)
       const { data, page } = res.data?.data || {}
       if (data && page.totalSize) {
         setTableData({

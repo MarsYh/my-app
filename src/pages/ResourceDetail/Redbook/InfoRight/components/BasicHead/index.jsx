@@ -1,31 +1,107 @@
 // 达人头部基础信息
 import React, { useEffect, useState } from 'react'
-import { reqXhsBasic } from '@/api/resourceDetail/redbook.js'
+import { reqXhsBasic } from '@/api/resourceDetail'
 import { useParams } from 'react-router-dom'
-import { message, Spin, Button, Divider } from 'antd'
+import { message, Spin, Button, Divider, Popover } from 'antd'
 import styles from './index.module.less'
-import IconHead from './img/head-photo.jpg'
 import IconGift from '@/assets/img/icon-gift.svg'
 import IconShopCart from '@/assets/img/icon-shopcart.svg'
-import IconSexual from '@/assets/img/icon-female.svg'
+import IconFemale from '@/assets/img/icon-female.svg'
+import IconMale from '@/assets/img/icon-male.svg'
 import IconMCN from '@/assets/img/icon-mcn.svg'
 import IconOperate from './img/in-cooperate.png'
 import IconPugongying from './img/pugongying.png'
 import IconPugongying_BG from './img/pugongying_bg.png'
+import classNames from 'classnames'
 
 const BasicHead = () => {
   const { id } = useParams()
-  console.log('id:', id)
+  // console.log('id:', id)
 
   const [data, setData] = useState({})
+  // console.log('data:', data)
   const [loading, setLoading] = useState(false)
 
+  function renderContentTags(tags) {
+    return tags?.map((tag) => {
+      const { taxonomy1Tag, taxonomy2Tags } = tag
+      return taxonomy2Tags?.length ? (
+        <Popover
+          placement="right"
+          key={taxonomy1Tag}
+          content={
+            <div>
+              {taxonomy2Tags?.map((child) => (
+                <div key={child} className={styles.secTag}>
+                  {child}
+                </div>
+              ))}
+            </div>
+          }>
+          <div>{taxonomy1Tag}</div>
+        </Popover>
+      ) : (
+        <div>{taxonomy1Tag}</div>
+      )
+    })
+  }
+  function renderPersonalTags(tag) {
+    return !tag === null ? (
+      <div className={classNames(styles.personalTags, styles.cursorHover)}>
+        {tag}
+      </div>
+    ) : null
+  }
+
+  function inCooperate(tags) {
+    // if (!Array.isArray(tags) && !tags?.length) return null
+    return tags?.map((tag) =>
+      tag.hover ? (
+        <Popover
+          key={tag.content}
+          content={
+            <>
+              <div>{tag.hover}</div>
+              <div className={styles.tagUser}>
+                <span>打标人:</span>
+                <img
+                  className={styles.tagHeadImgUrl}
+                  src={tag.tagHeadImgUrl}
+                  alt=""
+                />
+                {tag.tagUser}
+              </div>
+              <div className={styles.tagTime}>
+                <span>打标时间:</span>
+                <span className={styles.tagTimeSize}>{tag.tagTime}</span>
+              </div>
+            </>
+          }>
+          <div>{tag.content}</div>
+        </Popover>
+      ) : (
+        <div key={tag.content}>{tag.content}</div>
+      )
+    )
+  }
+  function handleClick() {
+    // <Popover
+    // content={
+    //   <div className={styles.popover}>
+    //     <div></div>
+    //   </div>
+    // }>
+    //   <div>...</div>
+    // </Popover>
+  }
   useEffect(() => {
     const params = { userId: id, ageId: 12323 }
     setLoading(true)
+    // console.log('params:', params)
     reqXhsBasic(params)
       .then((res) => {
         const { success, msg, data } = res
+        // console.log(res)
         if (success && data) {
           setData(data)
           message.success('请求成功')
@@ -37,7 +113,7 @@ const BasicHead = () => {
         console.log('error:')
       })
       .finally(() => {
-        setTimeout(() => setLoading(false), 1000)
+        setTimeout(() => setLoading(false), 500)
       })
   }, [])
 
@@ -47,8 +123,15 @@ const BasicHead = () => {
         <div className={styles.head_content}>
           <div className={styles.headLeft}>
             <div className={styles.infoBox}>
-              <img src={IconHead} alt="" />
-              <img className={styles.sex} src={IconSexual} alt="" />
+              <img src={data.headPhoto} alt="" />
+              <div className={styles.sex}>
+                {data.gender === '女' && (
+                  <img className={styles.female} src={IconFemale} alt="" />
+                )}
+                {data.gender === '男' && (
+                  <img className={styles.male} src={IconMale} alt="" />
+                )}
+              </div>
               <div className={styles.button}>
                 <div className={styles.checkBtn}>
                   <Button>查看主页</Button>
@@ -59,29 +142,34 @@ const BasicHead = () => {
             </div>
             <div className={styles.dataBox}>
               <div className={styles.baseInfo}>
-                <span className={styles.name}>赵露思</span>
+                <span className={styles.name}>{data.name}</span>
                 <span className={styles.level}>
-                  <span>LV3</span>
+                  <span>LV{data.currentLevel}</span>
                 </span>
                 <div className={styles.firstImg}>
-                  <img src={IconGift} alt="" />
+                  <img className={styles.cursorHover} src={IconGift} alt="" />
                 </div>
                 <div>
-                  <img src={IconShopCart} alt="" />
+                  <img
+                    className={styles.cursorHover}
+                    src={IconShopCart}
+                    alt=""
+                  />
                 </div>
               </div>
               <div className={styles.tagInfo}>
-                <div className={styles.cursorHover}>美妆-护肤教程</div>
-                <div className={styles.cursorHover}>颜值</div>
-                <div className={styles.cursorHover}>美少女</div>
+                <div className={styles.cursorHover}>
+                  {renderContentTags(data.contentTags)}
+                </div>
+                {renderPersonalTags(data.personal_tags)}
               </div>
               <div className={styles.locationInfo}>
                 <span className={styles.idInfo}>
                   <span>小红书号</span>
-                  <span>125844661455</span>
+                  <span>{data.redId}</span>
                 </span>
                 <Divider type="vertical" />
-                <span>四川成都</span>
+                <span>{data.location}</span>
                 <Divider type="vertical" />
                 <span className={styles.company}>
                   <img src={IconMCN} alt="" />
@@ -104,15 +192,15 @@ const BasicHead = () => {
               <div className={styles.dataInfo}>
                 <div className={styles.fansCount}>
                   <span>粉丝数</span>
-                  <span>50.4w</span>
+                  <span>{(data.fansCount / 10000).toFixed(2)}w</span>
                 </div>
                 <div className={styles.likesCount}>
                   <span>赞藏数</span>
-                  <span>173.72w</span>
+                  <span>{(data.likeCollectCountInfo / 10000).toFixed(2)}w</span>
                 </div>
                 <div className={styles.notesCount}>
                   <span>笔记数</span>
-                  <span>350</span>
+                  <span>{data.totalNoteCount}</span>
                 </div>
               </div>
             </div>
@@ -131,10 +219,13 @@ const BasicHead = () => {
         <Divider dashed className={styles.divider} />
         <div className={styles.tagBox}>
           <img src={IconOperate} alt="" />
-          <div className={styles.cursorHover}>内部资源</div>
-          <div className={styles.cursorHover}>历史合作</div>
-          <div className={styles.cursorHover}>年框签约</div>
-          <div className={styles.cursorHover}>合作品牌数·10个</div>
+          <div className={styles.resourceTagRes}>
+            {inCooperate(data.resourceTagRes)}
+          </div>
+          {/* {console.log('data::', data)} */}
+          <div className={styles.dote} onClick={() => handleClick()}>
+            ...
+          </div>
         </div>
       </div>
     </Spin>

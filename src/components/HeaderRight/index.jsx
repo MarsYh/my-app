@@ -25,7 +25,7 @@ const HeaderRight = () => {
           src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLC2ewqicnXrICphG1SrxbhqAAuRmF6uSwgUsmAbGzymZs8AMKokveib04nt77Uyic1ibdJCZj5EHiaYIE4FtA6xGXDPKR96MVvSAQicY/132"
           size={32}
         />
-        <span>Thomas</span>
+        <span className={styles.name}>Thomas</span>
       </Popover>
     </div>
   )
