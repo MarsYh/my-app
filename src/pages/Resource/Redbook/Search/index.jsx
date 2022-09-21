@@ -1,9 +1,8 @@
-import { Button, Input } from 'antd'
-import { Radio } from 'antd'
+import { Button, Input, Radio } from 'antd'
 import React, { useState } from 'react'
-import { SearchOutlined } from "@ant-design/icons"
+import { SearchOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
-import { SEARCH_TYPE_CONFIG } from "./sourceData"
+import { SEARCH_TYPE_CONFIG } from './sourceData'
 
 const SearchPro = () => {
   const [value, setValue4] = useState(SEARCH_TYPE_CONFIG[0].value)
@@ -23,7 +22,7 @@ const SearchPro = () => {
       </div>
       <div className={styles.input}>
         <Input
-          style={{width:"500px"}}
+          style={{ width: '500px' }}
           placeholder="请输入达人名称或达人ID进行搜索"
           suffix={
             <Button type="primary">

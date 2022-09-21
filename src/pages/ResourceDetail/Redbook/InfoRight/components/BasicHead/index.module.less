@@ -1,0 +1,292 @@
+.head {
+  padding: 24px 24px 12px 32px;
+  text-overflow: ellipsis;
+  width: 100%;
+  .divider {
+    display: inline-block;
+    width: 964px;
+    border-color: #e1e6e6;
+    margin-bottom: 12px !important;
+  }
+  .head_content {
+    display: flex;
+    width: 100%;
+    .headLeft {
+      display: flex;
+      .infoBox {
+        > img:first-child {
+          width: 65px;
+          height: 65px;
+          align-items: center;
+          border-radius: 50%;
+          margin-bottom: 16px;
+          margin-left: 60px;
+        }
+        .sex {
+          position: relative;
+          > .female {
+            position: absolute;
+            top: -30px;
+            right: 61px;
+            background-color: red;
+            color: #fff;
+            width: 14px;
+            height: 14px;
+            border-radius: 7px;
+          }
+          > .male {
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+        }
+      }
+      .dataBox {
+        margin-left: 44px;
+        .baseInfo {
+          display: flex;
+          align-items: center;
+          .level {
+            margin: 0 8px;
+            padding: 0 4px;
+            background: #f1f2ff;
+            border-radius: 2px;
+            > span {
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 22px;
+              color: #727fff;
+            }
+          }
+          .name {
+            font-weight: bold;
+            font-size: 20px;
+            color: #3d4242;
+            max-width: 500px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          .firstImg {
+            margin-right: 8px;
+          }
+        }
+        .tagInfo {
+          display: flex;
+          margin-top: 8px;
+          > div:first-child {
+            margin-left: 0 !important;
+            background: #f1f2ff;
+          }
+          > div {
+            font-size: 12px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            line-height: 20px;
+            color: #626a6a;
+            margin-left: 4px;
+            padding: 4px 8px;
+            background: #edf2f2;
+            opacity: 1;
+            border-radius: 12px;
+          }
+        }
+        .locationInfo {
+          margin-top: 8px;
+          font-size: 12px;
+          font-family: Microsoft YaHei;
+          font-weight: 400;
+          .idInfo {
+            > span:first-child {
+              color: #afb6b6;
+              margin-right: 4px;
+            }
+          }
+          .company {
+            display: inline-block;
+            align-items: center;
+            > img {
+              margin-right: 4px;
+            }
+          }
+        }
+        .introduction {
+          display: flex;
+          margin-top: 8px;
+          font-size: 12px;
+          font-family: Microsoft YaHei;
+          font-weight: 400;
+          color: #626a6a;
+          > span:first-child {
+            color: #afb6b6;
+            margin-right: 4px;
+          }
+          > span:last-child {
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 500px;
+            overflow: hidden;
+          }
+        }
+        .dataInfo {
+          margin-top: 21px;
+          display: flex;
+          > div {
+            margin-right: 32px;
+          }
+          .fansCount {
+            > span:first-child {
+              margin-right: 8px;
+              font-size: 14px;
+              font-family: Microsoft YaHei UI;
+              font-weight: 400;
+              color: #889191;
+            }
+            > span:last-child {
+              font-size: 20px;
+              font-family: DINPro;
+              font-weight: 500;
+              line-height: 18px;
+              color: #3d4242;
+            }
+          }
+          .likesCount {
+            > span:first-child {
+              margin-right: 8px;
+              font-size: 14px;
+              font-family: Microsoft YaHei UI;
+              font-weight: 400;
+              color: #889191;
+            }
+            > span:last-child {
+              font-size: 20px;
+              font-family: DINPro;
+              font-weight: 500;
+              line-height: 18px;
+              color: #3d4242;
+            }
+          }
+          .notesCount {
+            > span:first-child {
+              margin-right: 8px;
+              font-size: 14px;
+              font-family: Microsoft YaHei UI;
+              font-weight: 400;
+              color: #889191;
+            }
+            > span:last-child {
+              font-size: 20px;
+              font-family: DINPro;
+              font-weight: 500;
+              line-height: 18px;
+              color: #3d4242;
+            }
+          }
+        }
+      }
+    }
+    .headRight {
+      margin-left: 48px;
+      .right_title {
+        margin-right: 0;
+        width: 134px;
+        background: #fff8e5;
+        border-radius: 12px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: #626a6a;
+      }
+    }
+  }
+  .tagBox {
+    margin-left: 0px;
+    display: flex;
+    font-size: 12px;
+    font-family: Microsoft YaHei;
+    font-weight: 400;
+    color: #626a6a;
+    align-items: center;
+    > img {
+      margin-right: 22px;
+      width: 86px;
+      height: 16px;
+    }
+    > div {
+      display: flex;
+      margin-right: 8px;
+      > div {
+        margin-right: 8px;
+        background: #e9f5ff;
+        border-radius: 12px;
+        padding: 4px 8px;
+      }
+    }
+  }
+}
+.cursorHover {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.75;
+  }
+}
+.button {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.button > Button {
+  color: rgb(112, 126, 255);
+  border-color: rgb(112, 126, 255);
+}
+.checkBtn > Button:first-child {
+  margin-right: 8px;
+}
+
+.checkBtn {
+  margin-bottom: 12px;
+}
+.null {
+  background: none !important;
+}
+.secTag {
+  padding: 4px 8px;
+  background: #f1f2ff;
+  border-radius: 12px;
+}
+.tagHeadImgUrl {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+}
+.tagUser {
+  font-size: 12px;
+  margin: 8px 0;
+  color: #889191;
+  > span {
+    margin-right: 8px;
+  }
+}
+.dote {
+  background: #e9f5ff;
+  border-radius: 12px;
+  padding: 4px 8px;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.tagTime {
+  font-size: 12px;
+  color: #889191;
+  > span {
+    margin-right: 8px;
+  }
+}
+.resourceTagRes {
+  color: #889191;
+}
+.tagTimeSize {
+  font-size: 12px;
+  font-family: DINPro;
+}

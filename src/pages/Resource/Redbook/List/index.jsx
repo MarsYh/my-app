@@ -17,7 +17,7 @@ import IconShopCart from '@/assets/img/icon-shopcart.svg'
 import IconMCN from '@/assets/img/icon-mcn.svg'
 import IconMale from '@/assets/img/icon-male.svg'
 import IconFemale from '@/assets/img/icon-female.svg'
-import { reqXhsList } from '@/api/resource/redBook'
+import { reqXhsList } from '@/api/resource/'
 import classNames from 'classnames'
 import IconPGY from '@/assets/img/icon-pugongying.svg'
 import { ATTRIBUTE_CONFIG } from './sourceData'
@@ -26,7 +26,7 @@ import IconEst from '@/assets/img/icon-estimate.svg'
 import IconEstText from '@/assets/img/icon-estimate-text.svg'
 import IconOff from '@/assets/img/icon-official.svg'
 import IconOffText from '@/assets/img/icon-official-text.svg'
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
 const List = () => {
   // 更改复选框的状态
@@ -50,6 +50,7 @@ const List = () => {
 
   useEffect(() => {
     reqXhsList(params).then((res) => {
+      console.log('res:', res)
       const { data, page } = res.data?.data || {}
       if (data && page.totalSize) {
         setTableData({
@@ -164,8 +165,10 @@ const List = () => {
   }
 
   // 跳转到详情页
-  function handleGoDetail(record){
-    navigate(`/resourceDetail/redbookDetail/${record.red_id}?huyue=456`,{state:record})
+  function handleGoDetail(record) {
+    navigate(`/resourceDetail/redbookDetail/${record.user_id}`, {
+      state: record,
+    })
   }
 
   function renderUserInfo(text, record) {
@@ -185,7 +188,11 @@ const List = () => {
         <div className={styles.infoRight}>
           {/* 第一行基本信息 */}
           <div className={styles.baseInfo}>
-            <span onClick={() =>handleGoDetail(record)} className={styles.name}>{text}</span>
+            <span
+              onClick={() => handleGoDetail(record)}
+              className={styles.name}>
+              {text}
+            </span>
             {/* 标签组件 */}
             <Tag>LV{record.current_level}</Tag>
             <Popover content="支持好物推荐，通过选品中心带货，按照销售额计算佣金">
@@ -443,7 +450,7 @@ const List = () => {
   }
 
   function onTableChange(pagin, filters, sorter) {
-    const o = {...params}
+    const o = { ...params }
 
     // 分页
     const { current, pageSize } = pagin
@@ -453,11 +460,11 @@ const List = () => {
     }
 
     // 排序
-    const { field,order } = sorter
-    if(order){
+    const { field, order } = sorter
+    if (order) {
       o.sortName = field
-      o.sortType = order === "ascend" ? 1 : 2
-    }else{
+      o.sortType = order === 'ascend' ? 1 : 2
+    } else {
       delete o.sortName
       delete o.sortType
     }

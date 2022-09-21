@@ -1,7 +1,7 @@
-import { Divider, Table, Space, Avatar, Button, Popover, Tooltip } from 'antd'
+import { Divider, Table, Avatar, Button, Popover, Tooltip } from 'antd'
 import React, { useState, useEffect } from 'react'
 // rowSelection object indicates the need for row selection]
-import { wbList } from '@/api/resource/weibo'
+import { reqWbList } from '@/api/resource'
 import styles from './index.module.less'
 import IconMale from '@/assets/img/icon-male.svg'
 import IconFemale from '@/assets/img/icon-female.svg'
@@ -26,7 +26,7 @@ const List = () => {
     total: 0,
   })
   useEffect(() => {
-    wbList(params).then((res) => {
+    reqWbList(params).then((res) => {
       const { data, page } = res.data?.data || {}
       if (data && page.totalSize) {
         setTableData({
