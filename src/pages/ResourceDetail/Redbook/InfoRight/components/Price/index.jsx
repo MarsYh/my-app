@@ -80,8 +80,7 @@ function Price() {
           <TextArea
             style={{ maxWidth: '172px' }}
             autoSize
-            placeholder="请填写其他类型的报价
-备注"
+            placeholder="请填写其他类型的报价备注"
           />
         </div>
       </div>

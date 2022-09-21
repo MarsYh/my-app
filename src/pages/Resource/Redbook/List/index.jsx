@@ -8,6 +8,7 @@ import {
   Button,
   Popover,
   Tooltip,
+  message,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
@@ -50,13 +51,14 @@ const List = () => {
 
   useEffect(() => {
     reqXhsList(params).then((res) => {
-      console.log('res:', res)
-      const { data, page } = res.data?.data || {}
-      if (data && page.totalSize) {
+      const { data, success,msg } = res
+      if (data && success) {
         setTableData({
-          list: data,
-          total: page.totalSize,
+          list: data.data,
+          total: data.page.totalSize,
         })
+      }else{
+        message.error(msg || "获取列表数据失败")
       }
     })
   }, [params])
@@ -166,7 +168,7 @@ const List = () => {
 
   // 跳转到详情页
   function handleGoDetail(record) {
-    navigate(`/resourceDetail/redbookDetail/${record.user_id}`, {
+    navigate(`/resourceDetail/redbookDetail/${record.user_id}?type=spread_performance`, {
       state: record,
     })
   }

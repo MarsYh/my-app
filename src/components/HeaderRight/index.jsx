@@ -4,6 +4,7 @@ import React from 'react'
 import styles from './index.module.less'
 import { toLogin } from '@/utils'
 import { reqLoginOut } from '@/api'
+import { useGlobal } from "@/store/global"
 
 const HeaderRight = () => {
   async function loginOut() {
@@ -16,16 +17,20 @@ const HeaderRight = () => {
     }
   }
 
+  const { userInfo } = useGlobal()
+
+  console.log("userInfo:",userInfo)
+
   return (
     <div className={styles.profile}>
       <Popover
         content={<Button onClick={loginOut}>退出登录</Button>}
         placement="bottom">
         <Avatar
-          src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLC2ewqicnXrICphG1SrxbhqAAuRmF6uSwgUsmAbGzymZs8AMKokveib04nt77Uyic1ibdJCZj5EHiaYIE4FtA6xGXDPKR96MVvSAQicY/132"
+          src={userInfo.headImgUrl}
           size={32}
         />
-        <span className={styles.name}>Thomas</span>
+        <span className={styles.name}>{userInfo.nickName || '-'}</span>
       </Popover>
     </div>
   )
