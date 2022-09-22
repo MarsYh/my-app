@@ -3,6 +3,7 @@ import { Select, Tooltip, Badge } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
 import classNames from 'classnames'
+import RectChart from '@/components/RectChart'
 // import { reqXhsBasic } from '@/api/resourceDetail'
 const { Option } = Select
 
@@ -166,6 +167,9 @@ function SprPerfor() {
             <div className={styles.btn}>点赞数</div>
           </div>
         </div>
+
+        {/* 柱状图 */}
+        <RectChart  dataSource={[120, 200, 150, 80, 70, 110, 130]}/>
       </div>
     </div>
   )
