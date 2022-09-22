@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
 import { reqXhsBasic } from '@/api/resourceDetail'
 import { useParams } from 'react-router-dom'
-import { Input } from 'antd'
+import { Input, Tooltip } from 'antd'
 import IconOfficialPrice from '../../img/icon-official-price.svg'
 import IconPrivatePrice from '../../img/icon-private-price.svg'
 import { QuestionCircleOutlined } from '@ant-design/icons'
@@ -54,10 +54,18 @@ function Price() {
       <div className={styles.private_price}>
         <div className={styles.privateHead}>
           <img src={IconPrivatePrice} alt="" />
-          <div className={styles.note}>
-            <QuestionCircleOutlined />
-            <span>说明</span>
-          </div>
+          <Tooltip
+            placement="bottom"
+            title={
+              <div>
+                此处展示为最新报价，如想查看历史报价变化请到性价比表现查看
+              </div>
+            }>
+            <div className={styles.note}>
+              <QuestionCircleOutlined />
+              <span>说明</span>
+            </div>
+          </Tooltip>
         </div>
         <div className={styles.picture_price_input}>
           <div>图文笔记一口价</div>

@@ -42,22 +42,22 @@
     }
   }
 }
-.oneMonth {
-  cursor: pointer;
-  padding: 6px 16px;
-  border: 1px solid #727fff;
-  border-radius: 4px 0px 0px 4px;
-  color: #727fff;
-  background-color: #fff;
-}
-.threeMonths {
+// .recentDays {
+//   cursor: pointer;
+//   padding: 6px 16px;
+//   border: 1px solid #727fff;
+//   border-radius: 4px 0px 0px 4px;
+//   color: #727fff;
+//   background-color: #fff;
+// }
+.recentDays {
   cursor: pointer;
   padding: 6px 16px;
   color: #3d4242;
   border: 1px solid #e1e6e6;
-  border-left: none;
+  // border-left: none;
   background-color: #fff;
-  border-radius: 0px 4px 4px 0px;
+  border-radius: 2px;
 }
 .select {
   :global {
@@ -110,16 +110,6 @@
       padding-top: 16px;
       padding-left: 24px;
       height: 85px;
-      .number {
-        font-family: DINPro;
-        font-size: 20px;
-        font-weight: 500;
-        color: #181a1a;
-      }
-      .keyWords {
-        font-weight: 400;
-        color: #707070;
-      }
     }
   }
   .secondRow {
@@ -130,5 +120,71 @@
     justify-content: space-between;
     gap: 32px;
     height: 85px;
+    .dataBox {
+      width: 100%;
+      border-radius: 4px;
+      padding-top: 8px;
+      padding-left: 16px;
+      margin: 8px;
+      .listBox {
+        width: 130px;
+        position: relative;
+        left: -16px;
+        top: -8px;
+        padding: 8px 0px 8px 16px;
+        background-color: #fff;
+        box-shadow: 0px 0px 4px rgba(24, 26, 26, 0.08);
+        border-radius: 4px;
+        &::after {
+          top: 30px;
+          right: -10px;
+          position: absolute;
+          content: '';
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 6px 0 6px 10px;
+          border-color: transparent transparent transparent #fff;
+        }
+      }
+    }
+  }
+}
+.checked {
+  border-color: #727fff;
+  color: #727fff;
+}
+.number {
+  font-family: DINPro;
+  font-size: 20px;
+  font-weight: 500;
+  color: #181a1a;
+}
+.title {
+  :global {
+    .anticon .anticon-question-circle {
+      margin-left: 4px;
+    }
+  }
+  font-weight: 400;
+  color: #707070;
+}
+.dataList {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+.btnGroup {
+  display: flex;
+  justify-content: space-between;
+  background: #edf2f2;
+  border-radius: 15px;
+  font-size: 12px;
+  .btn {
+    padding: 6px 12px;
+    cursor: pointer;
+    opacity: 0.75;
+    text-align: center;
+    color: #636666;
   }
 }

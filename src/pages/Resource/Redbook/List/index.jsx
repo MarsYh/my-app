@@ -51,14 +51,14 @@ const List = () => {
 
   useEffect(() => {
     reqXhsList(params).then((res) => {
-      const { data, success,msg } = res
+      const { data, success, msg } = res
       if (data && success) {
         setTableData({
           list: data.data,
           total: data.page.totalSize,
         })
-      }else{
-        message.error(msg || "获取列表数据失败")
+      } else {
+        message.error(msg || '获取列表数据失败')
       }
     })
   }, [params])
@@ -168,9 +168,12 @@ const List = () => {
 
   // 跳转到详情页
   function handleGoDetail(record) {
-    navigate(`/resourceDetail/redbookDetail/${record.user_id}?type=spread_performance`, {
-      state: record,
-    })
+    navigate(
+      `/resourceDetail/redbookDetail/${record.user_id}?type=spread_performance`,
+      {
+        state: record,
+      }
+    )
   }
 
   function renderUserInfo(text, record) {

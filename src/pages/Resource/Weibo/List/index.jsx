@@ -1,4 +1,4 @@
-import { Divider, Table, Avatar, Button, Popover, Tooltip } from 'antd'
+import { Divider, Table, Avatar, Button, Popover, Tooltip, message } from 'antd'
 import React, { useState, useEffect } from 'react'
 // rowSelection object indicates the need for row selection]
 import { reqWbList } from '@/api/resource'
@@ -27,12 +27,14 @@ const List = () => {
   })
   useEffect(() => {
     reqWbList(params).then((res) => {
-      const { data, page } = res.data?.data || {}
-      if (data && page.totalSize) {
+      const { data, success, msg } = res
+      if (data && success) {
         setTableData({
-          list: data,
-          total: page.totalSize,
+          list: data.data,
+          total: data.page.totalSize,
         })
+      } else {
+        message.error(msg || '获取列表数据失败')
       }
     })
   }, [params])
@@ -318,7 +320,7 @@ const List = () => {
       dataIndex: 'address',
       width: 150,
       fixed: 'right',
-      sorter: true, 
+      sorter: true,
     },
   ]
   return (

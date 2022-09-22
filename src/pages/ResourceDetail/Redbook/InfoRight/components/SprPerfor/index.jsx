@@ -1,14 +1,18 @@
-import React from 'react'
-import { Select } from 'antd'
+import React, { useState } from 'react'
+import { Select, Tooltip, Badge } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
+import classNames from 'classnames'
 // import { reqXhsBasic } from '@/api/resourceDetail'
 const { Option } = Select
 
 const handleChange = (value) => {
   console.log(`selected ${value}`)
 }
+
 function SprPerfor() {
+  const [state, setState] = useState(true)
+
   return (
     <div className={styles.infoRight}>
       <div className={styles.time}>
@@ -25,8 +29,20 @@ function SprPerfor() {
         <div className={styles.dataHead}>达人概览</div>
         <div className={styles.button}>
           <div className={styles.timeButton}>
-            <button className={styles.oneMonth}>近30天</button>
-            <button className={styles.threeMonths}>近90天</button>
+            <div
+              className={classNames(styles.recentDays, styles.checked)}
+              onClick={() => {
+                setState(true)
+              }}>
+              近30天
+            </div>
+            <div
+              className={styles.recentDays}
+              onClick={() => {
+                setState(false)
+              }}>
+              近90天
+            </div>
             <div className={styles.select}>
               <span className={styles.noteType}>笔记类型</span>
               <Select
@@ -51,35 +67,103 @@ function SprPerfor() {
           <div className={styles.firstRow}>
             <div className={styles.dataBox}>
               <div className={styles.number}>3557</div>
-              <div className={styles.keyWords}>发布笔记数</div>
+              <div className={styles.title}>发布笔记数</div>
             </div>
             <div className={styles.dataBox}>
               <div className={styles.number}>6.5%</div>
-              <div className={styles.keyWords}>
+              <div className={styles.title}>
                 互动率
-                <QuestionCircleOutlined />
+                <Tooltip
+                  title={
+                    <div>选择统计时间周期内的视频被点赞、评论、转发的概率</div>
+                  }>
+                  <QuestionCircleOutlined
+                    size={14}
+                    style={{ margin: '0 0 0 4px' }}
+                  />
+                </Tooltip>
               </div>
             </div>
             <div className={styles.dataBox}>
               <div className={styles.number}>17.9%</div>
-              <div className={styles.keyWords}>
+              <div className={styles.title}>
                 视频完播率
-                <QuestionCircleOutlined />
+                <Tooltip
+                  title={<div>选择统计时间周期内的视频被完整播放的概率</div>}>
+                  <QuestionCircleOutlined
+                    size={14}
+                    style={{ margin: '0 0 0 4px' }}
+                  />
+                </Tooltip>
               </div>
             </div>
             <div className={styles.dataBox}>
-              <div className={styles.number}>3122622</div>
-              <div className={styles.keyWords}>
+              <div className={styles.number}>3,122,622</div>
+              <div className={styles.title}>
                 阅读量中位数
-                <QuestionCircleOutlined />
+                <Tooltip
+                  title={
+                    <div>选择统计时间周期内的视频处于中位水平的阅读量</div>
+                  }>
+                  <QuestionCircleOutlined
+                    size={14}
+                    style={{ margin: '0 0 0 4px' }}
+                  />
+                </Tooltip>
               </div>
             </div>
           </div>
           <div className={styles.secondRow}>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div className={styles.dataBox}>
+              <div className={styles.listBox}>
+                <div className={styles.number}>187,506</div>
+                <div className={styles.title}>
+                  互动中位数
+                  <Tooltip
+                    title={
+                      <div>选择统计时间周期内的笔记处于中位水平的互动量</div>
+                    }>
+                    <QuestionCircleOutlined
+                      size={14}
+                      style={{ margin: '0 0 0 4px' }}
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+            <div className={styles.dataBox}>
+              <div className={styles.number}>143,522</div>
+              <div className={styles.title}>中位点赞数</div>
+            </div>
+            <div className={styles.dataBox}>
+              <div className={styles.number}>40,166</div>
+              <div className={styles.title}>中位收藏数</div>
+            </div>
+            <div className={styles.dataBox}>
+              <div className={styles.number}>3,818</div>
+              <div className={styles.title}>中位评论数</div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.dataList}>
+          <div>
+            <Badge color="#727fff" text="近期笔记趋势" />
+            <Tooltip
+              title={
+                <div>
+                  筛选时间范围内,博主最近发布笔记(最多显示10篇)的数据趋势
+                </div>
+              }>
+              <QuestionCircleOutlined
+                size={14}
+                style={{ margin: '0 0 0 4px' }}
+              />
+            </Tooltip>
+          </div>
+          <div className={styles.btnGroup}>
+            <div className={styles.btn}>阅读数</div>
+            <div className={styles.btn}>收藏数</div>
+            <div className={styles.btn}>点赞数</div>
           </div>
         </div>
       </div>

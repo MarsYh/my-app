@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { reqXhsBasic } from '@/api/resourceDetail'
 import { useParams } from 'react-router-dom'
-import { message, Spin, Button, Divider, Popover } from 'antd'
+import { SettingOutlined } from '@ant-design/icons'
+import { message, Spin, Button, Divider, Popover, Modal, Empty } from 'antd'
 import styles from './index.module.less'
 import IconGift from '@/assets/img/icon-gift.svg'
 import IconShopCart from '@/assets/img/icon-shopcart.svg'
@@ -11,7 +12,7 @@ import IconMale from '@/assets/img/icon-male.svg'
 import IconMCN from '@/assets/img/icon-mcn.svg'
 import IconOperate from './img/in-cooperate.png'
 import IconPugongying from './img/pugongying.png'
-import IconPugongying_BG from './img/pugongying_bg.png'
+import IconPugongying_BG from './img/bg-pugongying.png'
 import classNames from 'classnames'
 
 const BasicHead = () => {
@@ -21,6 +22,19 @@ const BasicHead = () => {
   const [data, setData] = useState({})
   // console.log('data:', data)
   const [loading, setLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const showModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleOk = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
 
   function renderContentTags(tags) {
     return tags?.map((tag) => {
@@ -54,7 +68,6 @@ const BasicHead = () => {
   }
 
   function inCooperate(tags) {
-    // if (!Array.isArray(tags) && !tags?.length) return null
     return tags?.map((tag) =>
       tag.hover ? (
         <Popover
@@ -83,16 +96,6 @@ const BasicHead = () => {
         <div key={tag.content}>{tag.content}</div>
       )
     )
-  }
-  function handleClick() {
-    // <Popover
-    // content={
-    //   <div className={styles.popover}>
-    //     <div></div>
-    //   </div>
-    // }>
-    //   <div>...</div>
-    // </Popover>
   }
   useEffect(() => {
     const params = { userId: id, ageId: 12323 }
@@ -222,10 +225,43 @@ const BasicHead = () => {
           <div className={styles.resourceTagRes}>
             {inCooperate(data.resourceTagRes)}
           </div>
-          {/* {console.log('data::', data)} */}
-          <div className={styles.dote} onClick={() => handleClick()}>
-            ...
-          </div>
+          <Popover
+            placement="bottom"
+            content={
+              <div className={styles.boxContent}>
+                <div className={styles.insideContent}>
+                  <div className={styles.boxTitle}>
+                    <img src={IconOperate} alt="" />
+                    <div className={styles.manage} onClick={showModal}>
+                      <SettingOutlined />
+                      <span>管理</span>
+                    </div>
+                    <Modal
+                      width="788px"
+                      cancelText="取消"
+                      okText="确定"
+                      zIndex="10000"
+                      title="私有标签"
+                      open={isModalOpen}
+                      onOk={handleOk}
+                      onCancel={handleCancel}>
+                      <Empty
+                        description="暂无数据"
+                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      />
+                    </Modal>
+                  </div>
+                  <div className={styles.tagList}>
+                    {inCooperate(data.resourceTagRes)}
+                  </div>
+                  <div className={styles.invalidTag}>已删除标签</div>
+                  <div className={styles.invalidTag}>无效标签</div>
+                </div>
+              </div>
+            }
+            trigger="click">
+            <div className={styles.dote}>...</div>
+          </Popover>
         </div>
       </div>
     </Spin>
