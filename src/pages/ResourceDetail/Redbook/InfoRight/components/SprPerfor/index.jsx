@@ -4,6 +4,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
 import classNames from 'classnames'
 import RectChart from '@/components/RectChart'
+import { useEffect } from 'react'
 // import { reqXhsBasic } from '@/api/resourceDetail'
 const { Option } = Select
 
@@ -13,6 +14,8 @@ const handleChange = (value) => {
 
 function SprPerfor() {
   const [state, setState] = useState(true)
+
+  const [dataSource,setDataSource] = useState([120, 200, 150, 80, 70, 110, 130])
 
   return (
     <div className={styles.infoRight}>
@@ -162,14 +165,14 @@ function SprPerfor() {
             </Tooltip>
           </div>
           <div className={styles.btnGroup}>
-            <div className={styles.btn}>阅读数</div>
-            <div className={styles.btn}>收藏数</div>
-            <div className={styles.btn}>点赞数</div>
+            <div className={styles.btn} onClick={() => setDataSource([1220, 2020, 1150, 801, 723, 1120, 130])}>阅读数</div>
+            <div className={styles.btn} onClick={() => setDataSource([120, 200, 1150, 801, 723, 1120, 130])}>收藏数</div>
+            <div className={styles.btn} onClick={() => setDataSource([120, 208, 888, 223, 452, 234, 111])}>点赞数</div>
           </div>
         </div>
 
         {/* 柱状图 */}
-        <RectChart  dataSource={[120, 200, 150, 80, 70, 110, 130]}/>
+        <RectChart  dataSource={dataSource}/>
       </div>
     </div>
   )
