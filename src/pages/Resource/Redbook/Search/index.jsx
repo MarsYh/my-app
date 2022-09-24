@@ -5,9 +5,9 @@ import styles from './index.module.less'
 import { SEARCH_TYPE_CONFIG } from './sourceData'
 
 const SearchPro = () => {
-  const [value, setValue4] = useState(SEARCH_TYPE_CONFIG[0].value)
+  const [value, setValue] = useState(SEARCH_TYPE_CONFIG[0].value)
   const onChange = ({ target: { value } }) => {
-    setValue4(value)
+    setValue(value)
   }
   return (
     <div className={styles.searchInput}>

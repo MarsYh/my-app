@@ -3,7 +3,7 @@ import { Tabs } from 'antd'
 import styles from './index.module.less'
 
 const onChange = (key) => {
-  console.log(key)
+  // console.log(key)
 }
 
 const Head = () => {

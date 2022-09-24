@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
-import { reqXhsBasic } from '@/api/resourceDetail'
+import { reqXhsPrice } from '@/api/resourceDetail'
 import { useParams } from 'react-router-dom'
 import { Input, Tooltip } from 'antd'
 import IconOfficialPrice from '../../img/icon-official-price.svg'
@@ -12,8 +12,8 @@ function Price() {
   const { id } = useParams()
   const [data, setData] = useState({})
   useEffect(() => {
-    const params = { userId: id, ageId: 12323 }
-    reqXhsBasic(params)
+    const params = { userId: id }
+    reqXhsPrice(params)
       .then((res) => {
         const { data } = res
         if (data) {
@@ -24,6 +24,20 @@ function Price() {
         console.log('error:')
       })
   }, [])
+
+  function renderLivePrice(data) {
+    // console.log('price:', price)
+    data.pcPrice === 0 ? (
+      <div className={styles.number}>¥-</div>
+    ) : (
+      <div className={styles.number}>{data.pcPrice}</div>
+    )
+    data.zcPrice === 0 ? (
+      <div className={styles.number}>¥-</div>
+    ) : (
+      <div className={styles.number}>{data.zcPrice}</div>
+    )
+  }
   return (
     <div className={styles.contentLeft}>
       <div className={styles.official_price}>
@@ -32,19 +46,19 @@ function Price() {
         </div>
         <div className={styles.picture_price}>
           <span className={styles.price}>图文笔记一口价</span>
-          <span className={styles.number}>¥17000</span>
+          <span className={styles.number}>{`¥${data.picturePrice}`}</span>
         </div>
         <div className={styles.video_price}>
           <span className={styles.price}>视频笔记一口价</span>
-          <span className={styles.number}>¥27000</span>
+          <span className={styles.number}>{`¥${data.videoPrice}`}</span>
         </div>
         <div className={styles.live_normal_price}>
           <span className={styles.price}>直播拼场报价</span>
-          <span className={styles.number}>¥37000</span>
+          <span className={styles.number}>{renderLivePrice(data)}</span>
         </div>
         <div className={styles.live_special_price}>
           <span className={styles.price}>直播专场报价</span>
-          <span className={styles.number}>¥37000</span>
+          <span className={styles.number}>{renderLivePrice(data)}</span>
         </div>
         <div className={styles.dataTime}>
           <div>数据更新时间：</div>

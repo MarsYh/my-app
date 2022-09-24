@@ -98,7 +98,7 @@ const BasicHead = () => {
     )
   }
   useEffect(() => {
-    const params = { userId: id, ageId: 12323 }
+    const params = { userId: id }
     setLoading(true)
     // console.log('params:', params)
     reqXhsBasic(params)
@@ -107,7 +107,6 @@ const BasicHead = () => {
         // console.log(res)
         if (success && data) {
           setData(data)
-          message.success('请求成功')
         } else {
           message.error(msg || '请求失败')
         }

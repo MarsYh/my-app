@@ -1,1 +1,1 @@
-export { reqXhsBasic } from "./redbook"
+export { reqXhsBasic, reqXhsDp, reqXhsPrice, reqXhsNote } from "./redbook"

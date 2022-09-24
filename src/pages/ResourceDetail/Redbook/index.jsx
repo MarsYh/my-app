@@ -2,18 +2,17 @@ import React, { useState } from 'react'
 import styles from './index.module.less'
 import InfoLeft from './InfoLeft'
 import InfoRight from './InfoRight'
-import { useLocation, useNavigate,useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { BTNS_CONFIG } from './sourceData'
 import context from './context'
 
 const { Provider } = context
 
 const Info = () => {
-  const { search, pathname,state } = useLocation()
+  const { search, pathname, state } = useLocation()
 
-  console.log("userParams:",useParams())
-  console.log("location:",useLocation())
-
+  // console.log("userParams:",useParams())
+  // console.log("location:",useLocation())
 
   const navigate = useNavigate()
   // console.log('search:', search)

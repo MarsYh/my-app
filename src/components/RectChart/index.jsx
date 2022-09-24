@@ -1,42 +1,43 @@
 // 柱状图
-import React, { useRef } from "react";
-import * as echarts from "echarts";
-import { useEffect } from "react";
-import styles from "./index.module.less";
+import React, { useRef } from 'react'
+import * as echarts from 'echarts'
+import { useEffect } from 'react'
+import styles from './index.module.less'
 
 const RectChart = (props) => {
-  const chartDomRef = useRef(null);
+  const chartDomRef = useRef(null)
 
-  const { dataSource } = props;
+  const { dataSource, xData } = props
 
   useEffect(() => {
-    if (!chartDomRef.current) return;
+    if (!chartDomRef.current) return
 
-    const myChart = echarts.init(chartDomRef.current);
+    const myChart = echarts.init(chartDomRef.current)
     const option = {
       xAxis: {
-        type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        type: 'category',
+        data: xData,
       },
       yAxis: {
-        type: "value",
+        type: 'value',
       },
       series: [
         {
           data: dataSource,
-          type: "bar",
+          type: 'bar',
+          barWidth: '20%',
           showBackground: true,
-          backgroundStyle: { 
-            color: "rgba(180, 180, 180, 0.2)",
+          backgroundStyle: {
+            color: 'none',
           },
         },
       ],
-    };
+    }
 
-    option && myChart.setOption(option);
-  }, [chartDomRef.current, dataSource]);
+    option && myChart.setOption(option)
+  }, [chartDomRef.current, dataSource])
 
-  return <div className={styles.box} ref={chartDomRef}></div>;
-};
+  return <div className={styles.box} ref={chartDomRef}></div>
+}
 
-export default RectChart;
+export default RectChart
