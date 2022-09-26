@@ -16,33 +16,15 @@ import classNames from 'classnames'
 import { useParams } from 'react-router-dom'
 import RectChart from '@/components/RectChart'
 import { useEffect } from 'react'
-import IconNote from '../../img/icon-note.jpeg'
 import { reqXhsDp, reqXhsNote } from '@/api/resourceDetail'
 import {
   SORT_CONFIG,
   DATE_CONFIG,
   NOTE_CONFIG,
   BUSINESS_CONFIG,
+  TYPE_CONFIG,
 } from './sourceData'
 const { Option } = Select
-const options = [
-  {
-    label: '全部笔记',
-    value: '1',
-  },
-  {
-    label: '合作笔记',
-    value: '2',
-  },
-  {
-    label: '图文笔记',
-    value: '3',
-  },
-  {
-    label: '视频笔记',
-    value: '4',
-  },
-]
 
 const SprPerfor = () => {
   const { id } = useParams()
@@ -67,7 +49,7 @@ const SprPerfor = () => {
   // 卡片柱状图请求数据
   const [ncParams, setNcParams] = useState({
     userId: id,
-    type: options[0].value,
+    type: TYPE_CONFIG[0].value,
     sort: SORT_CONFIG[0].value,
     page: { pageSize: 15, pageNo: 1 },
   })
@@ -77,7 +59,7 @@ const SprPerfor = () => {
     userId: id,
     business: BUSINESS_CONFIG[0].value,
     dateType: DATE_CONFIG[0].value,
-    noteType: NOTE_CONFIG[0].value,
+    noteType: NOTE_CONFIG[2].value,
   })
   const [activeKey, setActiveKey] = useState('read')
 
@@ -98,6 +80,7 @@ const SprPerfor = () => {
   }
   function handleDateClick(value) {
     if (dpParams.dateType === value) return
+    // console.log('dpParams:', dpParams)
     const _dpParams = { ...dpParams }
     _dpParams.dateType = value
     setDpParams(_dpParams)
@@ -126,10 +109,14 @@ const SprPerfor = () => {
     newNcParams.page.pageSize = pageSize
     setNcParams(newNcParams)
   }
+  function renderNumber(num) {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+  }
 
   // 处理柱状图&卡片列表数据
   function filterRectAndCardData(data) {
     const { page, data: result } = data
+    // console.log('result:', result)
     const _ncData = {
       date: [],
       rectData: {
@@ -157,8 +144,47 @@ const SprPerfor = () => {
     const _dataSource = _ncData.rectData[activeKey]
     setDataSource(_dataSource)
     setNcData(_ncData)
+    // 初始化卡片数据
   }
-
+  // 渲染卡片数据
+  function renderCard(data) {
+    // console.log('data:', data)
+    return data.map((item) => (
+      // console.log('item:', item)
+      <Descriptions.Item
+        key={item.noteId}
+        label={
+          <div className={styles.imgContent}>
+            <div className={styles.noteImg}>
+              <a href={item.noteUrl}>
+                <img src={item.imgUrl} alt="" width="100%" height="100%" />
+              </a>
+            </div>
+            <div className={styles.viewTitle}>
+              <a href={item.noteUrl}>{item.title}</a>
+            </div>
+            <div className={styles.viewTime}>
+              <span className={styles.timeText}>发布时间</span>
+              <span>{item.date}</span>
+            </div>
+            <div className={styles.counts}>
+              <div className={styles.countList}>
+                <p className={styles.iconWatch}></p>
+                <span>{renderNumber(item.readNum)}</span>
+              </div>
+              <div className={styles.countList}>
+                <p className={styles.iconLike}></p>
+                <span>{renderNumber(item.likeNum)}</span>
+              </div>
+              <div className={styles.countList}>
+                <p className={styles.iconCollect}></p>
+                <span>{renderNumber(item.collectNum)}</span>
+              </div>
+            </div>
+          </div>
+        }></Descriptions.Item>
+    ))
+  }
   function filterDate(date) {
     const _date = [...date]
     for (let i = 0; i < _date.length; i++) {
@@ -273,7 +299,9 @@ const SprPerfor = () => {
         <div className={styles.data}>
           <div className={styles.firstRow}>
             <div className={styles.dataBox}>
-              <div className={styles.number}>{data.noteNumber}</div>
+              <div className={styles.number}>
+                {renderNumber(data.noteNumber)}
+              </div>
               <div className={styles.title}>发布笔记数</div>
             </div>
             <div className={styles.dataBox}>
@@ -306,7 +334,9 @@ const SprPerfor = () => {
               </div>
             </div>
             <div className={styles.dataBox}>
-              <div className={styles.number}>{data.readMedian}</div>
+              <div className={styles.number}>
+                {renderNumber(data.readMedian)}
+              </div>
               <div className={styles.title}>
                 阅读量中位数
                 <Tooltip
@@ -324,7 +354,9 @@ const SprPerfor = () => {
           <div className={styles.secondRow}>
             <div className={styles.dataBox}>
               <div className={styles.listBox}>
-                <div className={styles.number}>{data.engageMedian}</div>
+                <div className={styles.number}>
+                  {renderNumber(data.engageMedian)}
+                </div>
                 <div className={styles.title}>
                   互动中位数
                   <Tooltip
@@ -340,15 +372,21 @@ const SprPerfor = () => {
               </div>
             </div>
             <div className={styles.dataBox}>
-              <div className={styles.number}>{data.likeMedian}</div>
+              <div className={styles.number}>
+                {renderNumber(data.likeMedian)}
+              </div>
               <div className={styles.title}>中位点赞数</div>
             </div>
             <div className={styles.dataBox}>
-              <div className={styles.number}>{data.collectMedian}</div>
+              <div className={styles.number}>
+                {renderNumber(data.collectMedian)}
+              </div>
               <div className={styles.title}>中位收藏数</div>
             </div>
             <div className={styles.dataBox}>
-              <div className={styles.number}>{data.commentMedian}</div>
+              <div className={styles.number}>
+                {renderNumber(data.commentMedian)}
+              </div>
               <div className={styles.title}>中位评论数</div>
             </div>
           </div>
@@ -405,7 +443,7 @@ const SprPerfor = () => {
           <div className={styles.tags}>
             <div className={styles.tagsLeft}>
               <Radio.Group
-                options={options}
+                options={TYPE_CONFIG}
                 onChange={onTypeChange}
                 value={ncParams.type}
                 optionType="button"
@@ -425,230 +463,10 @@ const SprPerfor = () => {
               ))}
             </div>
           </div>
+          {/* 卡片内容部分 */}
           <div className={styles.noteContent}>
             <Descriptions layout="vertical">
-              <Descriptions.Item
-                label={
-                  <div className={styles.imgContent}>
-                    <div className={styles.noteImg}>
-                      <a href="#">
-                        <img
-                          src={IconNote}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                          // referrerpolicy="no-referrer"
-                        />
-                      </a>
-                    </div>
-                    <div className={styles.viewTitle}>
-                      <a href="#">机关单位穿搭 | 比较吃香的公务员岗位有哪些</a>
-                    </div>
-                    <div className={styles.viewTime}>
-                      <span className={styles.timeText}>发布时间</span>
-                      <span>2022-04-20 11:41:20</span>
-                    </div>
-                    <div className={styles.counts}>
-                      <div className={styles.countList}>
-                        <p className={styles.iconWatch}></p>
-                        <span>245.16w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconLike}></p>
-                        <span>12.55w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconCollect}></p>
-                        <span>3.68w</span>
-                      </div>
-                    </div>
-                  </div>
-                }></Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <div className={styles.imgContent}>
-                    <div className={styles.noteImg}>
-                      <a href="#">
-                        <img
-                          src={IconNote}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                          // referrerpolicy="no-referrer"
-                        />
-                      </a>
-                    </div>
-                    <div className={styles.viewTitle}>
-                      <a href="#">机关单位穿搭 | 比较吃香的公务员岗位有哪些</a>
-                    </div>
-                    <div className={styles.viewTime}>
-                      <span className={styles.timeText}>发布时间</span>
-                      <span>2022-04-20 11:41:20</span>
-                    </div>
-                    <div className={styles.counts}>
-                      <div className={styles.countList}>
-                        <p className={styles.iconWatch}></p>
-                        <span>245.16w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconLike}></p>
-                        <span>12.55w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconCollect}></p>
-                        <span>3.68w</span>
-                      </div>
-                    </div>
-                  </div>
-                }></Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <div className={styles.imgContent}>
-                    <div className={styles.noteImg}>
-                      <a href="#">
-                        <img
-                          src={IconNote}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                          // referrerpolicy="no-referrer"
-                        />
-                      </a>
-                    </div>
-                    <div className={styles.viewTitle}>
-                      <a href="#">机关单位穿搭 | 比较吃香的公务员岗位有哪些</a>
-                    </div>
-                    <div className={styles.viewTime}>
-                      <span className={styles.timeText}>发布时间</span>
-                      <span>2022-04-20 11:41:20</span>
-                    </div>
-                    <div className={styles.counts}>
-                      <div className={styles.countList}>
-                        <p className={styles.iconWatch}></p>
-                        <span>245.16w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconLike}></p>
-                        <span>12.55w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconCollect}></p>
-                        <span>3.68w</span>
-                      </div>
-                    </div>
-                  </div>
-                }></Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <div className={styles.imgContent}>
-                    <div className={styles.noteImg}>
-                      <a href="#">
-                        <img
-                          src={IconNote}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                          // referrerpolicy="no-referrer"
-                        />
-                      </a>
-                    </div>
-                    <div className={styles.viewTitle}>
-                      <a href="#">机关单位穿搭 | 比较吃香的公务员岗位有哪些</a>
-                    </div>
-                    <div className={styles.viewTime}>
-                      <span className={styles.timeText}>发布时间</span>
-                      <span>2022-04-20 11:41:20</span>
-                    </div>
-                    <div className={styles.counts}>
-                      <div className={styles.countList}>
-                        <p className={styles.iconWatch}></p>
-                        <span>245.16w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconLike}></p>
-                        <span>12.55w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconCollect}></p>
-                        <span>3.68w</span>
-                      </div>
-                    </div>
-                  </div>
-                }></Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <div className={styles.imgContent}>
-                    <div className={styles.noteImg}>
-                      <a href="#">
-                        <img
-                          src={IconNote}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                          // referrerpolicy="no-referrer"
-                        />
-                      </a>
-                    </div>
-                    <div className={styles.viewTitle}>
-                      <a href="#">机关单位穿搭 | 比较吃香的公务员岗位有哪些</a>
-                    </div>
-                    <div className={styles.viewTime}>
-                      <span className={styles.timeText}>发布时间</span>
-                      <span>2022-04-20 11:41:20</span>
-                    </div>
-                    <div className={styles.counts}>
-                      <div className={styles.countList}>
-                        <p className={styles.iconWatch}></p>
-                        <span>245.16w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconLike}></p>
-                        <span>12.55w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconCollect}></p>
-                        <span>3.68w</span>
-                      </div>
-                    </div>
-                  </div>
-                }></Descriptions.Item>
-              <Descriptions.Item
-                label={
-                  <div className={styles.imgContent}>
-                    <div className={styles.noteImg}>
-                      <a href="#">
-                        <img
-                          src={IconNote}
-                          alt=""
-                          width="100%"
-                          height="100%"
-                          // referrerpolicy="no-referrer"
-                        />
-                      </a>
-                    </div>
-                    <div className={styles.viewTitle}>
-                      <a href="#">机关单位穿搭 | 比较吃香的公务员岗位有哪些</a>
-                    </div>
-                    <div className={styles.viewTime}>
-                      <span className={styles.timeText}>发布时间</span>
-                      <span>2022-04-20 11:41:20</span>
-                    </div>
-                    <div className={styles.counts}>
-                      <div className={styles.countList}>
-                        <p className={styles.iconWatch}></p>
-                        <span>245.16w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconLike}></p>
-                        <span>12.55w</span>
-                      </div>
-                      <div className={styles.countList}>
-                        <p className={styles.iconCollect}></p>
-                        <span>3.68w</span>
-                      </div>
-                    </div>
-                  </div>
-                }></Descriptions.Item>
+              {renderCard(ncData.cardData.list)}
             </Descriptions>
           </div>
         </div>

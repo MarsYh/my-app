@@ -3,9 +3,8 @@ import { createContext, useContext } from "react"
 const context = createContext()
 
 // 3. 使用
-export function useXhsDetail(){
+export function useXhsDetail () {
     return useContext(context)
 }
 
 export default context
-

@@ -12,6 +12,24 @@ export const SORT_CONFIG = [
     value: '3'
   },
 ]
+export const TYPE_CONFIG = [
+  {
+    label: '全部笔记',
+    value: '1',
+  },
+  {
+    label: '合作笔记',
+    value: '2',
+  },
+  {
+    label: '图文笔记',
+    value: '3',
+  },
+  {
+    label: '视频笔记',
+    value: '4',
+  },
+]
 export const DATE_CONFIG = [
   {
     label: '近30天',
@@ -24,16 +42,16 @@ export const DATE_CONFIG = [
 ]
 export const NOTE_CONFIG = [
   {
-    label: '图文+视频笔记',
-    value: "1"
-  },
-  {
     label: '图文笔记',
-    value: '2'
+    value: '1'
   },
   {
     label: '视频笔记',
-    value: '3'
+    value: '2'
+  },
+  {
+    label: '图文+视频笔记',
+    value: "3"
   },
 ]
 export const BUSINESS_CONFIG = [
