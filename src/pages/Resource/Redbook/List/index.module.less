@@ -1,7 +1,14 @@
 .tableBox {
+  margin-top: 24px;
   font-size: 12px;
   // 全局变量外面必须写一个父级类名样式 可以避免全局中有相同的antd组件名被更改
   :global {
+    .ant-input-affix-wrapper-focused
+      .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+      border-color: none;
+      border-right-width: 1px;
+      z-index: 1;
+    }
     .ant-divider-horizontal {
       margin-top: 32px;
     }
@@ -57,6 +64,10 @@
 }
 .name {
   font-size: 16px;
+  &:hover {
+    cursor: pointer;
+    color: #727fff;
+  }
 }
 .button {
   border: none;
@@ -228,4 +239,205 @@
 .priceTitle {
   color: rgb(112, 126, 255);
   font-family: 'DINPro';
+}
+
+.head {
+  font-size: 12px;
+  display: flex;
+  .typeBtn {
+    margin-right: 20px;
+    border-radius: 4px;
+    padding: 2px 28px;
+    line-height: 30px;
+    border: 1px solid #edf2f2;
+    background-color: #edf2f2;
+    text-align: center;
+    color: #626a6a;
+    cursor: pointer;
+  }
+}
+.checked {
+  background: rgb(112, 126, 255) !important;
+  color: #fff !important;
+  z-index: 999;
+}
+.searchInput {
+  margin-top: 30px;
+  :global {
+    .ant-space-item {
+      width: auto;
+    }
+    // .ant-radio-button {
+    //   background: #727fff;
+    //   border-top-right-radius: 4px;
+    //   border-top-left-radius: 4px;
+    // // }
+    // .ant-radio-group-solid
+    //   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    //   border-bottom: none;
+    //   background: transparent;
+    // }
+    // .ant-radio-button-wrapper:not(:first-child)::before {
+    //   display: none;
+    // }
+
+    .ant-btn-primary {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      margin-top: -6px;
+      margin-right: -5px;
+      margin-bottom: -5px;
+      width: 56px;
+      height: 36px;
+      background: #727fff;
+      border: none;
+      box-shadow: none;
+    }
+    // .ant-radio-button-wrapper {
+    //   border: none;
+    // }
+    // .ant-radio-button-wrapper-checked {
+    //   &::before {
+    //     display: none;
+    //   }
+    // }
+    .ant-input {
+      width: 440px;
+      border-top-left-radius: 0;
+      background: rgba(237, 242, 242, 0.8);
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .ant-input-affix-wrapper {
+      background: #f0f5f5;
+      border-radius: 4px;
+      padding: 4px 4px 4px 12px;
+    }
+  }
+  .searchTop {
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    color: #626a6a;
+    position: relative;
+    z-index: 1;
+    top: 1px;
+    .item {
+      background: #f0f5f5;
+      border: 1px solid #e1e6e6;
+      border-bottom: none;
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 4px 4px 0px 0px;
+      > img {
+        margin-right: 4px;
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
+  .searchBottom {
+    display: flex;
+    .searchRight {
+      display: flex;
+      .privateBtn {
+        cursor: pointer;
+        padding: 7px 16px;
+        background: #edf2f2;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+        > img {
+          margin-right: 4px;
+          position: relative;
+          top: 1px;
+        }
+      }
+      .controlBtn {
+        display: flex;
+        align-items: center;
+        background: #edf2f2;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #626a6a;
+        margin-left: 16px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+    }
+  }
+}
+.downArrow::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  z-index: 1;
+  height: 0px;
+  transform: translate(-50%, -50%);
+  width: 0px;
+  border-top: 6px solid #727fff;
+  border-right: 4px solid transparent;
+  border-bottom: 0px solid transparent;
+  border-left: 4px solid transparent;
+}
+.performanceTargetBoxClass {
+  :global {
+    .ant-popover {
+      padding-top: 0;
+    }
+    .ant-popover-content {
+      width: 440px;
+      .ant-popover-arrow {
+        display: none;
+      }
+    }
+    .ant-popover-placement-top {
+      left: 224.993px;
+      top: 315.993px;
+      transform-origin: 50% -4px;
+    }
+    .ant-popover-inner {
+      background-color: #fff;
+      background-clip: padding-box;
+      border-radius: 4px;
+      box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%),
+        0 9px 28px 8px rgb(0 0 0 / 5%);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.15) \9;
+    }
+  }
+}
+.modalContent {
+  :global {
+    .ant-modal-body {
+      padding: 24px 0 90px 0;
+    }
+  }
+  .title {
+    font-size: 16px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    color: #3d4242;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 12px;
+      background: #727fff;
+      margin-right: 21px;
+    }
+  }
+  .box {
+    padding: 0 24px;
+    .navBox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+  }
 }

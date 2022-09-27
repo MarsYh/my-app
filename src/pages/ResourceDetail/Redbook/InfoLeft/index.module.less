@@ -8,70 +8,57 @@
   display: flex;
   align-items: center;
   font-size: 16px;
-  padding: 16px 0 16px 22px;
-  margin-bottom: 16px;
+  padding: 16px 30px 16px 22px;
   border-bottom: 1px solid #e1e6e6;
   font-weight: bold;
   > span {
     margin-left: 4px;
   }
 }
-
-.btnGroup{
-  padding: 0px 24px 24px;
-
-  .btn{
+.btnGroup {
+  margin-top: 16px;
+  padding: 0 24px 24px;
+  > .btn {
     cursor: pointer;
-    padding: 10px 0 10px 16px;
-    width: 112px;
-    border: 1px solid #E1E6E6;
-    border-radius: 34px;
-    color: #3D4242;
+    padding: 10px 0px 10px 16px;
     margin-bottom: 24px;
+    border: 1px solid #e1e6e6;
+    border-radius: 34px;
     font-size: 16px;
     font-family: Microsoft YaHei;
     font-weight: 400;
-  
-    &:hover{
+    &:hover {
       opacity: 0.8;
-      border-color: #2998FF;
-      color: #2998FF;
+      color: #2998ff;
+      border-color: #2998ff;
     }
-
-    >span{
+    > span {
       display: inline-block;
       width: 80px;
       text-align: center;
     }
-  
   }
-  
-  .checked{
+
+  .checked {
     width: 142px;
-    background-color: #2998FF;
+    background-color: #2998ff;
     color: #fff;
     text-align: left;
-    &:hover{
+    &:hover {
       color: #fff;
     }
-
-    &::after{
+    &::after {
       content: '';
       position: relative;
-      right: -18px;
-      top: 7px;
       display: inline-block;
       height: 0;
+      top: 1px;
+      right: -18px;
       width: 0;
-      border-top: 6px solid #2998FF;
-      border-bottom: 6px solid #2998FF;
-      border-left: 8px solid #fff;
-      border-right: 8px solid #2998FF;
-      // left: 100%;
-      // top: 50%;
-      transform: translateY(-50%);
-      z-index: 1;
+      border-top: 6px solid #2998ff;
+      border-bottom: 6px solid #2998ff;
+      border-left: 8px solid white;
+      border-right: 8px solid #2998ff;
     }
   }
 }
-

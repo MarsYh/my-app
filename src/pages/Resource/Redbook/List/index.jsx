@@ -8,6 +8,10 @@ import {
   Button,
   Popover,
   Tooltip,
+  message,
+  Empty,
+  Input,
+  Modal,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
@@ -17,23 +21,25 @@ import IconShopCart from '@/assets/img/icon-shopcart.svg'
 import IconMCN from '@/assets/img/icon-mcn.svg'
 import IconMale from '@/assets/img/icon-male.svg'
 import IconFemale from '@/assets/img/icon-female.svg'
-import { reqXhsList } from '@/api/resource/redBook'
+import { reqXhsList } from '@/api/resource/'
 import classNames from 'classnames'
 import IconPGY from '@/assets/img/icon-pugongying.svg'
-import { ATTRIBUTE_CONFIG } from './sourceData'
+import { ATTRIBUTE_CONFIG, TYPE_CONFIG, SEARCH_TYPE_CONFIG } from './sourceData'
 import IconVerify from '@/assets/img/icon-verify.svg'
 import IconEst from '@/assets/img/icon-estimate.svg'
 import IconEstText from '@/assets/img/icon-estimate-text.svg'
 import IconOff from '@/assets/img/icon-official.svg'
 import IconOffText from '@/assets/img/icon-official-text.svg'
-import { useNavigate } from "react-router-dom"
+import IconAccount from '@/assets/img/icon-account.svg'
+import IconPrivate from '@/assets/img/icon-private.svg'
+import { useNavigate } from 'react-router-dom'
 
 const List = () => {
   // 更改复选框的状态
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   // 列表接口请求参数
   const [params, setParams] = useState({
-    type: 1,
+    type: TYPE_CONFIG[0].value,
     source: 1,
     page: {
       pageSize: 20,
@@ -45,20 +51,42 @@ const List = () => {
     list: [],
     total: 0,
   })
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const showModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleOk = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
 
   const navigate = useNavigate()
 
   useEffect(() => {
     reqXhsList(params).then((res) => {
-      const { data, page } = res.data?.data || {}
-      if (data && page.totalSize) {
+      const { data, success, msg } = res
+      if (data && success) {
         setTableData({
-          list: data,
-          total: page.totalSize,
+          list: data.data,
+          total: data.page.totalSize,
         })
+      } else {
+        message.error(msg || '获取列表数据失败')
       }
     })
   }, [params])
+
+  function handelTypeClick(value) {
+    if (params.type === value) return
+    const _params = { ...params }
+    _params.type = value
+    setParams(_params)
+  }
 
   function renderTitle(title) {
     return title.length > 8 ? (
@@ -164,8 +192,13 @@ const List = () => {
   }
 
   // 跳转到详情页
-  function handleGoDetail(record){
-    navigate(`/resourceDetail/redbookDetail/${record.red_id}?huyue=456`,{state:record})
+  function handleGoDetail(record) {
+    navigate(
+      `/resourceDetail/redbookDetail/${record.user_id}?type=spread_performance`,
+      {
+        state: record,
+      }
+    )
   }
 
   function renderUserInfo(text, record) {
@@ -185,7 +218,11 @@ const List = () => {
         <div className={styles.infoRight}>
           {/* 第一行基本信息 */}
           <div className={styles.baseInfo}>
-            <span onClick={() =>handleGoDetail(record)} className={styles.name}>{text}</span>
+            <span
+              onClick={() => handleGoDetail(record)}
+              className={styles.name}>
+              {text}
+            </span>
             {/* 标签组件 */}
             <Tag>LV{record.current_level}</Tag>
             <Popover content="支持好物推荐，通过选品中心带货，按照销售额计算佣金">
@@ -443,7 +480,7 @@ const List = () => {
   }
 
   function onTableChange(pagin, filters, sorter) {
-    const o = {...params}
+    const o = { ...params }
 
     // 分页
     const { current, pageSize } = pagin
@@ -453,11 +490,11 @@ const List = () => {
     }
 
     // 排序
-    const { field,order } = sorter
-    if(order){
+    const { field, order } = sorter
+    if (order) {
       o.sortName = field
-      o.sortType = order === "ascend" ? 1 : 2
-    }else{
+      o.sortType = order === 'ascend' ? 1 : 2
+    } else {
       delete o.sortName
       delete o.sortType
     }
@@ -467,6 +504,119 @@ const List = () => {
 
   return (
     <div className={styles.tableBox}>
+      {/* 类型切换 */}
+      <div className={styles.head}>
+        {TYPE_CONFIG.map((item) => (
+          <div
+            key={item.value}
+            className={classNames(
+              styles.typeBtn,
+              params.type === item.value && styles.checked
+            )}
+            onClick={() => handelTypeClick(item.value)}>
+            {item.label}
+          </div>
+        ))}
+      </div>
+      {/* 搜索框 */}
+      <div className={styles.searchInput}>
+        <div className={styles.searchTop}>
+          <div className={styles.item}>
+            <img src={IconAccount} alt="" />
+            <span>账号信息</span>
+          </div>
+        </div>
+        <div className={styles.searchBottom}>
+          <div className={styles.input}>
+            <Popover
+              content={
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="" />
+              }
+              trigger="click"
+              placement="bottom"
+              overlayClassName={styles.performanceTargetBoxClass}>
+              <Input
+                style={{
+                  width: '440px',
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0,
+                }}
+                placeholder="请输入搜索关键词"
+                suffix={<Button type="primary">搜索</Button>}
+              />
+            </Popover>
+          </div>
+          <div className={styles.searchRight}>
+            <div className={styles.privateBtn} onClick={showModal}>
+              <img src={IconPrivate} alt="" />
+              <span>企业私有搜索</span>
+            </div>
+            <Modal
+              centered="true"
+              width="788px"
+              cancelText="取消"
+              okText="确定"
+              zIndex="10000"
+              title="私有企业搜索"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}>
+              <div className={styles.modalContent}>
+                <div className={styles.title}>私有报价</div>
+                <div className={styles.box}>
+                  <Space>
+                    <div className={styles.navBox}>
+                      <span>图文报价</span>
+                      <div></div>
+                    </div>
+                  </Space>
+                </div>
+                <div className={styles.box}>
+                  <Space>
+                    <div className={styles.navBox}>
+                      <span>图文报价</span>
+                      <div></div>
+                    </div>
+                  </Space>
+                </div>
+                <div className={styles.box}>
+                  <Space>
+                    <div className={styles.navBox}>
+                      <span>图文报价</span>
+                      <div></div>
+                    </div>
+                  </Space>
+                </div>
+                <div className={styles.box}>
+                  <Space>
+                    <div className={styles.navBox}>
+                      <span>图文报价</span>
+                      <div></div>
+                    </div>
+                  </Space>
+                </div>
+                <div className={styles.box}>
+                  <Space>
+                    <div className={styles.navBox}>
+                      <span>图文报价</span>
+                      <div></div>
+                    </div>
+                  </Space>
+                </div>
+              </div>
+            </Modal>
+            <div className={styles.controlBtn}>
+              <Space>
+                <div>
+                  <span>展开</span>
+                </div>
+                <div className={styles.downArrow}></div>
+              </Space>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* 设置水平分割线组件 */}
       <Divider />
       <div className={styles.tableHead}>
