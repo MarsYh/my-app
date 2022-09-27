@@ -72,10 +72,10 @@ function responseCallback (response) {
     }
 
     // 未登录
-    if (code === "000995" || code === "000999") {
-        message.error("未登录")
-        toLogin()
-    }
+    // if (code === "000995" || code === "000999") {
+    //     message.error("未登录")
+    //     // toLogin()
+    // }
 
     return result
 }

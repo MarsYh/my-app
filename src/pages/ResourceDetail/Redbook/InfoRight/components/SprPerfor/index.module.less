@@ -89,11 +89,6 @@
     border-radius: 15px;
     cursor: pointer;
   }
-  .cooperationNotes {
-    color: #636666;
-    padding: 7px 10px;
-    cursor: pointer;
-  }
 }
 .data {
   margin-top: 24px;
@@ -232,6 +227,14 @@
   text-align: center;
   color: #636666;
 }
+.noteCount {
+  :global {
+    .ant-descriptions-item-label::after {
+      display: none;
+      z-index: 999;
+    }
+  }
+}
 .imgContent {
   width: 224px;
   margin-top: 24px;
@@ -305,5 +308,40 @@
   width: 100%;
   .pagination {
     text-align: center;
+  }
+}
+.rectChartTooltip {
+  .tooltip {
+    display: flex;
+    color: #636666;
+    font-size: 14px;
+    .tooltipImg {
+      position: relative;
+      > img {
+        margin-right: 10px;
+        width: 74px;
+        min-height: 74px;
+        border-radius: 2px;
+      }
+    }
+    .rightBox {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      width: 200px;
+      .title {
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .content {
+        display: flex;
+        justify-content: space-between;
+        .readNum {
+          font-weight: 500;
+          color: #3d4242;
+        }
+      }
+    }
   }
 }

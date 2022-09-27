@@ -3,24 +3,32 @@ import React, { useRef } from 'react'
 import * as echarts from 'echarts'
 import { useEffect } from 'react'
 import styles from './index.module.less'
+import { renderToString } from 'react-dom/server'
 
 const RectChart = (props) => {
   const chartDomRef = useRef(null)
 
-  const { dataSource, xData } = props
+  const { dataSource, xData, tooltip } = props
   useEffect(() => {
     if (!chartDomRef.current) return
+    // tooltip配置
+    const internalTooltip = tooltip
+    if (internalTooltip) {
+      if (!internalTooltip.trigger) {
+        internalTooltip.trigger = 'axis'
+      }
+    }
+    if (internalTooltip.formatter) {
+      const externalFormatter = internalTooltip.formatter
+      internalTooltip.formatter = function (params) {
+        const dom = externalFormatter(params)
+        return renderToString(dom)
+      }
+    }
 
     const myChart = echarts.init(chartDomRef.current)
     const option = {
-      tooltip: {
-        trigger: 'axis',
-        formatter: function (params) {
-          // console.log('params:', params)
-          params.forEach(function (item) {})
-          return
-        },
-      },
+      tooltip: internalTooltip || {},
       xAxis: {
         type: 'category',
         data: xData,

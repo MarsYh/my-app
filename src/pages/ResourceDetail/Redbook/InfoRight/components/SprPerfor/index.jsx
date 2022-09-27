@@ -157,7 +157,13 @@ const SprPerfor = () => {
           <div className={styles.imgContent}>
             <div className={styles.noteImg}>
               <a href={item.noteUrl}>
-                <img src={item.imgUrl} alt="" width="100%" height="100%" />
+                <img
+                  referrerPolicy="no-referrer"
+                  src={item.imgUrl}
+                  alt=""
+                  width="100%"
+                  height="100%"
+                />
               </a>
             </div>
             <div className={styles.viewTitle}>
@@ -434,7 +440,44 @@ const SprPerfor = () => {
           </div>
         </div>
         {/* 柱状图 */}
-        <RectChart dataSource={dataSource} xData={ncData.date} />
+        <RectChart
+          dataSource={dataSource}
+          xData={ncData.date}
+          tooltip={{
+            formatter: function (params) {
+              // console.log('params:', params)
+              const { axisValue } = params[0]
+              const aim = ncData.cardData.list.find((item) =>
+                item.date.includes(axisValue)
+              )
+              return (
+                <div className={styles.rectChartTooltip}>
+                  <div className={styles.tooltip}>
+                    <div className={styles.tooltipImg}>
+                      <img
+                        src={aim.imgUrl}
+                        alt=""
+                        referrerPolicy="noreferrer"
+                      />
+                    </div>
+                    <div className={styles.rightBox}>
+                      <div className={styles.title}>{aim.title}</div>
+                      <div className={styles.content}>
+                        <span>
+                          <Badge color="#727fff" text="阅读数" />
+                        </span>
+                        <span className={styles.readNum}>{`${(
+                          aim.readNum / 10000
+                        ).toFixed(2)}w`}</span>
+                      </div>
+                      <div className={styles.date}>{aim.date}</div>
+                    </div>
+                  </div>
+                </div>
+              )
+            },
+          }}
+        />
         <div className={styles.noteCase}>
           <div className={styles.title}>
             <Badge color="#727fff" text="笔记案例" />
