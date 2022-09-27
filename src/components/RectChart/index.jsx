@@ -1,11 +1,4 @@
 // 柱状图
-<<<<<<< HEAD
-import React, { useRef } from 'react'
-import * as echarts from 'echarts'
-import { useEffect } from 'react'
-import styles from './index.module.less'
-import { renderToString } from 'react-dom/server'
-=======
 
 import * as echarts from "echarts";
 
@@ -14,34 +7,10 @@ import React, { useRef } from "react";
 import { renderToString } from "react-dom/server";
 import styles from "./index.module.less";
 import { useEffect } from "react";
->>>>>>> 4b891d0cb5657fed68f1b1d593ce60bf1fe2a917
 
 const RectChart = (props) => {
   const chartDomRef = useRef(null);
 
-<<<<<<< HEAD
-  const { dataSource, xData, tooltip } = props
-  useEffect(() => {
-    if (!chartDomRef.current) return
-    // tooltip配置
-    const internalTooltip = tooltip
-    if (internalTooltip) {
-      if (!internalTooltip.trigger) {
-        internalTooltip.trigger = 'axis'
-      }
-    }
-    if (internalTooltip.formatter) {
-      const externalFormatter = internalTooltip.formatter
-      internalTooltip.formatter = function (params) {
-        const dom = externalFormatter(params)
-        return renderToString(dom)
-      }
-    }
-
-    const myChart = echarts.init(chartDomRef.current)
-    const option = {
-      tooltip: internalTooltip || {},
-=======
   const { dataSource, xData, tooltip, color } = props;
   useEffect(() => {
     if (!chartDomRef.current) return;
@@ -79,7 +48,6 @@ const RectChart = (props) => {
     const myChart = echarts.init(chartDomRef.current);
     const option = {
       tooltip: internalToolTip || {},
->>>>>>> 4b891d0cb5657fed68f1b1d593ce60bf1fe2a917
       xAxis: {
         type: "category",
         data: xData,
