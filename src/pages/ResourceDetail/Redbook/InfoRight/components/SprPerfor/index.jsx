@@ -1,38 +1,40 @@
-import React, { useState } from 'react'
 import {
-  Select,
-  Tooltip,
-  Badge,
-  Radio,
-  Descriptions,
-  Pagination,
-  ConfigProvider,
-  message,
-} from 'antd'
-import zh_CN from 'antd/es/locale/zh_CN'
-import { QuestionCircleOutlined } from '@ant-design/icons'
-import styles from './index.module.less'
-import classNames from 'classnames'
-import { useParams } from 'react-router-dom'
-import RectChart from '@/components/RectChart'
-import { useEffect } from 'react'
-import { reqXhsDp, reqXhsNote } from '@/api/resourceDetail'
-import {
-  SORT_CONFIG,
+  BUSINESS_CONFIG,
   DATE_CONFIG,
   NOTE_CONFIG,
-  BUSINESS_CONFIG,
+  SORT_CONFIG,
   TYPE_CONFIG,
-} from './sourceData'
-const { Option } = Select
+} from "./sourceData";
+import {
+  Badge,
+  ConfigProvider,
+  Descriptions,
+  Pagination,
+  Radio,
+  Select,
+  Tooltip,
+  message,
+} from "antd";
+import React, { useState } from "react";
+import { reqXhsDp, reqXhsNote } from "@/api/resourceDetail";
+
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import RectChart from "@/components/RectChart";
+import classNames from "classnames";
+import styles from "./index.module.less";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import zh_CN from "antd/es/locale/zh_CN";
+
+const { Option } = Select;
 
 const SprPerfor = () => {
-  const { id } = useParams()
+  const { id } = useParams();
   // console.log('id:', id)
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   // console.log('data:', data)
-  const [state, setState] = useState(true)
-  const [dataSource, setDataSource] = useState([])
+  const [state, setState] = useState(true);
+  const [dataSource, setDataSource] = useState([]);
   // 柱状图数据，卡片数据
   const [ncData, setNcData] = useState({
     date: [],
@@ -45,14 +47,14 @@ const SprPerfor = () => {
       list: [],
       total: 0,
     },
-  })
+  });
   // 卡片柱状图请求数据
   const [ncParams, setNcParams] = useState({
     userId: id,
     type: TYPE_CONFIG[0].value,
     sort: SORT_CONFIG[0].value,
     page: { pageSize: 15, pageNo: 1 },
-  })
+  });
 
   // 日期切换请求数据
   const [dpParams, setDpParams] = useState({
@@ -60,62 +62,62 @@ const SprPerfor = () => {
     business: BUSINESS_CONFIG[0].value,
     dateType: DATE_CONFIG[0].value,
     noteType: NOTE_CONFIG[2].value,
-  })
-  const [activeKey, setActiveKey] = useState('read')
+  });
+  const [activeKey, setActiveKey] = useState("read");
 
   function handleClick(type) {
     if (activeKey === type) {
-      return
+      return;
     }
-    setActiveKey(type)
+    setActiveKey(type);
     // 从柱状图数据所有数据里面取出对应的值
-    const _dataSource = ncData.rectData[type]
-    setDataSource(_dataSource)
+    const _dataSource = ncData.rectData[type];
+    setDataSource(_dataSource);
   }
   function handleSortClick(value) {
-    if (ncParams.sort === value) return
-    const _ncParams = { ...ncParams }
-    _ncParams.sort = value
-    setNcParams(_ncParams)
+    if (ncParams.sort === value) return;
+    const _ncParams = { ...ncParams };
+    _ncParams.sort = value;
+    setNcParams(_ncParams);
   }
   function handleDateClick(value) {
-    if (dpParams.dateType === value) return
+    if (dpParams.dateType === value) return;
     // console.log('dpParams:', dpParams)
-    const _dpParams = { ...dpParams }
-    _dpParams.dateType = value
-    setDpParams(_dpParams)
+    const _dpParams = { ...dpParams };
+    _dpParams.dateType = value;
+    setDpParams(_dpParams);
   }
   function handleBusinessClick(value) {
-    if (dpParams.business === value) return
-    const _dpParams = { ...dpParams }
-    _dpParams.business = value
-    setDpParams(_dpParams)
+    if (dpParams.business === value) return;
+    const _dpParams = { ...dpParams };
+    _dpParams.business = value;
+    setDpParams(_dpParams);
   }
 
   function onTypeChange(e) {
-    const _ncParams = { ...ncParams }
-    _ncParams.type = e.target.value
-    setNcParams(_ncParams)
+    const _ncParams = { ...ncParams };
+    _ncParams.type = e.target.value;
+    setNcParams(_ncParams);
   }
   function onNoteChange(value) {
-    const _noteParams = { ...dpParams }
-    _noteParams.noteType = value
-    setDpParams(_noteParams)
+    const _noteParams = { ...dpParams };
+    _noteParams.noteType = value;
+    setDpParams(_noteParams);
   }
 
   function onPaginChange(page, pageSize) {
-    const newNcParams = { ...ncParams }
-    newNcParams.page.pageNo = page
-    newNcParams.page.pageSize = pageSize
-    setNcParams(newNcParams)
+    const newNcParams = { ...ncParams };
+    newNcParams.page.pageNo = page;
+    newNcParams.page.pageSize = pageSize;
+    setNcParams(newNcParams);
   }
   function renderNumber(num) {
-    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
   }
 
   // 处理柱状图&卡片列表数据
   function filterRectAndCardData(data) {
-    const { page, data: result } = data
+    const { page, data: result } = data;
     // console.log('result:', result)
     const _ncData = {
       date: [],
@@ -128,22 +130,22 @@ const SprPerfor = () => {
         list: result,
         total: page.totalSize,
       },
-    }
+    };
 
     result.forEach((o) => {
-      const { collectNum, likeNum, date, readNum } = o
-      _ncData.date.push(date)
-      _ncData.rectData.like.push(likeNum)
-      _ncData.rectData.collect.push(collectNum)
-      _ncData.rectData.read.push(readNum)
-    })
+      const { collectNum, likeNum, date, readNum } = o;
+      _ncData.date.push(date);
+      _ncData.rectData.like.push(likeNum);
+      _ncData.rectData.collect.push(collectNum);
+      _ncData.rectData.read.push(readNum);
+    });
 
-    _ncData.date = filterDate(_ncData.date)
+    _ncData.date = filterDate(_ncData.date);
 
     // 初始化图表数据
-    const _dataSource = _ncData.rectData[activeKey]
-    setDataSource(_dataSource)
-    setNcData(_ncData)
+    const _dataSource = _ncData.rectData[activeKey];
+    setDataSource(_dataSource);
+    setNcData(_ncData);
     // 初始化卡片数据
   }
   // 渲染卡片数据
@@ -182,58 +184,59 @@ const SprPerfor = () => {
               </div>
             </div>
           </div>
-        }></Descriptions.Item>
-    ))
+        }
+      ></Descriptions.Item>
+    ));
   }
   function filterDate(date) {
-    const _date = [...date]
+    const _date = [...date];
     for (let i = 0; i < _date.length; i++) {
-      const current = _date[i]
+      const current = _date[i];
       for (let j = i + 1; j < _date.length; j++) {
-        const next = _date[j]
-        const [cy, cm, cd] = current.split('-')
-        const [ny, nm, nd] = next.split('-')
+        const next = _date[j];
+        const [cy, cm, cd] = current.split("-");
+        const [ny, nm, nd] = next.split("-");
 
         if (ny >= cy || nm >= cm || nd > cd) {
-          continue
+          continue;
         }
-        ;[_date[i], _date[j]] = [_date[j], _date[i]]
+        [_date[i], _date[j]] = [_date[j], _date[i]];
       }
     }
     return _date.reverse().map((date) => {
-      const [y, m, d] = date.split('-')
-      return `${m}-${d}`
-    })
+      const [y, m, d] = date.split("-");
+      return `${m}-${d}`;
+    });
   }
 
   useEffect(() => {
     reqXhsNote(ncParams).then((res) => {
       // console.log('res:', res)
-      const { success, msg, data } = res
+      const { success, msg, data } = res;
       if (data && success) {
-        filterRectAndCardData(data)
+        filterRectAndCardData(data);
       } else {
-        message.error(msg || '案例数据获取失败')
+        message.error(msg || "案例数据获取失败");
       }
-    })
-  }, [ncParams])
+    });
+  }, [ncParams]);
 
   useEffect(() => {
     // console.log('params:', params)
     reqXhsDp(dpParams)
       .then((res) => {
-        const { success, msg, data } = res
+        const { success, msg, data } = res;
         // console.log(res)
         if (success && data) {
-          setData(data)
+          setData(data);
         } else {
-          message.error(msg || '请求失败')
+          message.error(msg || "请求失败");
         }
       })
       .catch((error) => {
-        console.log('error:')
-      })
-  }, [dpParams])
+        console.log("error:");
+      });
+  }, [dpParams]);
 
   return (
     <div className={styles.infoRight}>
@@ -259,8 +262,9 @@ const SprPerfor = () => {
                   dpParams.dateType === item.value && styles.active
                 )}
                 onClick={() => {
-                  handleDateClick(item.value)
-                }}>
+                  handleDateClick(item.value);
+                }}
+              >
                 {item.label}
               </div>
             ))}
@@ -273,7 +277,8 @@ const SprPerfor = () => {
                 style={{
                   width: 151,
                 }}
-                onChange={onNoteChange}>
+                onChange={onNoteChange}
+              >
                 {NOTE_CONFIG.map((item) => (
                   <Option key={item.value} value={item.value}>
                     {item.label}
@@ -290,7 +295,8 @@ const SprPerfor = () => {
                   styles.dailyNotes,
                   dpParams.business === item.value && styles.checked
                 )}
-                onClick={() => handleBusinessClick(item.value)}>
+                onClick={() => handleBusinessClick(item.value)}
+              >
                 {item.label}
               </div>
             ))}
@@ -311,24 +317,27 @@ const SprPerfor = () => {
                 <Tooltip
                   title={
                     <div>选择统计时间周期内的视频被点赞、评论、转发的概率</div>
-                  }>
+                  }
+                >
                   <QuestionCircleOutlined
                     size={14}
-                    style={{ margin: '0 0 0 4px' }}
+                    style={{ margin: "0 0 0 4px" }}
                   />
                 </Tooltip>
               </div>
             </div>
             <div className={styles.dataBox}>
               <div
-                className={styles.number}>{`${data.videoFullViewRate}%`}</div>
+                className={styles.number}
+              >{`${data.videoFullViewRate}%`}</div>
               <div className={styles.title}>
                 视频完播率
                 <Tooltip
-                  title={<div>选择统计时间周期内的视频被完整播放的概率</div>}>
+                  title={<div>选择统计时间周期内的视频被完整播放的概率</div>}
+                >
                   <QuestionCircleOutlined
                     size={14}
-                    style={{ margin: '0 0 0 4px' }}
+                    style={{ margin: "0 0 0 4px" }}
                   />
                 </Tooltip>
               </div>
@@ -342,10 +351,11 @@ const SprPerfor = () => {
                 <Tooltip
                   title={
                     <div>选择统计时间周期内的视频处于中位水平的阅读量</div>
-                  }>
+                  }
+                >
                   <QuestionCircleOutlined
                     size={14}
-                    style={{ margin: '0 0 0 4px' }}
+                    style={{ margin: "0 0 0 4px" }}
                   />
                 </Tooltip>
               </div>
@@ -362,10 +372,11 @@ const SprPerfor = () => {
                   <Tooltip
                     title={
                       <div>选择统计时间周期内的笔记处于中位水平的互动量</div>
-                    }>
+                    }
+                  >
                     <QuestionCircleOutlined
                       size={14}
-                      style={{ margin: '0 0 0 4px' }}
+                      style={{ margin: "0 0 0 4px" }}
                     />
                   </Tooltip>
                 </div>
@@ -399,10 +410,11 @@ const SprPerfor = () => {
                 <div>
                   筛选时间范围内,博主最近发布笔记(最多显示10篇)的数据趋势
                 </div>
-              }>
+              }
+            >
               <QuestionCircleOutlined
                 size={14}
-                style={{ margin: '0 0 0 4px' }}
+                style={{ margin: "0 0 0 4px" }}
               />
             </Tooltip>
           </div>
@@ -410,35 +422,51 @@ const SprPerfor = () => {
             <div
               className={classNames(
                 styles.btn,
-                activeKey === 'read' && styles.checked
+                activeKey === "read" && styles.checked
               )}
-              onClick={() => handleClick('read')}>
+              onClick={() => handleClick("read")}
+            >
               阅读数
             </div>
             <div
               className={classNames(
                 styles.btn,
-                activeKey === 'collect' && styles.checked
+                activeKey === "collect" && styles.checked
               )}
-              onClick={() => handleClick('collect')}>
+              onClick={() => handleClick("collect")}
+            >
               收藏数
             </div>
             <div
               className={classNames(
                 styles.btn,
-                activeKey === 'like' && styles.checked
+                activeKey === "like" && styles.checked
               )}
-              onClick={() => handleClick('like')}>
+              onClick={() => handleClick("like")}
+            >
               点赞数
             </div>
           </div>
         </div>
         {/* 柱状图 */}
-        <RectChart dataSource={dataSource} xData={ncData.date} />
+        <RectChart
+          dataSource={dataSource}
+          xData={ncData.date}
+          tooltip={{
+            formatter: function (params) {
+              const { axisValue } = params[0];
+              const aim = ncData.cardData.list.find((item) =>
+                item.date.includes(axisValue)
+              );
+              console.log("aim", aim);
+              return <div>1234</div>;
+            },
+          }}
+        />
         <div className={styles.noteCase}>
           <div className={styles.title}>
             <Badge color="#727fff" text="笔记案例" />
-            <QuestionCircleOutlined size={14} style={{ margin: '0 0 0 4px' }} />
+            <QuestionCircleOutlined size={14} style={{ margin: "0 0 0 4px" }} />
           </div>
           <div className={styles.tags}>
             <div className={styles.tagsLeft}>
@@ -457,7 +485,8 @@ const SprPerfor = () => {
                     styles.btn,
                     ncParams.sort === item.value && styles.checked
                   )}
-                  onClick={() => handleSortClick(item.value)}>
+                  onClick={() => handleSortClick(item.value)}
+                >
                   {item.label}
                 </div>
               ))}
@@ -483,6 +512,6 @@ const SprPerfor = () => {
         </ConfigProvider>
       </div>
     </div>
-  )
-}
-export default SprPerfor
+  );
+};
+export default SprPerfor;
