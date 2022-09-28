@@ -24,7 +24,8 @@ import IconFemale from '@/assets/img/icon-female.svg'
 import { reqXhsList } from '@/api/resource/'
 import classNames from 'classnames'
 import IconPGY from '@/assets/img/icon-pugongying.svg'
-import { ATTRIBUTE_CONFIG, TYPE_CONFIG, SEARCH_TYPE_CONFIG } from './sourceData'
+import { ATTRIBUTE_CONFIG, SEARCH_TYPE_CONFIG } from './sourceData'
+import { TYPE_CONFIG } from '../sourceData'
 import IconVerify from '@/assets/img/icon-verify.svg'
 import IconEst from '@/assets/img/icon-estimate.svg'
 import IconEstText from '@/assets/img/icon-estimate-text.svg'
@@ -33,19 +34,21 @@ import IconOffText from '@/assets/img/icon-official-text.svg'
 import IconAccount from '@/assets/img/icon-account.svg'
 import IconPrivate from '@/assets/img/icon-private.svg'
 import { useNavigate } from 'react-router-dom'
+import { useXhsResource } from '@/store/xhsResource'
 
 const List = () => {
   // 更改复选框的状态
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const { tableParams, dispatch } = useXhsResource()
   // 列表接口请求参数
-  const [params, setParams] = useState({
-    type: TYPE_CONFIG[0].value,
-    source: 1,
-    page: {
-      pageSize: 20,
-      pageNo: 1,
-    },
-  })
+  // const [params, setParams] = useState({
+  //   type: TYPE_CONFIG[0].value,
+  //   source: 1,
+  //   page: {
+  //     pageSize: 20,
+  //     pageNo: 1,
+  //   },
+  // })
   // 列表数据
   const [tableData, setTableData] = useState({
     list: [],
@@ -68,7 +71,7 @@ const List = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    reqXhsList(params).then((res) => {
+    reqXhsList(tableParams).then((res) => {
       const { data, success, msg } = res
       if (data && success) {
         setTableData({
@@ -79,13 +82,13 @@ const List = () => {
         message.error(msg || '获取列表数据失败')
       }
     })
-  }, [params])
+  }, [tableParams])
 
   function handelTypeClick(value) {
-    if (params.type === value) return
-    const _params = { ...params }
+    if (tableParams.type === value) return
+    const _params = { ...tableParams }
     _params.type = value
-    setParams(_params)
+    dispatch(_params)
   }
 
   function renderTitle(title) {
@@ -480,7 +483,7 @@ const List = () => {
   }
 
   function onTableChange(pagin, filters, sorter) {
-    const o = { ...params }
+    const o = { ...tableParams }
 
     // 分页
     const { current, pageSize } = pagin
@@ -499,13 +502,13 @@ const List = () => {
       delete o.sortType
     }
 
-    setParams(o)
+    dispatch(o)
   }
 
   return (
     <div className={styles.tableBox}>
       {/* 类型切换 */}
-      <div className={styles.head}>
+      {/* <div className={styles.head}>
         {TYPE_CONFIG.map((item) => (
           <div
             key={item.value}
@@ -517,9 +520,9 @@ const List = () => {
             {item.label}
           </div>
         ))}
-      </div>
+      </div> */}
       {/* 搜索框 */}
-      <div className={styles.searchInput}>
+      {/* <div className={styles.searchInput}>
         <div className={styles.searchTop}>
           <div className={styles.item}>
             <img src={IconAccount} alt="" />
@@ -616,7 +619,7 @@ const List = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* 设置水平分割线组件 */}
       <Divider />
       <div className={styles.tableHead}>
@@ -646,8 +649,8 @@ const List = () => {
         pagination={{
           showQuickJumper: true,
           showSizeChanger: [10, 20, 30, 60, 100],
-          pageSize: params.page.pageSize,
-          current: params.page.pageNo,
+          pageSize: tableParams.page.pageSize,
+          current: tableParams.page.pageNo,
           total: tableData.total,
         }}
         // 列表滚动范围
