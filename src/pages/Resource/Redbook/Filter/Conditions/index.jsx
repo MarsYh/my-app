@@ -4,18 +4,16 @@ import FilterRow from "../../../components/FilterRow";
 import styles from "./index.module.less";
 
 const Conditions = (props) => {
+  const { selectedRecord } = props;
 
-    const { selectedList } = props
+  const keys = Object.keys(selectedRecord);
 
   return (
     <FilterRow title="已选条件">
       {/* 当前的筛选内容 */}
       <div>
-        {selectedList.map(item=>(
-            <div key={item.label}>
-                <span>{item.title}：</span>
-                <span>{item.label}</span>
-            </div>
+        {keys.map((key) => (
+          <div key={key}>{selectedRecord[key]}</div>
         ))}
       </div>
       <div className={styles.clearBtn}>重置所有筛选</div>

@@ -1,0 +1,21 @@
+.tag {
+  border: none;
+  color: #626a6a;
+  &:hover {
+    color: #727fff;
+  }
+  &:first-child {
+    padding-left: 0;
+  }
+}
+
+.popoverPro{
+  :global{
+    .ant-checkbox-wrapper{
+      display: flex;
+    }
+    .ant-checkbox-wrapper + .ant-checkbox-wrapper{
+      margin-left: 0;
+    }
+  }
+}

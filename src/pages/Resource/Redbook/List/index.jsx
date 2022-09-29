@@ -24,7 +24,8 @@ import IconFemale from '@/assets/img/icon-female.svg'
 import { reqXhsList } from '@/api/resource/'
 import classNames from 'classnames'
 import IconPGY from '@/assets/img/icon-pugongying.svg'
-import { ATTRIBUTE_CONFIG, TYPE_CONFIG, SEARCH_TYPE_CONFIG } from './sourceData'
+import { ATTRIBUTE_CONFIG, SEARCH_TYPE_CONFIG } from './sourceData'
+import { TYPE_CONFIG } from '../sourceData'
 import IconVerify from '@/assets/img/icon-verify.svg'
 import IconEst from '@/assets/img/icon-estimate.svg'
 import IconEstText from '@/assets/img/icon-estimate-text.svg'
@@ -38,9 +39,7 @@ import { useXhsResource } from '@/store/xhsResource'
 const List = () => {
   // 更改复选框的状态
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-
-  const { tableParams,dispatch } = useXhsResource()
-
+  const { tableParams, dispatch } = useXhsResource()
   // 列表接口请求参数
   // const [params, setParams] = useState({
   //   type: TYPE_CONFIG[0].value,
