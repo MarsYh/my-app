@@ -6,6 +6,9 @@ import Condition from './Condition'
 import History from './History'
 import ContentTag from './ContentTag'
 import BloggerInfo from './BloggerInfo'
+import ContentFeature from './ContentFeature'
+import BloggerSet from './BloggerSet'
+import FanAnalysis from './FanAnalysis'
 
 function Filter() {
   const [selectedList, setSelectedList] = useState([])
@@ -25,6 +28,9 @@ function Filter() {
         <History />
         <ContentTag />
         <BloggerInfo />
+        <ContentFeature />
+        <BloggerSet />
+        <FanAnalysis />
         {/* 筛选条件 */}
         <Condition selectedList={selectedList} />
       </div>

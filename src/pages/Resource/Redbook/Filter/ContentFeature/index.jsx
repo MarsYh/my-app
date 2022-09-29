@@ -1,15 +1,15 @@
-// 内容标签
+// 内容特征
 import React from 'react'
 import { Popover, Tag } from 'antd'
 import styles from './index.module.less'
 import FilterRow from '../components/FilterRow'
-import { CONTENT_TAG_CONFIG } from './sourceData'
+import { CONTENT_FEATURE_CONFIG } from './sourceData'
 
-function ContentTag() {
+function ContentFeature() {
   const { CheckableTag } = Tag
   return (
-    <FilterRow title="内容标签">
-      {CONTENT_TAG_CONFIG.map((item) => (
+    <FilterRow title="内容特征">
+      {CONTENT_FEATURE_CONFIG.map((item) => (
         <Popover
           key={item.value}
           content={123}
@@ -21,4 +21,4 @@ function ContentTag() {
     </FilterRow>
   )
 }
-export default ContentTag
+export default ContentFeature
