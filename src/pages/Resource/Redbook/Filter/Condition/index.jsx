@@ -1,12 +1,12 @@
 // 当前的筛选条件
-import React from "react";
-import FilterRow from "../../../components/FilterRow";
-import styles from "./index.module.less";
+import React from 'react'
+import FilterRow from '../../../components/FilterRow'
+import styles from './index.module.less'
 
-const Conditions = (props) => {
-  const { selectedRecord } = props;
+const Condition = (props) => {
+  const { selectedRecord } = props
 
-  const keys = Object.keys(selectedRecord);
+  const keys = Object.keys(selectedRecord)
 
   return (
     <FilterRow title="已选条件">
@@ -18,7 +18,7 @@ const Conditions = (props) => {
       </div>
       <div className={styles.clearBtn}>重置所有筛选</div>
     </FilterRow>
-  );
-};
+  )
+}
 
-export default Conditions;
+export default Condition
