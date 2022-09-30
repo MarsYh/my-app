@@ -1,12 +1,13 @@
 .tag {
   border: none;
+  margin-bottom: 15px;
   color: #626a6a;
   &:hover {
     color: #727fff;
   }
-  &:first-child {
-    padding-left: 0;
-  }
+  // &:first-child {
+  //   padding-left: 0;
+  // }
 }
 
 .popoverPro{
@@ -19,3 +20,20 @@
     }
   }
 }
+
+.content{
+  position: relative;
+  margin-left: -8px;
+  margin-bottom: -15px;
+}
+.hidden{
+  height: 35px;
+  overflow: hidden;
+
+  .collapse{
+    position: absolute;
+    right: -20px;
+    top: 0;
+  }
+}
+
