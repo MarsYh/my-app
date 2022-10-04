@@ -1,0 +1,42 @@
+@import "../common.module.less";
+
+.title{
+    cursor: pointer;
+    transition: all .3s;
+    &:hover{
+        color: rgb(112, 126, 255);
+    }
+}
+
+.titleActive{
+    color: rgb(112, 126, 255);
+}
+
+
+.optionGroup{
+    .option{
+        font-family: 'DINPro';
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 2px;
+        color: #3d4242;
+        font-weight: 400;
+        transform: all .3s;
+        &:hover{
+            background: rgba(112, 126, 255, 0.1);
+        }
+    }
+
+    .optionChecked{
+        background: rgba(112, 126, 255, 0.1);
+    }
+}
+
+.slot{
+   >div:first-child{
+        display: flex;
+        align-items: center;
+   }
+}

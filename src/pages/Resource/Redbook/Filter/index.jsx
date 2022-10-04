@@ -47,7 +47,11 @@ function Filter() {
           selectedRecord={selectedRecord}
           setSelectedRecord={setSelectedRecord}
         />
-        <BloggerInfo />
+        <BloggerInfo
+          dataSource={dataSource}
+          selectedRecord={selectedRecord}
+          setSelectedRecord={setSelectedRecord}
+        />
         <ContentFeature />
         <BloggerSet />
         <FanAnalysis />
