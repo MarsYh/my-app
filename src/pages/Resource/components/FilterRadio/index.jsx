@@ -40,30 +40,32 @@ const FilterRadio = (props) => {
     onReset()
     setVisible(false)
   }
+  // 组件处理多种数据类型
   const renderDom = () => {
     return options.map((item) => {
-      console.log(options)
       let label,
         value,
-        ischecked = false
+        isChecked = false
       if (typeof item === 'object') {
         if ('desc' in item) {
           label = item.desc
           value = item.desc
-          ischecked = checked?.des === value
+          isChecked = checked?.desc === value
         }
+
         if ('label' in item) {
           label = item.label
           value = item.value
-          ischecked = checked?.value === value
+          isChecked = checked?.value === value
         }
       } else {
         label = item
         value = item
-        ischecked = checked === label
+        isChecked = checked === label
       }
+
       const _class = classNames(
-        ischecked && styles.optionChecked,
+        isChecked && styles.optionChecked,
         styles.option
       )
       return (
