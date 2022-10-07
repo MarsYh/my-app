@@ -85,33 +85,9 @@ function BloggerInfo(props) {
         />
         <FilterRadio
           title="博主性别"
-          sexual={dataSource.gender}
-          isSlot
           checked={tableParams.fansNum}
-          options={dataSource.fansNum || []}
+          options={dataSource.gender || []}
           onChange={onFansChange}
-          minProps={{
-            placeholder: '0',
-            value: slotFansValue.min,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('min', value),
-          }}
-          maxProps={{
-            placeholder: '5000000',
-            value: slotFansValue.max,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('max', value),
-          }}
-          slotOkBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          slotResetBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
         />
         <FilterRadio
           title="所在地域"

@@ -1,10 +1,10 @@
 // 单选筛选组件
-import React from 'react'
-import { Popover, Button, InputNumber, Divider, Space } from 'antd'
-import { CaretDownOutlined } from '@ant-design/icons'
-import styles from './index.module.less'
-import { useState } from 'react'
-import classNames from 'classnames'
+import React from "react";
+import { Popover, Button, InputNumber, Divider, Space } from "antd";
+import { CaretDownOutlined } from "@ant-design/icons";
+import styles from "./index.module.less";
+import { useState } from "react";
+import classNames from "classnames";
 
 // {desc,min,max}
 // gender ["全部","男","女"]
@@ -22,60 +22,69 @@ const FilterRadio = (props) => {
     onOk,
     slotResetBtnProps,
     slotOkBtnProps,
-    sexual,
-  } = props
+  } = props;
 
-  const [visible, setVisible] = useState(false)
-
-  function handleTitleClick() {
-    setVisible(!visible)
-  }
+  const [visible, setVisible] = useState(false);
 
   function handleOptionClick(option) {
-    onChange(option)
-    setVisible(false)
+    onChange(option);
+    setVisible(false);
   }
 
   function handleOk() {
-    onOk()
-    setVisible(false)
+    onOk();
+    setVisible(false);
   }
 
   function handleReset() {
-    onReset()
-    setVisible(false)
+    onReset();
+    setVisible(false);
   }
+
+  // 组件处理多种数据类型
+  const renderDom = () => {
+    return options.map((item) => {
+      let label,
+        value,
+        isChecked = false;
+      if (typeof item === "object") {
+        label = item.desc;
+        value = item.desc;
+        isChecked = checked?.desc === label;
+      } else {
+        label = item;
+        value = item;
+        isChecked = checked === label;
+      }
+
+      const _class = classNames(
+        isChecked && styles.optionChecked,
+        styles.option
+      );
+      return (
+        <div
+          key={value}
+          className={_class}
+          onClick={() => handleOptionClick(item)}
+        >
+          {label}
+        </div>
+      );
+    });
+  };
 
   return (
     <Popover
       overlayClassName={styles.popover}
-      visible={visible}
+      onVisibleChange={(v) => setVisible(v)}
+      trigger="click"
       content={
         <div className={styles.content}>
-          <div className={styles.sex}>
-            {sexual?.map((item) => (
-              <div key={item} className={styles.gender}>
-                {item}
-              </div>
-            ))}
-          </div>
-          <div className={styles.optionGroup}>
-            {options.map((item) => (
-              <div
-                key={item.desc}
-                className={classNames(
-                  checked?.desc === item.desc && styles.optionChecked,
-                  styles.option
-                )}
-                onClick={() => handleOptionClick(item)}>
-                {item.desc}
-              </div>
-            ))}
-          </div>
+          <div className={styles.optionGroup}>{renderDom()}</div>
           <Divider />
           {isSlot && (
             <div className={styles.slot}>
-              <Space style={{ gap: '8px' }}>
+              <Space style={{ gap: "8px" }}>
                 <InputNumber {...minProps} />
                 -
                 <InputNumber {...maxProps} />
@@ -84,7 +93,8 @@ const FilterRadio = (props) => {
                 <Button
                   type="link"
                   onClick={handleReset}
-                  {...slotResetBtnProps}>
+                  {...slotResetBtnProps}
+                >
                   重置
                 </Button>
                 <Button type="primary" onClick={handleOk} {...slotOkBtnProps}>
@@ -95,17 +105,16 @@ const FilterRadio = (props) => {
           )}
         </div>
       }
-      placement="bottom">
-      <div
-        className={classNames(styles.title, checked && styles.titleActive)}
-        onClick={handleTitleClick}>
+      placement="bottom"
+    >
+      <div className={classNames(styles.title, checked && styles.titleActive)}>
         <span>{title}</span>
         <CaretDownOutlined
           className={classNames(visible ? styles.rotate : styles.rotateReverse)}
         />
       </div>
     </Popover>
-  )
-}
+  );
+};
 
-export default FilterRadio
+export default FilterRadio;
