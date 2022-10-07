@@ -48,9 +48,19 @@ const FilterRadio = (props) => {
         value,
         isChecked = false;
       if (typeof item === "object") {
-        label = item.desc;
-        value = item.desc;
-        isChecked = checked?.desc === label;
+
+        if('desc' in item){
+          label = item.desc;
+          value = item.desc;
+          isChecked = checked?.desc === value;
+        }
+
+        if("label" in item){
+          label = item.label;
+          value = item.value;
+          isChecked = checked?.value === value;
+        }
+
       } else {
         label = item;
         value = item;
