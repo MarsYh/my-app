@@ -1,42 +1,90 @@
-@import "../common.module.less";
+@import '../common.module.less';
 
-.title{
-    cursor: pointer;
-    transition: all .3s;
-    &:hover{
-        color: rgb(112, 126, 255);
-    }
-}
-
-.titleActive{
+.title {
+  margin-right: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
     color: rgb(112, 126, 255);
+  }
 }
 
-
-.optionGroup{
-    .option{
-        font-family: 'DINPro';
-        font-size: 12px;
-        padding: 4px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-bottom: 2px;
-        color: #3d4242;
-        font-weight: 400;
-        transform: all .3s;
-        &:hover{
-            background: rgba(112, 126, 255, 0.1);
-        }
+.titleActive {
+  color: rgb(112, 126, 255);
+}
+.popover {
+  border-radius: 4px;
+  :global {
+    .ant-popover-inner {
+      border-radius: 4px;
     }
-
-    .optionChecked{
-        background: rgba(112, 126, 255, 0.1);
+    .ant-popover-inner-content {
+      padding: 0;
     }
+  }
 }
 
-.slot{
-   >div:first-child{
-        display: flex;
-        align-items: center;
-   }
+.content {
+  :global {
+    .ant-divider-horizontal {
+      margin: 0;
+    }
+  }
+}
+
+.optionGroup {
+  padding: 12px;
+  .option {
+    font-family: 'DINPro';
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    color: #3d4242;
+    font-weight: 400;
+    transform: all 0.3s;
+    &:hover {
+      background: rgba(112, 126, 255, 0.1);
+    }
+  }
+
+  .optionChecked {
+    background: rgba(112, 126, 255, 0.1);
+  }
+}
+
+.slot {
+  padding: 13px 16px;
+  :global {
+    border-radius: 4px;
+    font-family: DINPro;
+    font-size: 12px;
+  }
+  > div:first-child {
+    display: flex;
+    align-items: center;
+  }
+  .btnGroup {
+    font-size: 12px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    :global {
+      .ant-btn {
+        padding: 0;
+      }
+    }
+    > Button:last-child {
+      padding: 4px 15px;
+    }
+  }
+}
+
+.sex {
+  padding: 12px;
+  .gender {
+    padding: 0 15px;
+  }
 }

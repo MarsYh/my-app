@@ -161,7 +161,7 @@ function ContentTag(props) {
 
   return (
     <FilterRow title="内容标签">
-      <div ref={ref} className={classNames(styles.content)}>
+      <div ref={ref} className={styles.content}>
         <div className={classNames(collapse && styles.hidden)}>
           {options.map((item) =>
             item.level2?.length ? (

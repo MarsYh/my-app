@@ -255,7 +255,7 @@ const List = () => {
 
     // 排序
     const { field, order } = sorter
-    console.log(sorter)
+    // console.log(sorter)
     if (order) {
       o.sortFiled = field
       o.desc = order === 'descend'
