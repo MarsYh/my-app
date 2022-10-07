@@ -22,14 +22,9 @@ const FilterRadio = (props) => {
     onOk,
     slotResetBtnProps,
     slotOkBtnProps,
-    sexual,
   } = props
 
   const [visible, setVisible] = useState(false)
-
-  function handleTitleClick() {
-    setVisible(!visible)
-  }
 
   function handleOptionClick(option) {
     onChange(option)
@@ -45,33 +40,51 @@ const FilterRadio = (props) => {
     onReset()
     setVisible(false)
   }
+  const renderDom = () => {
+    return options.map((item) => {
+      console.log(options)
+      let label,
+        value,
+        ischecked = false
+      if (typeof item === 'object') {
+        if ('desc' in item) {
+          label = item.desc
+          value = item.desc
+          ischecked = checked?.des === value
+        }
+        if ('label' in item) {
+          label = item.label
+          value = item.value
+          ischecked = checked?.value === value
+        }
+      } else {
+        label = item
+        value = item
+        ischecked = checked === label
+      }
+      const _class = classNames(
+        ischecked && styles.optionChecked,
+        styles.option
+      )
+      return (
+        <div
+          key={value}
+          className={_class}
+          onClick={() => handleOptionClick(item)}>
+          {label}
+        </div>
+      )
+    })
+  }
 
   return (
     <Popover
       overlayClassName={styles.popover}
-      visible={visible}
+      onVisibleChange={(v) => setVisible(v)}
+      trigger="click"
       content={
         <div className={styles.content}>
-          <div className={styles.sex}>
-            {sexual?.map((item) => (
-              <div key={item} className={styles.gender}>
-                {item}
-              </div>
-            ))}
-          </div>
-          <div className={styles.optionGroup}>
-            {options.map((item) => (
-              <div
-                key={item.desc}
-                className={classNames(
-                  checked?.desc === item.desc && styles.optionChecked,
-                  styles.option
-                )}
-                onClick={() => handleOptionClick(item)}>
-                {item.desc}
-              </div>
-            ))}
-          </div>
+          <div className={styles.optionGroup}>{renderDom()}</div>
           <Divider />
           {isSlot && (
             <div className={styles.slot}>
@@ -96,9 +109,7 @@ const FilterRadio = (props) => {
         </div>
       }
       placement="bottom">
-      <div
-        className={classNames(styles.title, checked && styles.titleActive)}
-        onClick={handleTitleClick}>
+      <div className={classNames(styles.title, checked && styles.titleActive)}>
         <span>{title}</span>
         <CaretDownOutlined
           className={classNames(visible ? styles.rotate : styles.rotateReverse)}

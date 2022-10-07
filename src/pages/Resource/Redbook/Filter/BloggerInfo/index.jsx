@@ -1,5 +1,5 @@
 // 博主信息
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styles from './index.module.less'
 import FilterSelected from '../../../components/FilterSelected'
 import FilterRow from '../../../components/FilterRow'
@@ -7,15 +7,18 @@ import FilterRadio from '../../../components/FilterRadio'
 import { useXhsResource } from '@/store/xhsResource'
 
 function BloggerInfo(props) {
+  const recordRef = useRef(null)
   const { dataSource, selectedRecord, setSelectedRecord } = props
   const { tableParams, dispatch } = useXhsResource()
   const [slotFansValue, setSlotFansValue] = useState({})
 
-  function delFansNum() {
+  recordRef.current = selectedRecord
+
+  function delRadioParams(key) {
     const o = { ...tableParams }
-    const _record = { ...selectedRecord }
-    delete _record.fansNum
-    delete o.fansNum
+    const _record = { ...recordRef.current }
+    delete _record[key]
+    delete o[key]
 
     if (slotFansValue.min || slotFansValue.max) {
       setSlotFansValue({})
@@ -25,18 +28,43 @@ function BloggerInfo(props) {
     setSelectedRecord(_record)
   }
 
-  function onFansChange(value) {
+  function onRadioChange(key, params, title) {
     const o = { ...tableParams }
-    o.fansNum = value
-
     const _record = { ...selectedRecord }
-    const { desc, min, max } = value
-
-    _record.fansNum = (
-      <FilterSelected onDel={delFansNum}>
-        <div>粉丝数量:{desc ? desc : `${min}-${max}`}</div>
-      </FilterSelected>
-    )
+    // 设置一个变量可以用[]
+    o[key] = params
+    let dom = null
+    if (typeof params === 'object') {
+      if ('desc' in params) {
+        dom = (
+          <FilterSelected onDel={() => delRadioParams(key)}>
+            <div>
+              {title}：
+              {params.desc ? params.desc : `${params.min}-${params.max}`}
+            </div>
+          </FilterSelected>
+        )
+      }
+      if ('label' in params) {
+        o[key] = params.value
+        dom = (
+          <FilterSelected onDel={() => delRadioParams(key)}>
+            <div>
+              {title}：{params.label}
+            </div>
+          </FilterSelected>
+        )
+      }
+    } else {
+      dom = (
+        <FilterSelected onDel={() => delRadioParams(key)}>
+          <div>
+            {title}：{params}
+          </div>
+        </FilterSelected>
+      )
+    }
+    _record[key] = dom
 
     dispatch(o)
     setSelectedRecord(_record)
@@ -59,7 +87,7 @@ function BloggerInfo(props) {
           isSlot
           checked={tableParams.fansNum}
           options={dataSource.fansNum || []}
-          onChange={onFansChange}
+          onChange={(value) => onRadioChange('fansNum', value, '粉丝数量')}
           minProps={{
             placeholder: '0',
             value: slotFansValue.min,
@@ -80,38 +108,14 @@ function BloggerInfo(props) {
           slotResetBtnProps={{
             disabled: fansSlotBtnDisabled,
           }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          onReset={() => delRadioParams('fansNum')}
+          onOk={() => onRadioChange(slotFansValue)}
         />
         <FilterRadio
           title="博主性别"
-          sexual={dataSource.gender}
-          isSlot
-          checked={tableParams.fansNum}
-          options={dataSource.fansNum || []}
-          onChange={onFansChange}
-          minProps={{
-            placeholder: '0',
-            value: slotFansValue.min,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('min', value),
-          }}
-          maxProps={{
-            placeholder: '5000000',
-            value: slotFansValue.max,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('max', value),
-          }}
-          slotOkBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          slotResetBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          checked={tableParams.gender}
+          options={dataSource.gender || []}
+          onChange={(value) => onRadioChange('gender', value, '博主性别')}
         />
         <FilterRadio
           title="所在地域"
@@ -119,7 +123,7 @@ function BloggerInfo(props) {
           location={dataSource.location}
           checked={tableParams.fansNum}
           options={dataSource.fansNum || []}
-          onChange={onFansChange}
+          onChange={onRadioChange}
           minProps={{
             placeholder: '0',
             value: slotFansValue.min,
@@ -140,68 +144,19 @@ function BloggerInfo(props) {
           slotResetBtnProps={{
             disabled: fansSlotBtnDisabled,
           }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          onOk={() => onRadioChange(slotFansValue)}
         />
         <FilterRadio
           title="博主等级"
-          isSlot
-          location={dataSource.location}
-          checked={tableParams.fansNum}
-          options={dataSource.fansNum || []}
-          onChange={onFansChange}
-          minProps={{
-            placeholder: '0',
-            value: slotFansValue.min,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('min', value),
-          }}
-          maxProps={{
-            placeholder: '5000000',
-            value: slotFansValue.max,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('max', value),
-          }}
-          slotOkBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          slotResetBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          checked={tableParams.currentLevel}
+          options={dataSource.currentLevel || []}
+          onChange={(value) => onRadioChange('currentLevel', value, '博主等级')}
         />
         <FilterRadio
           title="笔记类型"
-          isSlot
-          location={dataSource.location}
-          checked={tableParams.fansNum}
-          options={dataSource.fansNum || []}
-          onChange={onFansChange}
-          minProps={{
-            placeholder: '0',
-            value: slotFansValue.min,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('min', value),
-          }}
-          maxProps={{
-            placeholder: '5000000',
-            value: slotFansValue.max,
-            min: '0',
-            max: '5000000',
-            onChange: (value) => onInputFansChange('max', value),
-          }}
-          slotOkBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          slotResetBtnProps={{
-            disabled: fansSlotBtnDisabled,
-          }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          checked={tableParams.noteType}
+          options={dataSource.noteType || []}
+          onChange={(value) => onRadioChange('noteType', value, '笔记类型')}
         />
         <FilterRadio
           title="IP归属地"
@@ -209,7 +164,7 @@ function BloggerInfo(props) {
           location={dataSource.location}
           checked={tableParams.fansNum}
           options={dataSource.fansNum || []}
-          onChange={onFansChange}
+          onChange={onRadioChange}
           minProps={{
             placeholder: '0',
             value: slotFansValue.min,
@@ -230,8 +185,7 @@ function BloggerInfo(props) {
           slotResetBtnProps={{
             disabled: fansSlotBtnDisabled,
           }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          onOk={() => onRadioChange(slotFansValue)}
         />
         <FilterRadio
           title="达人属性"
@@ -239,7 +193,7 @@ function BloggerInfo(props) {
           location={dataSource.location}
           checked={tableParams.fansNum}
           options={dataSource.fansNum || []}
-          onChange={onFansChange}
+          onChange={onRadioChange}
           minProps={{
             placeholder: '0',
             value: slotFansValue.min,
@@ -260,8 +214,7 @@ function BloggerInfo(props) {
           slotResetBtnProps={{
             disabled: fansSlotBtnDisabled,
           }}
-          onReset={delFansNum}
-          onOk={() => onFansChange(slotFansValue)}
+          onOk={() => onRadioChange(slotFansValue)}
         />
       </div>
     </FilterRow>
