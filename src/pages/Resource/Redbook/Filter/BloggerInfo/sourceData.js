@@ -1,30 +1,34 @@
-export const BLOGGER_INFO_CONFIG = [
+export const KOL_PROPERTY = [
   {
-    label: "粉丝数量",
+    label: "普通账号",
     value: 1
   },
   {
-    label: "博主性别",
+    label: "明星",
     value: 2
   },
   {
-    label: "所在地域",
+    label: "品牌号",
     value: 3
   },
   {
-    label: "博主等级",
+    label: "企业/机构号",
     value: 4
   },
   {
-    label: "笔记类型",
+    label: "头部kol",
     value: 5
   },
   {
-    label: "IP归属地",
+    label: "腰部达人",
     value: 6
   },
   {
-    label: "达人属性",
+    label: "初级达人",
     value: 7
+  },
+  {
+    label: "素人",
+    value: 8
   },
 ]
