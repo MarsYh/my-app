@@ -15,3 +15,7 @@ export const ATTRIBUTE_CONFIG = {
   素人: IconPerson,
   明星: IconStar
 }
+export const SEARCH_TYPE_CONFIG = [
+  { label: "综合", value: "1" },
+  { label: "品牌", value: "2" },
+]

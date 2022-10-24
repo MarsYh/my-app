@@ -1,0 +1,59 @@
+@import '../common.module.less';
+
+.content {
+  :global {
+    .ant-divider-horizontal {
+      margin: 0;
+    }
+  }
+}
+
+.optionGroup {
+  padding: 12px;
+  .option {
+    font-family: 'DINPro';
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    color: #3d4242;
+    font-weight: 400;
+    transform: all 0.3s;
+    &:hover {
+      background: rgba(112, 126, 255, 0.1);
+    }
+  }
+
+  .optionChecked {
+    background: rgba(112, 126, 255, 0.1);
+  }
+}
+
+.slot {
+  padding: 13px 16px;
+  :global {
+    border-radius: 4px;
+    font-family: DINPro;
+    font-size: 12px;
+  }
+  > div:first-child {
+    display: flex;
+    align-items: center;
+  }
+  .btnGroup {
+    font-size: 12px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    :global {
+      .ant-btn {
+        padding: 0;
+      }
+    }
+    > Button:last-child {
+      padding: 4px 15px;
+    }
+  }
+}

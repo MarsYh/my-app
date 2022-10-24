@@ -1,12 +1,12 @@
-import request from "../request"
+import { request } from "../request"
 
 // 请求小红书列表
 export function reqXhsList (data) {
-  return request.post(
-    "http://test-gw.newrank.cn:18080/api/kol/resource/xhs/list",
-    data,
-    {
-      headers: { "n-token": "342bdbf6864146f59730fbd6eace18f9" },
-    }
-  )
+  console.log(data)
+  return request.post("/api/kol/resource/xhs/list", data)
+}
+
+// 请求小红书筛选条件
+export function reqXhsDict (params) {
+  return request.get("/api/kol/resource/xhs/dict", { params })
 }

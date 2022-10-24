@@ -10,6 +10,17 @@ import Weibo from "../pages/Resource/Weibo"
 import Wechat from "../pages/Resource/Wechat"
 import BiliBili from "../pages/Resource/Bilibili"
 import { Navigate } from "react-router-dom"
+import RedbookDetail from "../pages/ResourceDetail/Redbook"
+import ResourceDetail from "../pages/ResourceDetail"
+import TaskContent from "../pages/Task/TaskContent"
+import TaskManage from "../pages/Task/TaskManage"
+import {
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  MailOutlined,
+} from "@ant-design/icons"
+import { lazy } from "react"
 
 const routes = [
   {
@@ -19,39 +30,79 @@ const routes = [
     children: [
       {
         path: "manage",
-        element: <Manage />
+        name: "投放结案管理",
+        icon: <UploadOutlined />,
+        element: lazy(() => import("../pages/Manage")),
       },
       {
-        path: "resource", element: <Resource />,
+        path: "resource",
+        element: <Resource />,
+        icon: <MailOutlined />,
+        name: "投前资源库",
         children: [
           {
             path: "tiktok",
-            element: <Tiktok />
+            element: <Tiktok />,
           },
           {
             path: "redbook",
-            element: <Redbook />
+            element: <Redbook />,
           },
           {
             path: "weibo",
-            element: <Weibo />
+            element: <Weibo />,
           },
           {
             path: "wechat",
-            element: <Wechat />
+            element: <Wechat />,
           },
           {
             path: "bilibili",
-            element: <BiliBili />
+            element: <BiliBili />,
           },
           {
             path: "",
-            element: <Navigate to={"/resource/tiktok"} />
+            element: <Navigate to={"/resource/tiktok"} />,
           },
-        ]
+        ],
       },
-      { path: "task", element: <Task /> },
-      { path: "user", element: <User /> },
+      {
+        path: "resourceDetail",
+        layout: false,
+        element: <ResourceDetail />,
+        children: [
+          {
+            path: "redbookDetail/:id",
+            element: <RedbookDetail />,
+          },
+        ],
+      },
+
+      {
+        path: "task",
+        element: <Task />,
+        name: "任务中心",
+        exact: true,
+        icon: <VideoCameraOutlined />,
+        children: [
+          {
+            path: "taskManage",
+            element: <TaskManage />,
+            icon: <VideoCameraOutlined />,
+          },
+          {
+            path: "taskContent",
+            element: <TaskContent />,
+            icon: <VideoCameraOutlined />,
+          },
+        ],
+      },
+      {
+        path: "user",
+        element: <User />,
+        name: "个人中心",
+        icon: <UserOutlined />,
+      },
     ],
   },
   { path: "*", element: <NotFound /> },

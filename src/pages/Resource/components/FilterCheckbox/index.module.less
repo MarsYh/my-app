@@ -1,0 +1,15 @@
+@import "../common.module.less";
+
+.content{
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 12px;
+    :global{
+        .ant-checkbox-wrapper{
+            display: flex;
+        }
+        .ant-checkbox-wrapper + .ant-checkbox-wrapper{
+            margin-left: 0;
+        }
+    }
+}

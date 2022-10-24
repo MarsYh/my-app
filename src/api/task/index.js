@@ -1,0 +1,1 @@
+export { reqTaskList, reqTaskNum, reqTaskType } from "./taskContent"

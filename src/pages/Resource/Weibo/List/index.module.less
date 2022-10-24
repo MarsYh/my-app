@@ -1,0 +1,194 @@
+.tableBox {
+  font-size: 12px;
+  // 全局变量外面必须写一个父级类名样式 可以避免全局中有相同的antd组件名被更改
+  :global {
+    .ant-divider-horizontal {
+      margin-top: 32px;
+    }
+    .ant-table-thead {
+      white-space: nowrap;
+      & > tr > th {
+        font-weight: 400;
+        color: #889191;
+      }
+      .ant-table-cell {
+        padding: 12px 8px;
+      }
+    }
+    // 更改列表偶数列的背景 也包括固定的首位列
+    .ant-table-tbody {
+      tr:nth-child(odd) {
+        background: #fafafa;
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background: #fafafa;
+        }
+      }
+      .ant-table-cell {
+        font-size: 16px;
+        font-family: 'DINPro';
+      }
+      // 在选中时 因为只有没有被固定的列才会改变颜色 所以也要把固定列的背景颜色改为同色
+      .ant-table-row-selected {
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background: #e6f7ff !important;
+        }
+        // 同样在选中时 经过没有固定的列时也要更改不同的背景颜色
+        .ant-table-cell-fix-left:hover,
+        .ant-table-cell-fix-right:hover {
+          background: #dcf4ff !important;
+        }
+      }
+    }
+    .ant-pagination-item-link {
+      border: none;
+    }
+    .td.ant-table-column-sort {
+      background: none;
+    }
+  }
+}
+
+.gender {
+  position: relative;
+}
+.male {
+  position: absolute;
+  left: 34px;
+  top: -14px;
+  width: 14px;
+  height: 14px;
+  background-color: #2998ff;
+  border-radius: 7px;
+  z-index: 2;
+}
+.female {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 34px;
+  top: -14px;
+  background-color: #ff2742;
+  border-radius: 7px;
+  z-index: 2;
+}
+
+.infoBox {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+.baseInfo {
+  display: flex;
+  align-items: center;
+  > img {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  > span {
+    font-size: 14px;
+  }
+}
+
+.id {
+  color: #afb6b6;
+  margin-right: 6px;
+}
+.locationInfo {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.tableHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-family: Microsoft YaHei UI;
+  font-weight: 400;
+  color: #787a7a;
+  margin-bottom: 32px;
+}
+.button {
+  border: none;
+  margin-right: 20px;
+  width: 90px;
+  height: 32px;
+  background: #edf2f2;
+  opacity: 1;
+  border-radius: 4px;
+}
+.infoRight {
+  font-size: 12px;
+  margin-left: 5px;
+  margin-top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #626a6a;
+}
+
+.name {
+  display: inline-block;
+  max-width: 200px;
+  font-size: 16px;
+  cursor: pointer;
+  // overflow: hidden;
+  &:hover {
+    color: rgb(112, 126, 255);
+  }
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.idInfo > span:nth-child(2) {
+  color: #626a6a;
+}
+.tagInfo {
+  display: flex;
+  align-items: center;
+  > div {
+    padding: 4px 8px;
+    border-radius: 12px;
+  }
+}
+.contentTag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #f1f2ff;
+  color: #626a6a;
+}
+.hover {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.tagBox {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.industryTag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: #626a6a;
+  background: #edf2f2;
+  margin-left: 4px;
+}
+
+.privateTag {
+  background: rgba(41, 152, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-right: 6px;
+}
+
+.privateBox {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+}

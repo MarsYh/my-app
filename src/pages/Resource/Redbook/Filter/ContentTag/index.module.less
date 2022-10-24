@@ -1,0 +1,67 @@
+.tag {
+  border: none;
+  margin-bottom: 15px;
+  color: #626a6a;
+  margin-right: 16px;
+  &:hover {
+    color: #727fff;
+  }
+  // &:first-child {
+  //   padding-left: 0;
+  // }
+}
+
+.popoverPro {
+  :global {
+    .ant-checkbox-wrapper {
+      display: flex;
+    }
+    .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+      margin-left: 0;
+    }
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: #727fff;
+      border-color: #727fff;
+    }
+  }
+}
+
+.content {
+  :global {
+    .ant-tag-checkable-checked {
+      background-color: #eceefd;
+      position: relative;
+      color: #727fff;
+      z-index: 1;
+      border-radius: 2px;
+    }
+    .ant-tag-checkable:not(.ant-tag-checkable-checked):hover {
+      color: #727fff;
+    }
+  }
+  position: relative;
+  margin-left: -8px;
+  margin-bottom: -15px;
+}
+.hidden {
+  height: 35px;
+  overflow: hidden;
+
+  .collapse {
+    position: absolute;
+    right: -20px;
+    top: 0;
+  }
+}
+
+.tagContent {
+  color: #727fff;
+  margin: 0 8px;
+  font-size: 12px;
+}
+.checkColor {
+  border-radius: 2px;
+}
+.checkColor:hover {
+  border-color: #727fff !important;
+}
