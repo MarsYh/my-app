@@ -1,15 +1,14 @@
-// 投放结案管理
+// 任务中心
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-const Manage = ()=>{
-
-    return (
-        <div>
-            投放结案管理        2
-        </div>
-    )
-
+function Task() {
+  return (
+    <div>
+      task
+      <Outlet />
+    </div>
+  )
 }
 
-
-export default Manage
+export default Task

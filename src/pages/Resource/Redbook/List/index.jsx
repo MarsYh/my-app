@@ -54,19 +54,6 @@ const List = () => {
     list: [],
     total: 0,
   })
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const showModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const handleOk = () => {
-    setIsModalOpen(false)
-  }
-
-  const handleCancel = () => {
-    setIsModalOpen(false)
-  }
 
   const navigate = useNavigate()
 
@@ -83,13 +70,6 @@ const List = () => {
       }
     })
   }, [tableParams])
-
-  function handelTypeClick(value) {
-    if (tableParams.type === value) return
-    const _params = { ...tableParams }
-    _params.type = value
-    dispatch(_params)
-  }
 
   function renderTitle(title) {
     return title.length > 8 ? (

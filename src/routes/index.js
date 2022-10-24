@@ -12,12 +12,15 @@ import BiliBili from "../pages/Resource/Bilibili"
 import { Navigate } from "react-router-dom"
 import RedbookDetail from "../pages/ResourceDetail/Redbook"
 import ResourceDetail from "../pages/ResourceDetail"
+import TaskContent from "../pages/Task/TaskContent"
+import TaskManage from "../pages/Task/TaskManage"
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
   MailOutlined,
 } from "@ant-design/icons"
+import { lazy } from "react"
 
 const routes = [
   {
@@ -29,7 +32,7 @@ const routes = [
         path: "manage",
         name: "投放结案管理",
         icon: <UploadOutlined />,
-        element: <Manage />,
+        element: lazy(() => import("../pages/Manage")),
       },
       {
         path: "resource",
@@ -79,7 +82,20 @@ const routes = [
         path: "task",
         element: <Task />,
         name: "任务中心",
+        exact: true,
         icon: <VideoCameraOutlined />,
+        children: [
+          {
+            path: "taskManage",
+            element: <TaskManage />,
+            icon: <VideoCameraOutlined />,
+          },
+          {
+            path: "taskContent",
+            element: <TaskContent />,
+            icon: <VideoCameraOutlined />,
+          },
+        ],
       },
       {
         path: "user",

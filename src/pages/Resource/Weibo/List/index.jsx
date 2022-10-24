@@ -1,6 +1,5 @@
 import { Divider, Table, Avatar, Button, Popover, Tooltip, message } from 'antd'
 import React, { useState, useEffect } from 'react'
-// rowSelection object indicates the need for row selection]
 import { reqWbList } from '@/api/resource'
 import styles from './index.module.less'
 import IconMale from '@/assets/img/icon-male.svg'
@@ -331,7 +330,7 @@ const List = () => {
         <div>xxxx</div>
         <div>
           {/* 设置禁止选中 通过判断条件 当复选框有被选中时 按钮属性为false 不被禁止 */}
-          <Button className={styles.button}>自定义指标</Button>
+          <button className={styles.button}>自定义指标</button>
           <Button type="primary" disabled={!selectedRowKeys.length}>
             批量添加
           </Button>
