@@ -3,12 +3,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 function Task() {
-  return (
-    <div>
-      task
-      <Outlet />
-    </div>
-  )
+  return <Outlet />
 }
 
 export default Task

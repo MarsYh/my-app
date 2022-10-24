@@ -237,7 +237,7 @@ function TaskContent() {
       </div>
       <Table
         showSorterTooltip={false}
-        rowKey="info"
+        rowKey="taskId"
         rowSelection={{
           selectedRowKeys,
           onChange(keys) {
@@ -257,6 +257,7 @@ function TaskContent() {
         dataSource={tableData.list}
         scroll={{
           x: 800,
+          y: 550
         }}
       />
     </div>

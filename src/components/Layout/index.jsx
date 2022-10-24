@@ -35,13 +35,16 @@ function LayoutPro() {
     items.length && setItems(items)
   }, [])
 
-  function filterRoute(items, route) {
+  function filterRoute(items, route, prevPath = '') {
     const { path, name, icon, children } = route
+
     if (!name) return
+
+    const _path = `${prevPath}/${path}`
     const o = {
-      key: path,
+      key: _path,
       icon: icon,
-      label: <Link to={'/' + path}>{name}</Link>,
+      label: <Link to={_path}>{name}</Link>,
     }
     items.push(o)
     if (!children) return
@@ -49,7 +52,7 @@ function LayoutPro() {
     const isName = children.some((child) => child.name)
     if (isName) {
       o.children = []
-      children.forEach((child) => filterRoute(o.children, child))
+      children.forEach((child) => filterRoute(o.children, child, _path))
     }
   }
 
@@ -119,7 +122,7 @@ function LayoutPro() {
                   collapsed={collapsed}
                   defaultSelectedKeys={pathname}
                   selectedKeys={pathname}>
-                  <Menu items={items} />
+                  <Menu items={items}   mode="inline"/>
                 </Sider>
               )}
               <Content className={styles.container}>

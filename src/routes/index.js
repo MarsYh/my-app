@@ -86,21 +86,29 @@ const routes = [
         icon: <VideoCameraOutlined />,
         children: [
           {
+            name: "任务管理",
             path: "taskManage",
             element: <TaskManage />,
             icon: <VideoCameraOutlined />,
           },
           {
+            name: "任务内容",
             path: "taskContent",
             element: <TaskContent />,
             icon: <VideoCameraOutlined />,
-          },
+          }
         ],
       },
       {
         path: "user",
         element: <User />,
         name: "个人中心",
+        icon: <UserOutlined />,
+      },
+      {
+        path: "user2",
+        element: <User />,
+        name: "个人中心2",
         icon: <UserOutlined />,
       },
     ],
