@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.log(1)
+        // 宏任务源 4ms
+        setTimeout(()=>{
+            console.log("time")
+        },0)
+        // 微任务源
+        new Promise((resolve,reject)=>{
+            console.log("444")
+            setTimeout(()=>{
+                resolve("123")
+            },0)
+        }).then(res=>{
+            console.log("res:",res)
+            setTimeout(()=>{
+                console.log("time2")
+                Promise.resolve().then(()=>{
+                    console.log("then2")
+                })
+            },0)
+        })
+        function f1(){
+            console.log(2)
+        }
+        f1()
+        var a = 3
+        console.log("a:",a)
+    </script>
+</body>
+</html>
