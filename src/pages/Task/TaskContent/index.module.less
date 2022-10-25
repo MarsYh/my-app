@@ -48,26 +48,14 @@
       margin-left: 32px;
     }
   }
+  .active {
+    color: #727fff;
+  }
 }
 
 .tabHeader {
+  display: flex;
   justify-content: start;
-  :global {
-    .ant-btn .ant-btn-default {
-      display: flex;
-    }
-    .ant-btn:hover {
-      color: #c2ccff;
-      border: none;
-      background: #f7fafa;
-    }
-    .ant-btn:focus {
-      font-weight: bold;
-      color: #727fff;
-      border-color: #ebefff;
-      background: #ebefff;
-    }
-  }
   .tabItem {
     display: flex;
     align-items: center;
@@ -82,16 +70,14 @@
       transform: translate(5px, -2px);
     }
   }
-}
-.taskNum {
-  background: #f7fafa;
-  border-color: #f7fafa;
-  margin-right: 24px;
-  img {
-    margin-right: 2px;
+
+  .active {
+    color: #727fff;
+    border-color: #727fff;
+    background: #ebefff;
   }
 }
 
-.active {
-  color: #727fff;
-}
+
+
+

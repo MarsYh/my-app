@@ -7,7 +7,7 @@ export function reqTaskList (data) {
   return request.post("/api/kol/xdnphb/kol/resource/taskCentre/queryTask", data)
 }
 // 请求各平台任务数
-export function reqTaskNum (data) {
+export function reqTaskNum (params) {
   // console.log("data:", data)
-  return request.post("/api/kol/xdnphb/kol/resource/taskCentre/queryPlatformTaskNum", data)
+  return request.get("/api/kol/xdnphb/kol/resource/taskCentre/queryPlatformTaskNum", { params })
 }

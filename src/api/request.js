@@ -55,7 +55,7 @@ function requestCallback (config) {
 function responseCallback (response) {
     const { data, message: reqMsg, value } = response.data
 
-    let code = response.data?.code || response.data.value?.code
+    let code = response.data?.code || response.data.value?.code 
 
 
     // 初始化一个请求结构对象
