@@ -77,7 +77,6 @@ const routes = [
           },
         ],
       },
-
       {
         path: "task",
         element: <Task />,
