@@ -41,38 +41,57 @@
   justify-content: flex-start;
   margin-bottom: 16px;
   .typeList {
-    margin-left: 32px;
     display: flex;
     justify-content: center;
     cursor: pointer;
+    .taskType {
+      margin-left: 32px;
+    }
   }
 }
 
 .tabHeader {
+  justify-content: start;
   :global {
-    .ant-tabs-nav-list {
-      margin-top: 0;
+    .ant-btn .ant-btn-default {
+      display: flex;
     }
-    .ant-tabs-tab {
-      padding: 4px 16px;
-      background-color: #f7fafa;
+    .ant-btn:hover {
+      color: #c2ccff;
+      border: none;
+      background: #f7fafa;
+    }
+    .ant-btn:focus {
+      font-weight: bold;
+      color: #727fff;
+      border-color: #ebefff;
+      background: #ebefff;
+    }
+  }
+  .tabItem {
+    display: flex;
+    align-items: center;
+    .dote::after {
+      content: '';
+      display: inline-block;
+      background-color: rgb(112, 126, 255);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      margin-right: 8px;
+      transform: translate(5px, -2px);
     }
   }
 }
-.tabItem {
-  display: flex;
-  align-items: center;
-  .dote::after {
-    content: '';
-    display: inline-block;
-    background-color: rgb(112, 126, 255);
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    margin-right: 8px;
-    transform: translate(5px, -2px);
+.taskNum {
+  background: #f7fafa;
+  border-color: #f7fafa;
+  margin-right: 24px;
+  img {
+    margin-right: 2px;
   }
 }
+
 .active {
   color: #727fff;
 }

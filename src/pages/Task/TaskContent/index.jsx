@@ -1,9 +1,9 @@
 // 任务内容
 import React, { useState, useEffect } from 'react'
-import { Tabs, Table, Badge, message, Drawer, Button } from 'antd'
+import { Tabs, Table, Badge, message, Drawer, Button, Divider } from 'antd'
 import styles from './index.module.less'
 import IconTitle from '../img/titleBoxImg.svg'
-import { reqTaskList, reqTaskNum, reqTaskType } from '@/api/task'
+import { reqTaskList } from '@/api/task'
 import { TASK_PLATFORM_LIST, DATA_TYPE_CONFIG } from './sourceData'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
@@ -21,16 +21,12 @@ function TaskContent() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   // 任务内容列表接口请求参数
   const [params, setParams] = useState({
-    type: 1,
-    source: 1,
+    dataType: DATA_TYPE_CONFIG[0].value,
+    platform: TASK_PLATFORM_LIST[1].value,
     page: {
       pageSize: 20,
       pageNo: 1,
     },
-  })
-  // 类型切换请求数据
-  const [typeParams, setTypeParams] = useState({
-    dataType: DATA_TYPE_CONFIG[0].value,
   })
   // 列表数据
   const [tableData, setTableData] = useState({
@@ -50,15 +46,6 @@ function TaskContent() {
       }
     })
   }, [params])
-  // 请求任务类型数据
-  useEffect(() => {
-    reqTaskType(typeParams).then((res) => {
-      const { data, success, msg } = res
-    })
-  }, [typeParams])
-  const onChange = (key) => {
-    // console.log(key)
-  }
 
   function renderTaskState(data) {
     // console.log('=>', data)
@@ -198,11 +185,16 @@ function TaskContent() {
     setParams(o)
   }
   function handleTypeClick(value) {
-    if (typeParams.dataType === value) return
-    // console.log('dpParams:', dpParams)
-    const _typeParams = { ...typeParams }
-    _typeParams.dataType = value
-    setTypeParams(_typeParams)
+    if (params.dataType === value) return
+    const _params = { ...params }
+    _params.dataType = value
+    setParams(_params)
+  }
+  function handleNumClick(value) {
+    if (params.platform === value) return
+    const _params = { ...params }
+    _params.platform = value
+    setParams(_params)
   }
   return (
     <div className={styles.container}>
@@ -218,7 +210,7 @@ function TaskContent() {
               key={item.value}
               className={classNames(
                 styles.taskType,
-                typeParams.dataType === item.value && styles.active
+                params.dataType === item.value && styles.active
               )}
               onClick={() => {
                 handleTypeClick(item.value)
@@ -229,12 +221,21 @@ function TaskContent() {
         </div>
       </div>
       <div className={styles.tabHeader}>
-        <Tabs
-          defaultActiveKey="1"
-          onChange={onChange}
-          items={TASK_PLATFORM_LIST}
-        />
+        {TASK_PLATFORM_LIST.map((item) => (
+          <Button
+            key={item.value}
+            className={classNames(
+              styles.taskNum,
+              params.dataType === item.value && styles.active
+            )}
+            onClick={() => {
+              handleNumClick(item.value)
+            }}>
+            {item.label}
+          </Button>
+        ))}
       </div>
+      <Divider />
       <Table
         showSorterTooltip={false}
         rowKey="taskId"
@@ -257,7 +258,7 @@ function TaskContent() {
         dataSource={tableData.list}
         scroll={{
           x: 800,
-          y: 550
+          y: 550,
         }}
       />
     </div>
