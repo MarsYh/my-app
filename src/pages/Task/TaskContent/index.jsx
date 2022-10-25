@@ -3,10 +3,15 @@ import React, { useState, useEffect } from 'react'
 import { Tabs, Table, Badge, message, Drawer, Button, Divider } from 'antd'
 import styles from './index.module.less'
 import IconTitle from '../img/titleBoxImg.svg'
-import { reqTaskList } from '@/api/task'
-import { TASK_PLATFORM_LIST, DATA_TYPE_CONFIG } from './sourceData'
+import { reqTaskList, reqTaskNum } from '@/api/task'
+import {
+  PLATFORM_NUM_CONFIG,
+  PLATFORM_CODE_CONFIG,
+  DATA_TYPE_CONFIG,
+} from './sourceData'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
+import PlatformBtn from './components/PlatformBtn'
 
 function TaskContent() {
   // 抽屉效果
@@ -22,17 +27,19 @@ function TaskContent() {
   // 任务内容列表接口请求参数
   const [params, setParams] = useState({
     dataType: DATA_TYPE_CONFIG[0].value,
-    platform: TASK_PLATFORM_LIST[1].value,
     page: {
       pageSize: 20,
       pageNo: 1,
     },
   })
+  const { dataType } = params
   // 列表数据
   const [tableData, setTableData] = useState({
     list: [],
     total: 0,
   })
+  // 存储平台任务数量
+  const [taskNumList, setTaskNumList] = useState([])
   useEffect(() => {
     reqTaskList(params).then((res) => {
       const { data, success, msg } = res
@@ -46,6 +53,17 @@ function TaskContent() {
       }
     })
   }, [params])
+
+  useEffect(() => {
+    reqTaskNum({ dataType }).then((res) => {
+      const { data, success, msg } = res
+      if (success && data) {
+        setTaskNumList(data)
+      } else {
+        message.error(msg || '获取任务数量失败')
+      }
+    })
+  }, [dataType])
 
   function renderTaskState(data) {
     // console.log('=>', data)
@@ -190,10 +208,17 @@ function TaskContent() {
     _params.dataType = value
     setParams(_params)
   }
-  function handleNumClick(value) {
-    if (params.platform === value) return
+
+  // 此处需要判断code是否为0 因为默认全部的时候 没有platform
+  function handleNumClick(name) {
+    const code = PLATFORM_CODE_CONFIG[name]
+    if (params.platform === code) return
     const _params = { ...params }
-    _params.platform = value
+    if (code === 0) {
+      delete _params.platform
+    } else {
+      _params.platform = code
+    }
     setParams(_params)
   }
   return (
@@ -221,18 +246,17 @@ function TaskContent() {
         </div>
       </div>
       <div className={styles.tabHeader}>
-        {TASK_PLATFORM_LIST.map((item) => (
-          <Button
-            key={item.value}
-            className={classNames(
-              styles.taskNum,
-              params.dataType === item.value && styles.active
-            )}
-            onClick={() => {
-              handleNumClick(item.value)
-            }}>
-            {item.label}
-          </Button>
+        {taskNumList.map((item) => (
+          // console.log('item', item)
+          <PlatformBtn
+            key={item.name}
+            icon={PLATFORM_NUM_CONFIG[item.name]}
+            onClick={() => handleNumClick(item.name)}
+            // ??双值运算符 当右边为null或undefined时 会返回右边的值
+            checked={(params.platform ?? 0) === PLATFORM_CODE_CONFIG[item.name]}
+            title={item.name}
+            num={item.taskNum}
+          />
         ))}
       </div>
       <Divider />

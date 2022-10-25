@@ -1,0 +1,28 @@
+.item {
+  display: flex;
+  align-items: center;
+  background: #f7fafa;
+  border-color: #f7fafa;
+  margin-right: 24px;
+  padding: 4px 16px;
+  cursor: pointer;
+  img {
+    margin-right: 2px;
+  }
+  .dote::after {
+    content: '';
+    display: inline-block;
+    background-color: rgb(112, 126, 255);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    margin-right: 8px;
+    transform: translate(5px, -2px);
+  }
+}
+.active {
+  font-weight: bold;
+  border-color: #ebefff;
+  background: #ebefff;
+  color: #727fff;
+}
