@@ -17,7 +17,6 @@ import styles from "./index.module.less"
 //         </span>
 //       </div>
 //     ),
-//     value:"0"
 //   },
 //   {
 //     label: (
@@ -80,15 +79,21 @@ import styles from "./index.module.less"
 //     value: "5",
 //   },
 // ]
-
-export const PLATFORM_ICON_CONFIG = {
-  "全部":IconAll,
-  "抖音":IconTiktok
+export const PLATFORM_NUM_CONFIG = {
+  "全部": IconAll,
+  "抖音": IconTiktok,
+  "小红书": IconRedBook,
+  "微博": IconWeibo,
+  "微信": IconWechat,
+  "B站": IconBilibili,
 }
-
 export const PLATFORM_CODE_CONFIG = {
-  "全部":0,
-  "抖音":1
+  "全部": 0,
+  "抖音": 1,
+  "小红书": 2,
+  "微博": 3,
+  "微信": 4,
+  "B站": 5,
 }
 
 export const DATA_TYPE_CONFIG = [
