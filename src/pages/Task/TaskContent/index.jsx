@@ -12,7 +12,7 @@ import {
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import PlatformBtn from './components/PlatformBtn'
-import DrawerItem from './components/DrawerItem'
+import TaskDrawer from './components/TaskDrawer'
 
 function TaskContent() {
   const columns = [
@@ -82,7 +82,7 @@ function TaskContent() {
     },
   ]
 
-  const drawerRef = useRef()
+  const taskDrawerRef = useRef()
   // 更改复选框的状态
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -132,7 +132,7 @@ function TaskContent() {
   function showDrawer(data) {
     // console.log('data', data)
     setOpen(true)
-    drawerRef.current.open()
+    // drawerRef.current.open()
   }
   const onClose = () => {
     setOpen(false)
@@ -171,9 +171,6 @@ function TaskContent() {
         <Button type="primary" onClick={() => showDrawer(data)}>
           查看详情
         </Button>
-        <Drawer placement="right" onClose={onClose} open={open}>
-          <DrawerItem ref={drawerRef}></DrawerItem>
-        </Drawer>
       </>
     )
   }
@@ -287,6 +284,8 @@ function TaskContent() {
           y: 550,
         }}
       />
+      {/* 抽屉组件 */}
+      <TaskDrawer ref={taskDrawerRef} />
     </div>
   )
 }
