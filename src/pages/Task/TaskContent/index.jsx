@@ -1,91 +1,100 @@
 // 任务内容
-import React, { useState, useEffect, useRef } from 'react'
-import { Tabs, Table, Badge, message, Drawer, Button, Divider } from 'antd'
-import styles from './index.module.less'
-import IconTitle from '../img/titleBoxImg.svg'
-import { reqTaskList, reqTaskNum, reqTaskDetail } from '@/api/task'
+import React, { useState, useEffect, useRef } from "react";
+import { Tabs, Table, Badge, message, Drawer, Button, Divider } from "antd";
+import styles from "./index.module.less";
+import IconTitle from "../img/titleBoxImg.svg";
+import { reqTaskList, reqTaskNum, reqTaskDetail } from "@/api/task";
 import {
   PLATFORM_NUM_CONFIG,
   PLATFORM_CODE_CONFIG,
   DATA_TYPE_CONFIG,
-} from './sourceData'
-import classNames from 'classnames'
-import dayjs from 'dayjs'
-import PlatformBtn from './components/PlatformBtn'
-import DrawerItem from './components/DrawerItem'
+} from "./sourceData";
+import classNames from "classnames";
+import dayjs from "dayjs";
+import PlatformBtn from "./components/PlatformBtn";
+import DrawerItem from "./components/DrawerItem";
+import TaskDrawer from "./components/TaskDrawer";
 
 function TaskContent() {
+  const drawerRef = useRef();
+  const taskDrawerRef = useRef();
+
   const columns = [
     {
-      title: '任务编号',
-      dataIndex: 'taskId',
-      key: 'taskId',
+      title: "任务编号",
+      dataIndex: "taskId",
+      key: "taskId",
       width: 100,
     },
     {
-      title: '任务名称',
-      dataIndex: 'taskName',
+      title: "任务名称",
+      dataIndex: "taskName",
       ellipsis: true,
-      key: 'taskName',
+      key: "taskName",
       width: 200,
     },
     {
-      title: '子任务数量',
-      dataIndex: 'subTaskNum',
+      title: "子任务数量",
+      dataIndex: "subTaskNum",
       sorter: true,
-      key: 'sub_task_num',
+      key: "sub_task_num",
       width: 120,
     },
     {
-      title: '任务类型',
-      key: 'taskType',
+      title: "任务类型",
+      key: "taskType",
       width: 150,
       ellipsis: true,
-      dataIndex: 'taskType',
+      dataIndex: "taskType",
     },
     {
-      title: '任务平台',
-      key: 'platforms',
-      dataIndex: 'platforms',
+      title: "任务平台",
+      key: "platforms",
+      dataIndex: "platforms",
       width: 100,
     },
     {
-      title: '创建人',
-      key: 'createUser',
+      title: "创建人",
+      key: "createUser",
       width: 150,
-      dataIndex: 'createUser',
+      dataIndex: "createUser",
     },
     {
-      title: '所属部门',
-      key: 'dept',
-      dataIndex: 'dept',
+      title: "所属部门",
+      key: "dept",
+      dataIndex: "dept",
       width: 100,
     },
     {
-      title: '创建时间',
-      key: 'gmtCreate',
-      dataIndex: 'gmtCreate',
+      title: "创建时间",
+      key: "gmtCreate",
+      dataIndex: "gmtCreate",
       render: renderTime,
       width: 150,
     },
     {
-      title: '任务状态',
-      key: 'state',
+      title: "任务状态",
+      key: "taskStatus",
+      dataIndex: "taskStatus",
       render: renderTaskState,
       width: 100,
     },
     {
-      title: '操作',
-      key: 'edit',
-      render: renderEdit,
+      title: "操作",
+      key: "taskId",
+      dataIndex: "taskId",
+      render: (text, record) => (
+        <Button type="primary" onClick={() => taskDrawerRef.current?.open(record)}>
+          查看详情
+        </Button>
+      ),
       width: 150,
     },
-  ]
+  ];
 
-  const drawerRef = useRef()
   // 更改复选框的状态
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   // 任务内容列表接口请求参数
   const [params, setParams] = useState({
     dataType: DATA_TYPE_CONFIG[0].value,
@@ -93,75 +102,75 @@ function TaskContent() {
       pageSize: 20,
       pageNo: 1,
     },
-  })
-  const { dataType } = params
+  });
+  const { dataType } = params;
   // 列表数据
   const [tableData, setTableData] = useState({
     list: [],
     total: 0,
-  })
+  });
   // 存储平台任务数量
-  const [taskNumList, setTaskNumList] = useState([])
+  const [taskNumList, setTaskNumList] = useState([]);
   useEffect(() => {
     reqTaskList(params).then((res) => {
-      const { data, success, msg } = res
+      const { data, success, msg } = res;
       if (data && success) {
         setTableData({
           list: data.data,
           total: data.page.totalSize,
-        })
+        });
       } else {
-        message.error(msg || '获取列表数据失败')
+        message.error(msg || "获取列表数据失败");
       }
-    })
-  }, [params])
+    });
+  }, [params]);
 
   useEffect(() => {
     reqTaskNum({ dataType }).then((res) => {
-      const { data, success, msg } = res
+      const { data, success, msg } = res;
       if (success && data) {
-        setTaskNumList(data)
+        setTaskNumList(data);
       } else {
-        message.error(msg || '获取任务数量失败')
+        message.error(msg || "获取任务数量失败");
       }
-    })
-  }, [dataType])
+    });
+  }, [dataType]);
 
   // 抽屉效果
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   function showDrawer(data) {
     // console.log('data', data)
-    setOpen(true)
-    drawerRef.current.open()
+    setOpen(true);
+    drawerRef.current.open();
   }
   const onClose = () => {
-    setOpen(false)
-  }
-  function renderTaskState(data) {
+    setOpen(false);
+  };
+  function renderTaskState(taskStatus) {
     // console.log('=>', data)
-    if (data.taskStatus === '执行成功') {
+    if (taskStatus === "执行成功") {
       return (
         <div>
           <Badge status="success" />
-          <span>{data.taskStatus}</span>
+          <span>{taskStatus}</span>
         </div>
-      )
+      );
     }
-    if (data.taskStatus === '执行失败') {
+    if (taskStatus === "执行失败") {
       return (
         <div>
           <Badge status="error" />
-          <span>{data.taskStatus}</span>
+          <span>{taskStatus}</span>
         </div>
-      )
+      );
     }
-    if (data.taskStatus === '无法执行') {
+    if (taskStatus === "无法执行") {
       return (
         <div>
           <Badge status="default" />
-          <span>{data.taskStatus}</span>
+          <span>{taskStatus}</span>
         </div>
-      )
+      );
     }
   }
   function renderEdit(data) {
@@ -171,58 +180,58 @@ function TaskContent() {
         <Button type="primary" onClick={() => showDrawer(data)}>
           查看详情
         </Button>
-        <Drawer placement="right" onClose={onClose} open={open}>
+        {/* <Drawer placement="right" onClose={onClose} open={open}>
           <DrawerItem ref={drawerRef}></DrawerItem>
-        </Drawer>
+        </Drawer> */}
       </>
-    )
+    );
   }
   function renderTime(time) {
-    return time ? dayjs(time).format('YYYY-MM-DD') : '-'
+    return time ? dayjs(time).format("YYYY-MM-DD") : "-";
   }
 
   function onTableChange(pagin, filters, sorter) {
-    const o = { ...params }
+    const o = { ...params };
 
     // 分页
-    const { current, pageSize } = pagin
+    const { current, pageSize } = pagin;
     o.page = {
       pageNo: current,
       pageSize,
-    }
+    };
 
     // 排序
-    const { field, order } = sorter
+    const { field, order } = sorter;
     // console.log(sorter)
     if (order) {
-      o.orderBy = field
-      o.order = order === 'descend' ? 'desc' : 'asc'
+      o.orderBy = field;
+      o.order = order === "descend" ? "desc" : "asc";
     } else {
-      delete o.orderBy
-      delete o.order
+      delete o.orderBy;
+      delete o.order;
     }
 
-    setParams(o)
+    setParams(o);
   }
 
   function handleTypeClick(value) {
-    if (params.dataType === value) return
-    const _params = { ...params }
-    _params.dataType = value
-    setParams(_params)
+    if (params.dataType === value) return;
+    const _params = { ...params };
+    _params.dataType = value;
+    setParams(_params);
   }
 
   // 此处需要判断code是否为0 因为默认全部的时候 没有platform
   function handleNumClick(name) {
-    const code = PLATFORM_CODE_CONFIG[name]
-    if (params.platform === code) return
-    const _params = { ...params }
+    const code = PLATFORM_CODE_CONFIG[name];
+    if (params.platform === code) return;
+    const _params = { ...params };
     if (code === 0) {
-      delete _params.platform
+      delete _params.platform;
     } else {
-      _params.platform = code
+      _params.platform = code;
     }
-    setParams(_params)
+    setParams(_params);
   }
   return (
     <div className={styles.container}>
@@ -241,8 +250,9 @@ function TaskContent() {
                 params.dataType === item.value && styles.active
               )}
               onClick={() => {
-                handleTypeClick(item.value)
-              }}>
+                handleTypeClick(item.value);
+              }}
+            >
               {item.label}
             </div>
           ))}
@@ -269,7 +279,7 @@ function TaskContent() {
         rowSelection={{
           selectedRowKeys,
           onChange(keys) {
-            setSelectedRowKeys(keys)
+            setSelectedRowKeys(keys);
           },
         }}
         onChange={onTableChange}
@@ -288,8 +298,11 @@ function TaskContent() {
           y: 550,
         }}
       />
+
+      {/* 抽屉组件 */}
+      <TaskDrawer ref={taskDrawerRef} />
     </div>
-  )
+  );
 }
 
-export default TaskContent
+export default TaskContent;

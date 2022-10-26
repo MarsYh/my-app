@@ -106,3 +106,9 @@ export const DATA_TYPE_CONFIG = [
     value: "投放数据",
   },
 ]
+
+
+export const TASK_CODE_CONFIG = {
+  6:"数据更新",
+  9:"私有数据上传"
+}
