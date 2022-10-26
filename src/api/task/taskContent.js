@@ -10,3 +10,8 @@ export function reqTaskList (data) {
 export function reqTaskNum (params) {
   return request.get("/api/kol/xdnphb/kol/resource/taskCentre/queryPlatformTaskNum", { params })
 }
+// 获取任务详情
+export function reqTaskDetail (params) {
+  // console.log("params", params)
+  return request.get("/api/kol/xdnphb/kol/resource/taskCentre/queryTaskDetail", { params })
+}

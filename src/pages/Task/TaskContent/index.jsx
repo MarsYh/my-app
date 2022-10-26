@@ -1,9 +1,9 @@
 // 任务内容
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Tabs, Table, Badge, message, Drawer, Button, Divider } from 'antd'
 import styles from './index.module.less'
 import IconTitle from '../img/titleBoxImg.svg'
-import { reqTaskList, reqTaskNum } from '@/api/task'
+import { reqTaskList, reqTaskNum, reqTaskDetail } from '@/api/task'
 import {
   PLATFORM_NUM_CONFIG,
   PLATFORM_CODE_CONFIG,
@@ -12,107 +12,9 @@ import {
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import PlatformBtn from './components/PlatformBtn'
+import DrawerItem from './components/DrawerItem'
 
 function TaskContent() {
-  // 抽屉效果
-  const [open, setOpen] = useState(false)
-  const showDrawer = () => {
-    setOpen(true)
-  }
-  const onClose = () => {
-    setOpen(false)
-  }
-  // 更改复选框的状态
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  // 任务内容列表接口请求参数
-  const [params, setParams] = useState({
-    dataType: DATA_TYPE_CONFIG[0].value,
-    page: {
-      pageSize: 20,
-      pageNo: 1,
-    },
-  })
-  const { dataType } = params
-  // 列表数据
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  // 存储平台任务数量
-  const [taskNumList, setTaskNumList] = useState([])
-  useEffect(() => {
-    reqTaskList(params).then((res) => {
-      const { data, success, msg } = res
-      if (data && success) {
-        setTableData({
-          list: data.data,
-          total: data.page.totalSize,
-        })
-      } else {
-        message.error(msg || '获取列表数据失败')
-      }
-    })
-  }, [params])
-
-  useEffect(() => {
-    reqTaskNum({ dataType }).then((res) => {
-      const { data, success, msg } = res
-      if (success && data) {
-        setTaskNumList(data)
-      } else {
-        message.error(msg || '获取任务数量失败')
-      }
-    })
-  }, [dataType])
-
-  function renderTaskState(data) {
-    // console.log('=>', data)
-    if (data.taskStatus === '执行成功') {
-      return (
-        <div>
-          <Badge status="success" />
-          <span>{data.taskStatus}</span>
-        </div>
-      )
-    }
-    if (data.taskStatus === '执行失败') {
-      return (
-        <div>
-          <Badge status="error" />
-          <span>{data.taskStatus}</span>
-        </div>
-      )
-    }
-    if (data.taskStatus === '无法执行') {
-      return (
-        <div>
-          <Badge status="default" />
-          <span>{data.taskStatus}</span>
-        </div>
-      )
-    }
-  }
-  function renderEdit() {
-    return (
-      <>
-        <Button type="primary" onClick={showDrawer}>
-          查看详情
-        </Button>
-        <Drawer
-          title="添加投放记录"
-          placement="right"
-          onClose={onClose}
-          open={open}>
-          <p>123</p>
-          <p>123</p>
-          <p>123</p>
-        </Drawer>
-      </>
-    )
-  }
-  function renderTime(time) {
-    return time ? dayjs(time).format('YYYY-MM-DD') : '-'
-  }
   const columns = [
     {
       title: '任务编号',
@@ -179,6 +81,106 @@ function TaskContent() {
       width: 150,
     },
   ]
+
+  const drawerRef = useRef()
+  // 更改复选框的状态
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  // 任务内容列表接口请求参数
+  const [params, setParams] = useState({
+    dataType: DATA_TYPE_CONFIG[0].value,
+    page: {
+      pageSize: 20,
+      pageNo: 1,
+    },
+  })
+  const { dataType } = params
+  // 列表数据
+  const [tableData, setTableData] = useState({
+    list: [],
+    total: 0,
+  })
+  // 存储平台任务数量
+  const [taskNumList, setTaskNumList] = useState([])
+  useEffect(() => {
+    reqTaskList(params).then((res) => {
+      const { data, success, msg } = res
+      if (data && success) {
+        setTableData({
+          list: data.data,
+          total: data.page.totalSize,
+        })
+      } else {
+        message.error(msg || '获取列表数据失败')
+      }
+    })
+  }, [params])
+
+  useEffect(() => {
+    reqTaskNum({ dataType }).then((res) => {
+      const { data, success, msg } = res
+      if (success && data) {
+        setTaskNumList(data)
+      } else {
+        message.error(msg || '获取任务数量失败')
+      }
+    })
+  }, [dataType])
+
+  // 抽屉效果
+  const [open, setOpen] = useState(false)
+  function showDrawer(data) {
+    // console.log('data', data)
+    setOpen(true)
+    drawerRef.current.open()
+  }
+  const onClose = () => {
+    setOpen(false)
+  }
+  function renderTaskState(data) {
+    // console.log('=>', data)
+    if (data.taskStatus === '执行成功') {
+      return (
+        <div>
+          <Badge status="success" />
+          <span>{data.taskStatus}</span>
+        </div>
+      )
+    }
+    if (data.taskStatus === '执行失败') {
+      return (
+        <div>
+          <Badge status="error" />
+          <span>{data.taskStatus}</span>
+        </div>
+      )
+    }
+    if (data.taskStatus === '无法执行') {
+      return (
+        <div>
+          <Badge status="default" />
+          <span>{data.taskStatus}</span>
+        </div>
+      )
+    }
+  }
+  function renderEdit(data) {
+    // console.log('data', data)
+    return (
+      <>
+        <Button type="primary" onClick={() => showDrawer(data)}>
+          查看详情
+        </Button>
+        <Drawer placement="right" onClose={onClose} open={open}>
+          <DrawerItem ref={drawerRef}></DrawerItem>
+        </Drawer>
+      </>
+    )
+  }
+  function renderTime(time) {
+    return time ? dayjs(time).format('YYYY-MM-DD') : '-'
+  }
+
   function onTableChange(pagin, filters, sorter) {
     const o = { ...params }
 
@@ -246,7 +248,7 @@ function TaskContent() {
         </div>
       </div>
       <div className={styles.tabHeader}>
-        {taskNumList.map((item) => (
+        {taskNumList?.map((item) => (
           // console.log('item', item)
           <PlatformBtn
             key={item.name}
