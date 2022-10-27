@@ -1,0 +1,85 @@
+.container {
+  font-family: DINPro;
+  color: #3d4242;
+  padding-left: 24px;
+  .title {
+    font-weight: bold;
+    line-height: 50px;
+    border-bottom: 1px solid #e1e6e6;
+  }
+  .paragraph {
+    display: flex;
+    background: #ffb70020;
+    border-radius: 4px;
+    padding: 8px 16px;
+    .icon {
+      color: #ffb700 !important;
+      width: 16px;
+      height: 16px;
+      margin-right: 9px;
+      font-size: 14px;
+    }
+    .text {
+      color: #626a6a;
+    }
+  }
+  .content {
+    .contentItem:first-child {
+      margin-top: 10px;
+    }
+    .contentItem {
+      display: flex;
+      margin-top: 32px;
+      .taskName {
+        color: #626a6a;
+        display: inline-block;
+        width: 134px;
+        .downloadResult {
+          display: flex;
+          padding-left: 25px;
+        }
+      }
+      .customResult {
+        display: flex;
+        .resultBox {
+          background-color: #f9f9fb;
+          border-radius: 5px;
+          padding: 8px 16px;
+          margin-right: 20px;
+          span {
+            color: #bec2c3;
+            margin-right: 10px;
+          }
+          img {
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
+}
+.taskStatus {
+  display: flex;
+}
+.drawerFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  .refuseBtn {
+    background-color: #ff2742;
+  }
+  .adoptBtn {
+    background-color: #00b354;
+  }
+}
+
+.btn {
+  color: #ffffff;
+  width: 84px;
+  height: 32px;
+  border-radius: 4px;
+}
+
+p {
+  margin-bottom: 0;
+}

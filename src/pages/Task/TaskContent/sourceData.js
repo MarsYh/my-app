@@ -1,84 +1,10 @@
-import IconAll from "../img/all.svg"
-import IconTiktok from "../img/tiktok.svg"
-import IconRedBook from "../img/xhs.svg"
-import IconWeibo from "../img/weibo.svg"
-import IconWechat from "../img/wechat.svg"
-import IconBilibili from "../img/bilibili.svg"
-import styles from "./index.module.less"
+import IconAll from "./img/icon-all.svg"
+import IconTiktok from "./img/icon-tiktok.svg"
+import IconRedBook from "./img/icon-xhs.svg"
+import IconWeibo from "./img/icon-weibo.svg"
+import IconWechat from "./img/icon-wechat.svg"
+import IconBilibili from "./img/icon-bilibili.svg"
 
-// export const TASK_PLATFORM_LIST = [
-//   {
-//     label: (
-//       <div className={styles.tabItem}>
-//         <img src={IconAll} alt="" />
-//         <span>
-//           全部
-//           <span className={styles.dote}></span>
-//         </span>
-//       </div>
-//     ),
-//   },
-//   {
-//     label: (
-//       <div className={styles.tabItem}>
-//         <img src={IconTiktok} alt="" />
-//         <span>
-//           抖音
-//           <span className={styles.dote}></span>
-//         </span>
-//       </div>
-//     ),
-//     value: "1",
-//   },
-//   {
-//     label: (
-//       <div className={styles.tabItem}>
-//         <img src={IconRedBook} alt="" />
-//         <span>
-//           小红书
-//           <span className={styles.dote}></span>
-//         </span>
-//       </div>
-//     ),
-//     value: "2",
-//   },
-//   {
-//     label: (
-//       <div className={styles.tabItem}>
-//         <img src={IconWeibo} alt="" />
-//         <span>
-//           微博
-//           <span className={styles.dote}></span>
-//         </span>
-//       </div>
-//     ),
-//     value: "3",
-//   },
-//   {
-//     label: (
-//       <div className={styles.tabItem}>
-//         <img src={IconWechat} alt="" />
-//         <span>
-//           微信
-//           <span className={styles.dote}></span>
-//         </span>
-//       </div>
-//     ),
-//     value: "4",
-//   },
-//   {
-//     label: (
-//       <div className={styles.tabItem}>
-//         <img src={IconBilibili} alt="" />
-//         <span>
-//           B站
-//           <span className={styles.dote}></span>
-//         </span>
-//       </div>
-//     ),
-//     value: "5",
-//   },
-// ]
 export const PLATFORM_NUM_CONFIG = {
   "全部": IconAll,
   "抖音": IconTiktok,
@@ -106,3 +32,29 @@ export const DATA_TYPE_CONFIG = [
     value: "投放数据",
   },
 ]
+export const TASK_CODE_CONFIG = {
+  1: '数据导出',
+  2: '数据导出',
+  3: '数据导出',
+  4: '数据导出',
+  5: '达人收录',
+  6: '数据更新',
+  7: '数据更新',
+  8: '达人打标',
+  9: '私有数据上传',
+  10: '达人打标',
+  15: '批量相似账号导出-不限'
+}
+export const TASK_TYPE_CONFIG = {
+  1: '导出达人数',
+  2: '导出达人数',
+  3: '导出达人数',
+  4: '导出达人数',
+  5: '收录达人数',
+  6: '更新达人数',
+  7: '更新达人数',
+  8: '打标达人数',
+  9: '上传达人数',
+  10: '打标达人数',
+  15: '相似达人数'
+}

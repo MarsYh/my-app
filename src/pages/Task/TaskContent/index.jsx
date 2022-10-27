@@ -1,9 +1,9 @@
 // 任务内容
 import React, { useState, useEffect, useRef } from 'react'
-import { Tabs, Table, Badge, message, Drawer, Button, Divider } from 'antd'
+import { Table, Badge, message, Button, Divider } from 'antd'
 import styles from './index.module.less'
-import IconTitle from '../img/titleBoxImg.svg'
-import { reqTaskList, reqTaskNum, reqTaskDetail } from '@/api/task'
+import IconTitle from './img/icon-titleBoxImg.svg'
+import { reqTaskList, reqTaskNum } from '@/api/task'
 import {
   PLATFORM_NUM_CONFIG,
   PLATFORM_CODE_CONFIG,
@@ -70,14 +70,21 @@ function TaskContent() {
     },
     {
       title: '任务状态',
-      key: 'state',
+      key: 'taskStatus',
+      dataIndex: 'taskStatus',
       render: renderTaskState,
       width: 100,
     },
     {
       title: '操作',
       key: 'edit',
-      render: renderEdit,
+      render: (text, record) => (
+        <Button
+          type="primary"
+          onClick={() => taskDrawerRef.current.open(record)}>
+          查看详情
+        </Button>
+      ),
       width: 150,
     },
   ]
@@ -127,52 +134,33 @@ function TaskContent() {
     })
   }, [dataType])
 
-  // 抽屉效果
-  const [open, setOpen] = useState(false)
-  function showDrawer(data) {
-    // console.log('data', data)
-    setOpen(true)
-    // drawerRef.current.open()
-  }
-  const onClose = () => {
-    setOpen(false)
-  }
-  function renderTaskState(data) {
+  function renderTaskState(text, record) {
     // console.log('=>', data)
-    if (data.taskStatus === '执行成功') {
+    const { taskStatus } = record
+    if (taskStatus === '执行成功') {
       return (
         <div>
           <Badge status="success" />
-          <span>{data.taskStatus}</span>
+          <span>{taskStatus}</span>
         </div>
       )
     }
-    if (data.taskStatus === '执行失败') {
+    if (taskStatus === '执行失败') {
       return (
         <div>
           <Badge status="error" />
-          <span>{data.taskStatus}</span>
+          <span>{taskStatus}</span>
         </div>
       )
     }
-    if (data.taskStatus === '无法执行') {
+    if (taskStatus === '无法执行') {
       return (
         <div>
           <Badge status="default" />
-          <span>{data.taskStatus}</span>
+          <span>{taskStatus}</span>
         </div>
       )
     }
-  }
-  function renderEdit(data) {
-    // console.log('data', data)
-    return (
-      <>
-        <Button type="primary" onClick={() => showDrawer(data)}>
-          查看详情
-        </Button>
-      </>
-    )
   }
   function renderTime(time) {
     return time ? dayjs(time).format('YYYY-MM-DD') : '-'
