@@ -2,7 +2,7 @@ import React from 'react'
 import { Drawer, message, Spin } from "antd"
 import { useState,forwardRef,useImperativeHandle } from 'react'
 import { reqTaskDetail } from "@/api/task"
-import {TASK_CODE_CONFIG } from "../../sourceData" 
+import { TASK_CODE_CONFIG } from "../../sourceData" 
 import { useEffect } from 'react'
 
 const TaskDrawer = (props,ref)=>{
