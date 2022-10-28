@@ -15,3 +15,15 @@ export function reqTaskDetail (params) {
   // console.log("params", params)
   return request.get("/api/kol/xdnphb/kol/resource/taskCentre/queryTaskDetail", { params })
 }
+// 请求是否通过数据
+export function reqTaskAudit (data) {
+  return request.post("/api/kol/xdnphb/kol/resource/taskCentre/audit", data)
+}
+// 请求是否重试
+export function reqTaskRetry (data) {
+  return request.post("/api/kol/xdnphb/kol/resource/taskCentre/taskRetryByTaskId", data)
+}
+// 请求子任务列表
+export function reqSubTask (data) {
+  return request.post("/api/kol/xdnphb/kol/resource/taskCentre/querySubTask", data)
+}

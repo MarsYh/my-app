@@ -58,3 +58,17 @@ export const TASK_TYPE_CONFIG = {
   10: '打标达人数',
   15: '相似达人数'
 }
+export const SUBTASK_NUM_CONFIG = [
+  {
+    lable: '查看所有',
+    value: 0
+  },
+  {
+    lable: '仅看成功',
+    value: 3
+  },
+  {
+    lable: '仅看失败',
+    value: 4
+  },
+]
