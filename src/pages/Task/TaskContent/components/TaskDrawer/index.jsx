@@ -52,8 +52,6 @@ function TaskDrawer(props, ref) {
     });
   }
 
-
-
   return (
     <Drawer
       closable={false}
