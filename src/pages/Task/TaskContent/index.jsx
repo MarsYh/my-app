@@ -13,12 +13,53 @@ import classNames from 'classnames'
 import dayjs from 'dayjs'
 import PlatformBtn from './components/PlatformBtn'
 import TaskDrawer from './components/TaskDrawer'
-import { renderTaskStatus } from "./utils"
+import { renderTaskStatus } from './utils'
 
 function TaskContent() {
   const drawerRef = useRef()
   const taskDrawerRef = useRef()
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  // 任务内容列表接口请求参数
+  const [params, setParams] = useState({
+    dataType: DATA_TYPE_CONFIG[0].value,
+    page: {
+      pageSize: 20,
+      pageNo: 1,
+    },
+  })
+  const { dataType } = params
+  // 列表数据
+  const [tableData, setTableData] = useState({
+    list: [],
+    total: 0,
+  })
+  // 存储平台任务数量
+  const [taskNumList, setTaskNumList] = useState([])
+  useEffect(() => {
+    reqTaskList(params).then((res) => {
+      const { data, success, msg } = res
+      if (data && success) {
+        setTableData({
+          list: data.data,
+          total: data.page.totalSize,
+        })
+      } else {
+        message.error(msg || '获取列表数据失败')
+      }
+    })
+  }, [params])
+
+  useEffect(() => {
+    reqTaskNum({ dataType }).then((res) => {
+      const { data, success, msg } = res
+      if (success && data) {
+        setTaskNumList(data)
+      } else {
+        message.error(msg || '获取任务数量失败')
+      }
+    })
+  }, [dataType])
   const columns = [
     {
       title: '任务编号',
@@ -76,7 +117,7 @@ function TaskContent() {
       title: '任务状态',
       key: 'taskStatus',
       dataIndex: 'taskStatus',
-      render: (_,record)=>renderTaskStatus(record),
+      render: (_, record) => renderTaskStatus(record),
       width: 100,
     },
     {
@@ -92,50 +133,6 @@ function TaskContent() {
       width: 150,
     },
   ]
-
-
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  // 任务内容列表接口请求参数
-  const [params, setParams] = useState({
-    dataType: DATA_TYPE_CONFIG[0].value,
-    page: {
-      pageSize: 20,
-      pageNo: 1,
-    },
-  })
-  const { dataType } = params
-  // 列表数据
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 0,
-  })
-  // 存储平台任务数量
-  const [taskNumList, setTaskNumList] = useState([])
-  useEffect(() => {
-    reqTaskList(params).then((res) => {
-      const { data, success, msg } = res
-      if (data && success) {
-        setTableData({
-          list: data.data,
-          total: data.page.totalSize,
-        })
-      } else {
-        message.error(msg || '获取列表数据失败')
-      }
-    })
-  }, [params])
-
-  useEffect(() => {
-    reqTaskNum({ dataType }).then((res) => {
-      const { data, success, msg } = res
-      if (success && data) {
-        setTaskNumList(data)
-      } else {
-        message.error(msg || '获取任务数量失败')
-      }
-    })
-  }, [dataType])
-
   function renderTime(time) {
     return time ? dayjs(time).format('YYYY-MM-DD') : '-'
   }

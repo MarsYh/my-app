@@ -11,11 +11,12 @@ import {
   PLATFORM_NUM_CONFIG,
   TASK_TYPE_CONFIG,
   SUBTASK_NUM_CONFIG,
+  PLATFORM_IMGTYPE_CONFIG,
+  PLATFORM_TEXTTYPE_CONFIG,
 } from '../../sourceData'
 import styles from './index.module.less'
-import { ExclamationCircleFilled } from '@ant-design/icons'
+import { ExclamationCircleFilled, DownloadOutlined } from '@ant-design/icons'
 import classNames from 'classnames'
-import IconXt from '../../img/icon-xingtu.svg'
 import { renderTaskStatus } from '../../utils'
 
 function TaskDrawer(props, ref) {
@@ -23,12 +24,12 @@ function TaskDrawer(props, ref) {
 
   const [open, setOpen] = useState(false)
   const [data, setData] = useState({})
+  // 子任务列表数据状态
   const [subData, setSubData] = useState({
-    total:0,
-    dataSource:[]
+    dataSource: [],
+    total: 0,
   })
   const [record, setRecord] = useState({})
-  const [value, setValue] = useState(false)
   const [subTaskParams, setSubTaskParams] = useState({
     taskId: '',
     page: {
@@ -43,26 +44,55 @@ function TaskDrawer(props, ref) {
       open(record) {
         // 设置打开
         setOpen(true)
-        // // 设置标题
-        // setTitle(TASK_CODE_CONFIG[record.taskTypeCode])
-        // // 设置图片
-        // setImg(PLATFORM_NUM_CONFIG[record.platforms])
-        // // 设置平台名
-        // setPlatformName(record.platforms)
-        // // 设置任务类型名
-        // setTaskType(TASK_TYPE_CONFIG[record.taskTypeCode])
-        // // 设置任务数量
-        // setTaskNum(record.subTaskNum)
-        // // 设置任务状态
-        // setTaskStatus(record.taskStatus)
         setRecord(record)
         getTaskDetail(record.taskId)
-        const params = { ...subTaskParams, taskId:record.taskId }
+        const params = { ...subTaskParams, taskId: record.taskId }
         setSubTaskParams(params)
         getSubTask(params)
       },
     }
   })
+  const columns = [
+    {
+      title: '达人名称',
+      width: 150,
+      ellipsis: true,
+      dataIndex: 'resourceName',
+    },
+    {
+      title: '达人ID',
+      width: 150,
+      ellipsis: true,
+      dataIndex: 'resourceId',
+    },
+    {
+      title: '主页链接',
+      width: 150,
+      ellipsis: true,
+      dataIndex: 'homeUrl',
+    },
+    {
+      title: '状态',
+      width: 150,
+      ellipsis: true,
+      dataIndex: 'taskStatus',
+      render: (_, record) => renderTaskStatus(record),
+    },
+    {
+      title: '原因',
+      width: 150,
+      ellipsis: true,
+    },
+    {
+      title: '操作',
+      width: 150,
+      ellipsis: true,
+    },
+  ]
+  const { statusDetail, resultData } = data
+  const success = statusDetail[0]
+  const failed = statusDetail[1]
+  // console.log(success.success[0].official)
   // 请求数据
   function getTaskDetail(taskId) {
     reqTaskDetail({ taskId }).then((res) => {
@@ -79,22 +109,38 @@ function TaskDrawer(props, ref) {
     reqSubTask(params).then((res) => {
       const { success, message: msg, data } = res
       if (success && data) {
-        const { data:dataSource,page  } = data
+        const { data: dataSource, page } = data
         setSubData({
-            dataSource,
-            total:page.totalSize
+          dataSource,
+          total: page.totalSize,
         })
       } else {
         message.error(msg || '获取子任务列表失败')
       }
     })
   }
+  //
+  function onSubTaskChange(e) {
+    const code = e.target.value
+    if (subTaskParams.subTaskStatus === code) return
+    const _subTaskParams = { ...subTaskParams }
+    if (code === 0) {
+      delete -subTaskParams.subTaskStatus
+    } else {
+      _subTaskParams.subTaskStatus = code
+    }
+    setSubTaskParams(_subTaskParams)
+  }
+  function onTableChange(pagination, filters, sorter) {
+    const o = { ...subTaskParams }
+    // 分页
+    const { current, pageSize } = pagination
+    o.page = {
+      pageNo: current,
+      pageSize: pageSize,
+    }
 
-  console.log("subData:",subData)
-
-
-  function onChange(e) {
-    setValue(e.target.value)
+    setSubTaskParams(o)
   }
 
   return (
@@ -151,30 +197,43 @@ function TaskDrawer(props, ref) {
             <div className={styles.customResult}>
               <p className={styles.resultBox}>
                 <p>
-                  <img src={IconXt} alt="" />
-                  星图达人
+                  <img
+                    src={PLATFORM_IMGTYPE_CONFIG[record.platforms] || ''}
+                    alt=""
+                  />
+                  <text>
+                    {PLATFORM_TEXTTYPE_CONFIG[record.platforms] || ''}
+                  </text>
                 </p>
                 <p>
                   <span>
-                    成功
-                    <span>{}</span>
+                    成功&nbsp;
+                    <span className={styles.success}>
+                      {success.success[0].official || 0}
+                    </span>
                   </span>
                   <span>
-                    失败
-                    <span>{}</span>
+                    失败&nbsp;
+                    <span className={styles.failed}>
+                      {failed.failed[0].official || 0}
+                    </span>
                   </span>
                 </p>
               </p>
               <p className={styles.resultBox}>
-                <p>非星图达人</p>
+                <p>非{PLATFORM_TEXTTYPE_CONFIG[record.platforms] || ''}</p>
                 <p>
                   <span>
-                    成功
-                    <span>{}</span>
+                    成功&nbsp;
+                    <span className={styles.success}>
+                      {success.success[0].unOfficial || 0}
+                    </span>
                   </span>
                   <span>
-                    失败
-                    <span>{}</span>
+                    失败&nbsp;
+                    <span className={styles.failed}>
+                      {failed.failed[0].unOfficial || 0}
+                    </span>
                   </span>
                 </p>
               </p>
@@ -182,8 +241,10 @@ function TaskDrawer(props, ref) {
                 <p>未知</p>
                 <p>
                   <span>
-                    失败
-                    <span>{}</span>
+                    失败&nbsp;
+                    <span className={styles.failed}>
+                      {failed.failed[0].unknown || 0}
+                    </span>
                   </span>
                 </p>
               </p>
@@ -191,29 +252,62 @@ function TaskDrawer(props, ref) {
           </div>
           <div className={styles.contentItem}>
             <span className={styles.taskName}>下载执行结果</span>
-            {/* <Spin>
+            <div className={styles.downloadResultGap}>
               <div className={styles.downloadResult}>
-                <div></div>
+                <span className={styles.download}>
+                  <DownloadOutlined
+                    style={{ marginRight: '4px', color: 'rgb(112, 126, 255)' }}
+                  />
+                  {resultData[0].size}
+                </span>
+                <span className={styles.resultBox}>
+                  <span>
+                    成功&nbsp;
+                    <span className={styles.success}>
+                      {resultData[0].successNum}
+                    </span>
+                  </span>
+                  <span>
+                    失败&nbsp;
+                    <span className={styles.failed}>{resultData[0].naNum}</span>
+                  </span>
+                </span>
+                <span className={styles.time}>{resultData[0].dateTime}</span>
               </div>
-            </Spin> */}
+            </div>
           </div>
           <div className={styles.contentItem}>
             <span className={styles.taskName}>创建人</span>
-            <span></span>
+            <span>{record.createUser}</span>
           </div>
         </div>
         <div className={styles.table}>
           <div className={styles.tableHeader}>
             <p>执行列表</p>
             <div>
-              <Radio.Group onChange={onChange} value={value}>
+              <Radio.Group onChange={onSubTaskChange}>
                 {SUBTASK_NUM_CONFIG.map((item) => (
-                  <Radio key={item.value}>{item.lable}</Radio>
+                  <Radio value={item.value} key={item.value}>
+                    {item.lable}
+                  </Radio>
                 ))}
               </Radio.Group>
             </div>
           </div>
-          <Table columns={[]} rowKey="subTaskId" dataSource={subData.dataSource} />
+          <Table
+            onChange={onTableChange}
+            // 翻页标签配置属性
+            pagination={{
+              showQuickJumper: true,
+              showSizeChanger: [10, 20],
+              pageSize: subTaskParams.page.pageSize,
+              current: subTaskParams.page.pageNo,
+              total: subData.total,
+            }}
+            columns={columns}
+            rowKey="subTaskId"
+            dataSource={subData.dataSource}
+          />
         </div>
       </div>
     </Drawer>

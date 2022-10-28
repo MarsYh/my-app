@@ -4,6 +4,8 @@ import IconRedBook from "./img/icon-xhs.svg"
 import IconWeibo from "./img/icon-weibo.svg"
 import IconWechat from "./img/icon-wechat.svg"
 import IconBilibili from "./img/icon-bilibili.svg"
+import IconPGY from "./img/icon-pgy.svg"
+import IconXt from './img/icon-xingtu.svg'
 
 export const PLATFORM_NUM_CONFIG = {
   "全部": IconAll,
@@ -72,3 +74,12 @@ export const SUBTASK_NUM_CONFIG = [
     value: 4
   },
 ]
+
+export const PLATFORM_IMGTYPE_CONFIG = {
+  "小红书": IconPGY,
+  "抖音": IconXt
+}
+export const PLATFORM_TEXTTYPE_CONFIG = {
+  "小红书": "蒲公英达人",
+  "抖音": "星图达人"
+}
