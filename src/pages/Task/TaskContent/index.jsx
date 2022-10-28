@@ -13,8 +13,12 @@ import classNames from 'classnames'
 import dayjs from 'dayjs'
 import PlatformBtn from './components/PlatformBtn'
 import TaskDrawer from './components/TaskDrawer'
+import { renderTaskStatus } from "./utils"
 
 function TaskContent() {
+  const drawerRef = useRef()
+  const taskDrawerRef = useRef()
+
   const columns = [
     {
       title: '任务编号',
@@ -72,7 +76,7 @@ function TaskContent() {
       title: '任务状态',
       key: 'taskStatus',
       dataIndex: 'taskStatus',
-      render: renderTaskState,
+      render: (_,record)=>renderTaskStatus(record),
       width: 100,
     },
     {
@@ -89,8 +93,6 @@ function TaskContent() {
     },
   ]
 
-  const taskDrawerRef = useRef()
-  // 更改复选框的状态
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   // 任务内容列表接口请求参数
@@ -134,34 +136,6 @@ function TaskContent() {
     })
   }, [dataType])
 
-  function renderTaskState(text, record) {
-    // console.log('=>', data)
-    const { taskStatus } = record
-    if (taskStatus === '执行成功') {
-      return (
-        <div>
-          <Badge status="success" />
-          <span>{taskStatus}</span>
-        </div>
-      )
-    }
-    if (taskStatus === '执行失败') {
-      return (
-        <div>
-          <Badge status="error" />
-          <span>{taskStatus}</span>
-        </div>
-      )
-    }
-    if (taskStatus === '无法执行') {
-      return (
-        <div>
-          <Badge status="default" />
-          <span>{taskStatus}</span>
-        </div>
-      )
-    }
-  }
   function renderTime(time) {
     return time ? dayjs(time).format('YYYY-MM-DD') : '-'
   }
@@ -189,6 +163,7 @@ function TaskContent() {
 
     setParams(o)
   }
+
   function handleTypeClick(value) {
     if (params.dataType === value) return
     const _params = { ...params }

@@ -1,27 +1,28 @@
-import { Drawer, message, Badge, Button, Table, Spin } from 'antd'
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
-import { reqTaskDetail } from '@/api/task'
+import { Drawer, message, Badge, Button, Table, Spin } from "antd";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
+import { reqTaskDetail } from "@/api/task";
 import {
   TASK_CODE_CONFIG,
   PLATFORM_NUM_CONFIG,
   TASK_TYPE_CONFIG,
-} from '../../sourceData'
-import styles from './index.module.less'
-import { ExclamationCircleFilled } from '@ant-design/icons'
-import classNames from 'classnames'
-import IconXt from '../../img/icon-xingtu.svg'
+} from "../../sourceData";
+import styles from "./index.module.less";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import classNames from "classnames";
+import IconXt from "../../img/icon-xingtu.svg";
+import { renderTaskStatus } from "../../utils"
 
 function TaskDrawer(props, ref) {
-  const [open, setOpen] = useState(false)
-  const [data, setData] = useState({})
-  const [record, setRecord] = useState({})
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
+  const [record, setRecord] = useState({});
 
   // 让外层点击的时候可以获取里层的方法
   useImperativeHandle(ref, () => {
     return {
       open(record) {
         // 设置打开
-        setOpen(true)
+        setOpen(true);
         // // 设置标题
         // setTitle(TASK_CODE_CONFIG[record.taskTypeCode])
         // // 设置图片
@@ -34,49 +35,24 @@ function TaskDrawer(props, ref) {
         // setTaskNum(record.subTaskNum)
         // // 设置任务状态
         // setTaskStatus(record.taskStatus)
-        setRecord(record)
-        getTaskDetail(record.taskId)
+        setRecord(record);
+        getTaskDetail(record.taskId);
       },
-    }
-  })
+    };
+  });
   // 请求数据
   function getTaskDetail(taskId) {
     reqTaskDetail({ taskId }).then((res) => {
-      const { success, message: msg, data: params } = res
+      const { success, message: msg, data: params } = res;
       if (success && params) {
-        setData(data)
+        setData(data);
       } else {
-        message.error(msg || '获取任务详情失败')
+        message.error(msg || "获取任务详情失败");
       }
-    })
+    });
   }
-  function renderTaskStatus() {
-    const { taskStatus } = record
-    if (taskStatus === '执行成功') {
-      return (
-        <span className={styles.taskStatus}>
-          <Badge status="success" />
-          <span>{taskStatus}</span>
-        </span>
-      )
-    }
-    if (taskStatus === '执行失败') {
-      return (
-        <div>
-          <Badge status="error" />
-          <span>{taskStatus}</span>
-        </div>
-      )
-    }
-    if (taskStatus === '无法执行') {
-      return (
-        <div>
-          <Badge status="default" />
-          <span>{taskStatus}</span>
-        </div>
-      )
-    }
-  }
+
+
 
   return (
     <Drawer
@@ -94,10 +70,11 @@ function TaskDrawer(props, ref) {
             通过
           </Button>
         </div>
-      }>
+      }
+    >
       <div className={styles.container}>
         <h2 className={styles.title}>
-          {TASK_CODE_CONFIG[record.taskTypeCode] || '-'}
+          {TASK_CODE_CONFIG[record.taskTypeCode] || "-"}
         </h2>
         <p className={styles.paragraph}>
           <span>
@@ -117,13 +94,13 @@ function TaskDrawer(props, ref) {
           </div>
           <div className={styles.contentItem}>
             <span className={styles.taskName}>
-              {TASK_TYPE_CONFIG[record.taskTypeCode] || '-'}
+              {TASK_TYPE_CONFIG[record.taskTypeCode] || "-"}
             </span>
             <span>{TASK_TYPE_CONFIG[record.taskTypeCode]}</span>
           </div>
           <div className={styles.contentItem}>
             <span className={styles.taskName}>任务状态</span>
-            <span className={styles.taskStatus}>{renderTaskStatus()}</span>
+            <span className={styles.taskStatus}>{renderTaskStatus(record)}</span>
           </div>
           <div className={styles.contentItem}>
             <span className={styles.taskName}>最终执行结果</span>
@@ -187,7 +164,7 @@ function TaskDrawer(props, ref) {
         </div>
       </div>
     </Drawer>
-  )
+  );
 }
 
-export default forwardRef(TaskDrawer)
+export default forwardRef(TaskDrawer);
