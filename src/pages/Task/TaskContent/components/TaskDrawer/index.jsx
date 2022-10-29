@@ -23,11 +23,9 @@ function TaskDrawer(props, ref) {
   const { Link } = Typography
 
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState({
-    resultData: [],
-    statusDetail: {},
-  })
+  const [data, setData] = useState({})
   const [subLoading, setSubLoading] = useState(false)
+  const [detailLoading, setDetailLoading] = useState(false)
   // 子任务列表数据状态
   const [subData, setSubData] = useState({
     dataSource: [],
@@ -93,22 +91,35 @@ function TaskDrawer(props, ref) {
       ellipsis: true,
     },
   ]
-  const { statusDetail, resultData } = data
-  const success = statusDetail?.[0]
-  // console.log(success)
+ 
+  function filterStatusDetail(list){
+    if(!list || !list.length) return {}
+    const result = {}
+    list.forEach(item => {
+       const [key,value] = Object.entries(item)[0]
+        const o = value.reduce((prev,child) => {
+            prev = { ...prev, ...child }
+            return prev
+        },{})
 
-  const failed = statusDetail?.[1]
-  // console.log(success.success[0].official)
+        result[key] = o
+    })
+
+    return result
+  }
+
   // 请求数据
   function getTaskDetail(taskId) {
+    setDetailLoading(true)
     reqTaskDetail({ taskId }).then((res) => {
       const { success, message: msg, data } = res
       if (success && data) {
-        setData(data)
+        const _status = filterStatusDetail(data.statusDetail)
+        setData({ ...data, status:_status })
       } else {
         message.error(msg || '获取任务详情失败')
       }
-    })
+    }).finally(() => setDetailLoading(false))
   }
   // 获取子任务列表
   function getSubTask(params) {
@@ -153,6 +164,12 @@ function TaskDrawer(props, ref) {
 
     setSubTaskParams(o)
   }
+
+  const { status = {},resultData = [] } = data
+
+  const dowloadResult = resultData[0] || {}
+
+  console.log("status:",status)
 
   return (
     <Drawer
@@ -203,92 +220,95 @@ function TaskDrawer(props, ref) {
               {renderTaskStatus(record)}
             </span>
           </div>
-          <div className={styles.contentItem}>
-            <span className={styles.taskName}>最终执行结果</span>
-            <div className={styles.customResult}>
-              <p className={styles.resultBox}>
-                <p>
-                  <img
-                    src={PLATFORM_IMGTYPE_CONFIG[record.platforms] || ''}
-                    alt=""
-                  />
-                  <text>
-                    {PLATFORM_TEXTTYPE_CONFIG[record.platforms] || ''}
-                  </text>
+          <Spin spinning={detailLoading}>
+            <div className={styles.contentItem}>
+                <span className={styles.taskName}>最终执行结果</span>
+                <div className={styles.customResult}>
+                <p className={styles.resultBox}>
+                    <p>
+                    <img
+                        src={PLATFORM_IMGTYPE_CONFIG[record.platforms] || ''}
+                        alt=""
+                    />
+                    <text>
+                        {PLATFORM_TEXTTYPE_CONFIG[record.platforms] || ''}
+                    </text>
+                    </p>
+                    <p>
+                    <span>
+                        成功&nbsp;
+                        <span className={styles.success}>
+                        {status.success?.official || '-'}
+                        </span>
+                    </span>
+                    <span>
+                        失败&nbsp;
+                        <span className={styles.failed}>
+                        {status.failed?.official || '-'}
+                        </span>
+                    </span>
+                    </p>
                 </p>
-                <p>
-                  <span>
-                    成功&nbsp;
-                    <span className={styles.success}>
-                      {success?.success?.[0].official || 0}
+                <p className={styles.resultBox}>
+                    <p>非{PLATFORM_TEXTTYPE_CONFIG[record.platforms] || ''}</p>
+                    <p>
+                    <span>
+                        成功&nbsp;
+                        <span className={styles.success}>
+                        {status.success?.unOfficial || '-'}
+                        </span>
                     </span>
-                  </span>
-                  <span>
-                    失败&nbsp;
-                    <span className={styles.failed}>
-                      {failed?.failed?.[0].official || 0}
+                    <span>
+                        失败&nbsp;
+                        <span className={styles.failed}>
+                        {status.failed?.unOfficial || '-'}
+                        </span>
                     </span>
-                  </span>
+                    </p>
                 </p>
-              </p>
-              <p className={styles.resultBox}>
-                <p>非{PLATFORM_TEXTTYPE_CONFIG[record.platforms] || ''}</p>
-                <p>
-                  <span>
-                    成功&nbsp;
-                    <span className={styles.success}>
-                      {success?.success[0]?.unOfficial || 0}
+                <p className={styles.resultBox}>
+                    <p>未知</p>
+                    <p>
+                    <span>
+                        失败&nbsp;
+                        <span className={styles.failed}>
+                        {status.failed?.unknown || '-'}
+                        </span>
                     </span>
-                  </span>
-                  <span>
-                    失败&nbsp;
-                    <span className={styles.failed}>
-                      {failed?.failed[0]?.unOfficial || 0}
-                    </span>
-                  </span>
+                    </p>
                 </p>
-              </p>
-              <p className={styles.resultBox}>
-                <p>未知</p>
-                <p>
-                  <span>
-                    失败&nbsp;
-                    <span className={styles.failed}>
-                      {failed?.failed?.[0].unknown || 0}
-                    </span>
-                  </span>
-                </p>
-              </p>
+                </div>
             </div>
-          </div>
-          <div className={styles.contentItem}>
-            <span className={styles.taskName}>下载执行结果</span>
-            <div className={styles.downloadResultGap}>
-              <div className={styles.downloadResult}>
-                <span className={styles.download}>
-                  <DownloadOutlined
-                    style={{ marginRight: '4px', color: 'rgb(112, 126, 255)' }}
-                  />
-                  {resultData[0]?.size}
-                </span>
-                <span className={styles.resultBox}>
-                  <span>
-                    成功&nbsp;
-                    <span className={styles.success}>
-                      {resultData[0]?.successNum}
+            <div className={styles.contentItem}>
+                <span className={styles.taskName}>下载执行结果</span>
+                <div className={styles.downloadResultGap}>
+                <div className={styles.downloadResult}>
+                    <span className={styles.download}>
+                    <DownloadOutlined
+                        style={{ marginRight: '4px', color: 'rgb(112, 126, 255)' }}
+                    />
+                    {dowloadResult.size || '-'}
                     </span>
-                  </span>
-                  <span>
-                    失败&nbsp;
-                    <span className={styles.failed}>
-                      {resultData[0]?.naNum}
+                    <span className={styles.resultBox}>
+                    <span>
+                        成功&nbsp;
+                        <span className={styles.success}>
+                        {dowloadResult.successNum || '-'}
+                        </span>
                     </span>
-                  </span>
-                </span>
-                <span className={styles.time}>{resultData[0]?.dateTime}</span>
-              </div>
+                    <span>
+                        失败&nbsp;
+                        <span className={styles.failed}>
+                        {dowloadResult.naNum || '-'}
+                        </span>
+                    </span>
+                    </span>
+                    <span className={styles.time}>{dowloadResult.dateTime || '-'}</span>
+                </div>
+                </div>
             </div>
-          </div>
+          </Spin>
+
           <div className={styles.contentItem}>
             <span className={styles.taskName}>创建人</span>
             <span>{record.createUser}</span>
@@ -321,10 +341,14 @@ function TaskDrawer(props, ref) {
               pageSize: subTaskParams.page.pageSize,
               current: subTaskParams.page.pageNo,
               total: subData.total,
+              simple:true
             }}
             columns={columns}
             rowKey="subTaskId"
             dataSource={subData.dataSource}
+            scroll={{
+                x:500
+            }}
           />
         </div>
       </div>
