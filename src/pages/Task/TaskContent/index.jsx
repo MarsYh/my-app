@@ -117,7 +117,7 @@ function TaskContent() {
       title: '任务状态',
       key: 'taskStatus',
       dataIndex: 'taskStatus',
-      render: (_, record) => renderTaskStatus(record),
+      render: (text) => renderTaskStatus(text),
       width: 100,
     },
     {

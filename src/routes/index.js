@@ -2,6 +2,7 @@ import Manage from "../pages/Manage"
 import Resource from "../pages/Resource"
 import Task from "../pages/Task"
 import User from "../pages/User"
+import CompanyManage from "../pages/CompanyManage"
 import LayoutPro from "../components/Layout"
 import NotFound from "../pages/NotFound"
 import Redbook from "../pages/Resource/Redbook"
@@ -14,11 +15,13 @@ import RedbookDetail from "../pages/ResourceDetail/Redbook"
 import ResourceDetail from "../pages/ResourceDetail"
 import TaskContent from "../pages/Task/TaskContent"
 import TaskManage from "../pages/Task/TaskManage"
+import UserManage from "../pages/CompanyManage/UserManage"
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
   MailOutlined,
+  SolutionOutlined
 } from "@ant-design/icons"
 import { lazy } from "react"
 
@@ -96,6 +99,21 @@ const routes = [
             element: <TaskContent />,
             icon: <VideoCameraOutlined />,
           }
+        ],
+      },
+      {
+        path: "companyManage",
+        element: <CompanyManage />,
+        name: "企业管理",
+        exact: true,
+        icon: <SolutionOutlined />,
+        children: [
+          {
+            name: "用户管理",
+            path: "userManage",
+            element: <UserManage />,
+            icon: <SolutionOutlined />,
+          },
         ],
       },
       {

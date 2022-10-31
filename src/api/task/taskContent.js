@@ -21,7 +21,7 @@ export function reqTaskAudit (data) {
 }
 // 请求是否重试
 export function reqTaskRetry (data) {
-  return request.post("/api/kol/xdnphb/kol/resource/taskCentre/taskRetryByTaskId", data)
+  return request.post("/api/kol/xdnphb/kol/resource/taskCentre/taskRetry", data)
 }
 // 请求子任务列表
 export function reqSubTask (data) {

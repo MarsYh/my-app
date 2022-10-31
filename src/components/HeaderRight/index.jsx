@@ -1,5 +1,5 @@
 // 头像资料
-import { Avatar, Button, message, Popover } from 'antd'
+import { Avatar, Button, message, Popover, Space } from 'antd'
 import React from 'react'
 import styles from './index.module.less'
 import { toLogin } from '@/utils'
@@ -26,8 +26,10 @@ const HeaderRight = () => {
       <Popover
         content={<Button onClick={loginOut}>退出登录</Button>}
         placement="bottom">
-        <Avatar src={userInfo.headImgUrl} size={32} />
-        <span className={styles.name}>{userInfo.nickName || '-'}</span>
+        <Space>
+          <Avatar src={userInfo.headImgUrl} />
+          <span className={styles.name}>{userInfo.nickName || '-'}</span>
+        </Space>
       </Popover>
     </div>
   )

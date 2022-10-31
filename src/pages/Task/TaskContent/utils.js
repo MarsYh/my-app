@@ -1,19 +1,25 @@
 import { Badge } from 'antd'
+import { CONFIG, SUBTASK_BADGE_CONFIG, TEXT } from "./sourceData"
 
 // 渲染任务状态
-export function renderTaskStatus(record) {
-    const { taskStatus } = record;
-    const CONFIG = {
-      执行成功: "success",
-      执行失败: "error",
-      无法执行: "default",
-    };
-    const status = CONFIG[taskStatus];
+export function renderTaskStatus (status) {
+  const _status = CONFIG[status]
+  return (
+    <div>
+      <Badge status={_status} />
+      <span>{status || '-'}</span>
+    </div>
+  )
+}
 
-    return (
-      <div>
-        <Badge status={status} />
-        <span>{taskStatus}</span>
-      </div>
-    );
-  }
+
+export function renderSubTaskStatus (subStatus) {
+  const _subText = TEXT[subStatus]
+  const _subBadgeStatus = SUBTASK_BADGE_CONFIG[subStatus]
+  return (
+    <div>
+      <Badge status={_subBadgeStatus} />
+      <span>{_subText || '-'}</span>
+    </div>
+  )
+}

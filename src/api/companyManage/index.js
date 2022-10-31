@@ -1,0 +1,1 @@
+export { reqUserManage, reqUserNum } from "./userManage"
