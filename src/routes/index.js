@@ -2,7 +2,7 @@ import Manage from "../pages/Manage"
 import Resource from "../pages/Resource"
 import Task from "../pages/Task"
 import User from "../pages/User"
-import CompanyManage from "../pages/CompanyManage"
+// import CompanyManage from "../pages/CompanyManage"
 import LayoutPro from "../components/Layout"
 import NotFound from "../pages/NotFound"
 import Redbook from "../pages/Resource/Redbook"
@@ -103,7 +103,7 @@ const routes = [
       },
       {
         path: "companyManage",
-        element: <CompanyManage />,
+        // element: <CompanyManage />,
         name: "企业管理",
         exact: true,
         icon: <SolutionOutlined />,
