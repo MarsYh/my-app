@@ -75,6 +75,21 @@ export const SUBTASK_NUM_CONFIG = [
   },
 ]
 
+export const CONFIG = {
+  执行成功: "success",
+  执行失败: "error",
+  无法执行: "default",
+}
+
+export const SUBTASK_BADGE_CONFIG = {
+  3: 'success',
+  4: 'error',
+}
+export const TEXT = {
+  3: '执行成功',
+  4: '执行失败',
+}
+
 export const PLATFORM_IMGTYPE_CONFIG = {
   "小红书": IconPGY,
   "抖音": IconXt

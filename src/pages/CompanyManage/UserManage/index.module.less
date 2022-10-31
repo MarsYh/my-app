@@ -1,0 +1,105 @@
+:global {
+  .ant-table-thead > tr > th {
+    background-color: hsl(180deg 16% 94%);
+  }
+  .ant-checkbox-inner {
+    background-color: #fff;
+  }
+  .ant-table-thead > tr .ant-table-cell:first-child {
+    border-radius: 6px 0 0 6px !important;
+  }
+}
+
+.container {
+  display: flex;
+  font-family: DINPro;
+}
+.leftBox {
+  width: 255px;
+  border: 1px solid rgb(225, 230, 230);
+  margin-right: 32px;
+  .leftItem {
+    cursor: pointer;
+    padding: 11px 23px;
+    .depName {
+      display: inline-block;
+      width: 130px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    > span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.rightBox {
+  width: 100%;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .filter {
+      display: flex;
+      gap: 24px;
+      .userSearch,
+      .characterType {
+        display: flex;
+        :global {
+          .ant-input-affix-wrapper {
+            width: 268px;
+          }
+        }
+        > span:first-child {
+          font-size: 14px;
+          white-space: nowrap;
+          font-weight: 400;
+          color: rgb(61, 66, 66);
+          padding: 0px 20px;
+          line-height: 32px;
+          height: 32px;
+          border-top: 1px solid rgb(225, 230, 230);
+          border-bottom: 1px solid rgb(225, 230, 230);
+          border-left: 1px solid rgb(225, 230, 230);
+          border-image: initial;
+          border-right: none;
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+        }
+      }
+      .clearFilter {
+        border: 1px solid transparent;
+        background-color: #edf2f2;
+        color: #626a6a;
+        font-size: 14px;
+        padding: 4px 15px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+    }
+    .btnGroup {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+.table {
+  width: 100%;
+  margin-top: 16px;
+  :global {
+    .ant-table-thead > tr > th {
+      font-weight: 400;
+      color: #889191;
+    }
+  }
+}
+.inName:hover {
+  .icon:hover {
+    visibility: visible;
+  }
+  cursor: pointer;
+}

@@ -27,7 +27,8 @@
     .contentItem:first-child {
       margin-top: 10px;
     }
-    .contentItem {
+    .contentItem,
+    .resultItem {
       display: flex;
       margin-top: 32px;
       .taskName {
@@ -38,6 +39,7 @@
       .customResult {
         display: flex;
         .resultBox {
+          white-space: nowrap;
           background-color: #f9f9fb;
           border-radius: 5px;
           padding: 8px 16px;
@@ -122,4 +124,13 @@ p {
       cursor: pointer;
     }
   }
+}
+.downloadResultBox {
+  > span {
+    color: #bec2c3;
+    margin-right: 10px;
+  }
+}
+.homeUrl {
+  color: #3d4242;
 }
