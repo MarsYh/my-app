@@ -20,12 +20,13 @@ function UserManage() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [edit, setEdit] = useState()
   const [userLoading, setUserLoading] = useState(false)
-
-  // 任务内容列表接口请求参数
-  const [params, setParams] = useState({
+  // 列表初始参数
+  const initParams = {
     current: 1,
     size: 15,
-  })
+  }
+  // 任务内容列表接口请求参数
+  const [params, setParams] = useState(initParams)
   // 部门人数
   const [deptData, setDeptData] = useState([])
   // 角色列表
@@ -54,18 +55,6 @@ function UserManage() {
       result.push(o)
     })
     result.unshift({ deptName: '全部', uuid: '', count: sum })
-    return result
-  }
-  // 处理角色列表数据
-  function filterRoleList(list) {
-    if (!list || !list.length) return []
-    const result = []
-    list.forEach((item) => {
-      const id = item.roleUuid
-      const name = item.roleName
-      const _list = { id, name }
-      result.push(_list)
-    })
     return result
   }
   useEffect(() => {
@@ -104,9 +93,7 @@ function UserManage() {
       const { data, success, message: msg } = res
       if (success && data) {
         // console.log('data', data)
-        const _roleUuid = filterRoleList(data)
-        // console.log(_roleUuid)
-        setRoleList(_roleUuid)
+        setRoleList(data)
       } else {
         message.error(msg || '请求角色列表失败')
       }
@@ -140,6 +127,8 @@ function UserManage() {
     _params.roleUuid = value
     setParams(_params)
   }
+
+  // 设置防抖
   const { run } = useDebounceFn(
     (newParams) => {
       setParams(newParams)
@@ -150,14 +139,19 @@ function UserManage() {
   )
 
   function onSearchChange(e) {
+    const _name = e.target.value
     const newParams = { ...params }
-    if (newParams.name) {
+    if (_name) {
+      newParams.name = _name
+    } else {
+      delete newParams.name
     }
-    run(e)
+    run(newParams)
   }
-
-  function handleClearClick(params) {
-    console.log(params)
+  // 清空筛选
+  function clearFliter() {
+    setParams(initParams)
+    selectedRowKeys.length && setSelectedRowKeys([])
   }
   // 渲染编辑按钮
   function renderEdit(name, editKey) {
@@ -304,6 +298,7 @@ function UserManage() {
             <div className={styles.userSearch}>
               <span>用户搜索</span>
               <Input
+                value={params.name}
                 onChange={onSearchChange}
                 suffix={suffix}
                 placeholder="请输入用户昵称或姓名进行搜索"
@@ -313,21 +308,20 @@ function UserManage() {
             <div className={styles.characterType}>
               <span>角色类型</span>
               <Select
+                value={params.roleUuid}
                 onChange={onRoleListChange}
                 placeholder="请选择角色类型"
                 style={{
                   width: 224,
                 }}>
                 {roleList?.map((item) => (
-                  <Option key={item.id} value={item.id}>
-                    {item.name}
+                  <Option key={item.roleUuid} value={item.roleUuid}>
+                    {item.roleName}
                   </Option>
                 ))}
               </Select>
             </div>
-            <div
-              className={styles.clearFilter}
-              onClick={() => handleClearClick(params)}>
+            <div className={styles.clearFilter} onClick={clearFliter}>
               清空筛选
             </div>
           </div>
