@@ -112,18 +112,7 @@ function UserManage() {
       }
     })
   }, [])
-  const { run } = useDebounceFn(
-    (name, e) => {
-      if (name.length) {
-        const _params = { ...params }
-        _params.name = e.target.value
-        setParams(_params)
-      }
-    },
-    {
-      wait: 500,
-    }
-  )
+
   function onTableChange(pagin, filters, sorter) {
     const o = { ...params }
     console.log(pagin)
@@ -151,12 +140,19 @@ function UserManage() {
     _params.roleUuid = value
     setParams(_params)
   }
+  const { run } = useDebounceFn(
+    (newParams) => {
+      setParams(newParams)
+    },
+    {
+      wait: 500,
+    }
+  )
 
   function onSearchChange(e) {
-    console.log(e.target.value)
-    const _params = { ...params }
-    _params.name = e.target.value
-    setParams(_params)
+    const newParams = { ...params }
+    if (newParams.name) {
+    }
     run(e)
   }
 
@@ -282,7 +278,6 @@ function UserManage() {
 
   const suffix = (
     <div>
-      <CloseCircleOutlined style={{ color: '#fff' }} />
       <img src={IconSearch} alt="" />
     </div>
   )
@@ -312,6 +307,7 @@ function UserManage() {
                 onChange={onSearchChange}
                 suffix={suffix}
                 placeholder="请输入用户昵称或姓名进行搜索"
+                allowClear
               />
             </div>
             <div className={styles.characterType}>
