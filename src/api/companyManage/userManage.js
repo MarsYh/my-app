@@ -9,3 +9,11 @@ export function reqUserManage (params) {
 export function reqUserNum (data) {
   return request.post("/api/throwdata/throw/data/user/user2", data)
 }
+// 获取部门角色团队列表
+export function reqUserList (data) {
+  return request.post("/api/throwdata/throw/data/user/user4", data)
+}
+// 请求所有角色列表
+export function reqRoleList (params) {
+  return request.get("/api/throwdata/throw/data/role/getRoleList", { params })
+}

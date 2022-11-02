@@ -19,8 +19,15 @@
   border: 1px solid rgb(225, 230, 230);
   margin-right: 32px;
   .leftItem {
+    display: flex;
+    justify-content: space-between;
     cursor: pointer;
     padding: 11px 23px;
+    &:hover {
+      border-radius: 2px;
+      color: rgb(112, 126, 255);
+      background-color: rgba(225, 230, 230, 0.1);
+    }
     .depName {
       display: inline-block;
       width: 130px;
@@ -97,16 +104,23 @@
     }
   }
 }
-// .inName:hover {
-//   .icon:hover {
-//     visibility: visible;
-//   }
-//   cursor: pointer;
-// }
-
-.inName{
+.inName {
   cursor: pointer;
 }
-.checkd{
+.checked {
   color: rgb(112, 126, 255);
+  position: relative;
+  z-index: 1;
+}
+.checked::after {
+  content: '';
+  height: 45px;
+  top: 0;
+  width: 100%;
+  left: 0;
+  display: inline-block;
+  position: absolute;
+  background: linear-gradient(90deg, #727fff 0%, #ffffff 100%);
+  opacity: 0.1;
+  border-radius: 2px;
 }
