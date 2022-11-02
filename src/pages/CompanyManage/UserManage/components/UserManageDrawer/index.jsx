@@ -69,7 +69,7 @@ function UserManageDrawer(props, ref) {
         </div>
       }>
       <div className={styles.container}>
-        <div className={styles.box}>
+       <div className={styles.box}>
           <div className={styles.title}>所属部门</div>
           <div>
             <Radio.Group className={styles.radioGroup}>

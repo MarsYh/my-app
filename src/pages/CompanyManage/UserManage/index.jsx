@@ -13,6 +13,11 @@ import classNames from 'classnames'
 import UserManageDrawer from './components/UserManageDrawer'
 import { useDebounceFn } from 'ahooks'
 
+const initParams = {
+  current: 1,
+  size: 15,
+}
+
 function UserManage() {
   const userManageDrawerRef = useRef()
 
@@ -22,10 +27,7 @@ function UserManage() {
   const [userLoading, setUserLoading] = useState(false)
 
   // 任务内容列表接口请求参数
-  const [params, setParams] = useState({
-    current: 1,
-    size: 15,
-  })
+  const [params, setParams] = useState(initParams)
   // 部门人数
   const [deptData, setDeptData] = useState([])
   // 角色列表
@@ -57,17 +59,17 @@ function UserManage() {
     return result
   }
   // 处理角色列表数据
-  function filterRoleList(list) {
-    if (!list || !list.length) return []
-    const result = []
-    list.forEach((item) => {
-      const id = item.roleUuid
-      const name = item.roleName
-      const _list = { id, name }
-      result.push(_list)
-    })
-    return result
-  }
+  // function filterRoleList(list) {
+  //   if (!list || !list.length) return []
+  //   const result = []
+  //   list.forEach((item) => {
+  //     const id = item.roleUuid
+  //     const name = item.roleName
+  //     const _list = { id, name }
+  //     result.push(_list)
+  //   })
+  //   return result
+  // }
   useEffect(() => {
     setUserLoading(true)
     reqUserManage(params)
@@ -104,26 +106,15 @@ function UserManage() {
       const { data, success, message: msg } = res
       if (success && data) {
         // console.log('data', data)
-        const _roleUuid = filterRoleList(data)
+        // const _roleUuid = filterRoleList(data)
         // console.log(_roleUuid)
-        setRoleList(_roleUuid)
+        setRoleList(data)
       } else {
         message.error(msg || '请求角色列表失败')
       }
     })
   }, [])
-  const { run } = useDebounceFn(
-    (name, e) => {
-      if (name.length) {
-        const _params = { ...params }
-        _params.name = e.target.value
-        setParams(_params)
-      }
-    },
-    {
-      wait: 500,
-    }
-  )
+
   function onTableChange(pagin, filters, sorter) {
     const o = { ...params }
     console.log(pagin)
@@ -152,12 +143,23 @@ function UserManage() {
     setParams(_params)
   }
 
+
+  const { run } = useDebounceFn(
+    (newParams) => setParams(newParams),
+    {
+      wait: 500,
+    }
+  )
+
   function onSearchChange(e) {
-    console.log(e.target.value)
-    const _params = { ...params }
-    _params.name = e.target.value
-    setParams(_params)
-    run(e)
+    const _name = e.target.value
+    const newParams = { ...params }
+    if(_name){
+      newParams.name = _name
+    }else{
+      delete newParams.name
+    }
+    run(newParams)
   }
 
   function handleClearClick(params) {
@@ -282,10 +284,14 @@ function UserManage() {
 
   const suffix = (
     <div>
-      <CloseCircleOutlined style={{ color: '#fff' }} />
       <img src={IconSearch} alt="" />
     </div>
   )
+
+  function clearFilter(){
+    setParams(initParams)
+    selectedRowKeys.length && setSelectedRowKeys([])
+  }
 
   return (
     <div className={styles.container}>
@@ -309,29 +315,32 @@ function UserManage() {
             <div className={styles.userSearch}>
               <span>用户搜索</span>
               <Input
+                value={params.name}
                 onChange={onSearchChange}
                 suffix={suffix}
                 placeholder="请输入用户昵称或姓名进行搜索"
+                allowClear
               />
             </div>
             <div className={styles.characterType}>
               <span>角色类型</span>
               <Select
+                value={params.roleUuid}
                 onChange={onRoleListChange}
                 placeholder="请选择角色类型"
                 style={{
                   width: 224,
                 }}>
                 {roleList?.map((item) => (
-                  <Option key={item.id} value={item.id}>
-                    {item.name}
+                  <Option key={item.roleUuid} value={item.roleUuid}>
+                    {item.roleName}
                   </Option>
                 ))}
               </Select>
             </div>
             <div
               className={styles.clearFilter}
-              onClick={() => handleClearClick(params)}>
+              onClick={clearFilter}>
               清空筛选
             </div>
           </div>
