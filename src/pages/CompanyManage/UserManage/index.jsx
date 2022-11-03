@@ -1,17 +1,23 @@
-import { Input, Select, Button, Table, message, Avatar, Space } from 'antd'
+import {
+  Input,
+  Select,
+  Button,
+  Table,
+  message,
+  Avatar,
+  Space,
+  Typography,
+} from 'antd'
 import React, { useState, useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import IconSearch from './img/icon-search.svg'
 import { reqUserManage, reqUserNum, reqRoleList } from '@/api/companyManage'
-import {
-  CloseCircleOutlined,
-  PlusOutlined,
-  EditOutlined,
-} from '@ant-design/icons'
-import { CHARACTER_TYPE_CONFIG } from './sourceData'
+import { PlusOutlined, EditOutlined } from '@ant-design/icons'
 import classNames from 'classnames'
 import UserManageDrawer from './components/UserManageDrawer'
 import { useDebounceFn } from 'ahooks'
+import UserManageModal from './components/UserManageModal'
+import UserAccountModal from './components/UserAccountModal'
 
 const initParams = {
   current: 1,
@@ -19,13 +25,20 @@ const initParams = {
 }
 
 function UserManage() {
+  const useManageModalRef = useRef()
   const userManageDrawerRef = useRef()
+  const useAccountModalRef = useRef()
 
+  const { Text, Link } = Typography
   const { Option } = Select
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [edit, setEdit] = useState()
   const [userLoading, setUserLoading] = useState(false)
-
+  // 列表初始参数
+  const initParams = {
+    current: 1,
+    size: 15,
+  }
   // 任务内容列表接口请求参数
   const [params, setParams] = useState(initParams)
   // 部门人数
@@ -58,18 +71,6 @@ function UserManage() {
     result.unshift({ deptName: '全部', uuid: '', count: sum })
     return result
   }
-  // 处理角色列表数据
-  // function filterRoleList(list) {
-  //   if (!list || !list.length) return []
-  //   const result = []
-  //   list.forEach((item) => {
-  //     const id = item.roleUuid
-  //     const name = item.roleName
-  //     const _list = { id, name }
-  //     result.push(_list)
-  //   })
-  //   return result
-  // }
   useEffect(() => {
     setUserLoading(true)
     reqUserManage(params)
@@ -106,8 +107,6 @@ function UserManage() {
       const { data, success, message: msg } = res
       if (success && data) {
         // console.log('data', data)
-        // const _roleUuid = filterRoleList(data)
-        // console.log(_roleUuid)
         setRoleList(data)
       } else {
         message.error(msg || '请求角色列表失败')
@@ -117,7 +116,6 @@ function UserManage() {
 
   function onTableChange(pagin, filters, sorter) {
     const o = { ...params }
-    console.log(pagin)
     const { current, pageSize } = pagin
     o.page = {
       pageNo: current,
@@ -127,7 +125,7 @@ function UserManage() {
   }
   function handleDepClick(value) {
     const _params = { ...params }
-    console.log(_params)
+    // console.log(_params)
     if (value) {
       _params.deptUuid2 = value
     } else {
@@ -143,9 +141,11 @@ function UserManage() {
     setParams(_params)
   }
 
-
+  // 设置防抖
   const { run } = useDebounceFn(
-    (newParams) => setParams(newParams),
+    (newParams) => {
+      setParams(newParams)
+    },
     {
       wait: 500,
     }
@@ -154,42 +154,75 @@ function UserManage() {
   function onSearchChange(e) {
     const _name = e.target.value
     const newParams = { ...params }
-    if(_name){
+    if (_name) {
       newParams.name = _name
-    }else{
+    } else {
       delete newParams.name
     }
     run(newParams)
   }
-
-  function handleClearClick(params) {
-    console.log(params)
+  // 清空筛选
+  function clearFliter() {
+    setParams(initParams)
+    selectedRowKeys.length && setSelectedRowKeys([])
   }
   // 渲染编辑按钮
-  function renderEdit(name, editKey) {
+  function renderEdit(name, record, key) {
     return name ? (
       <Space
+        onClick={() => userManageDrawerRef.current.open(record, key)}
         className={styles.inName}
-        onMouseEnter={() => setEdit(editKey)}
+        onMouseEnter={() => setEdit(key)}
         onMouseLeave={() => setEdit()}>
         {name}
         <EditOutlined
           className={styles.icon}
           style={{
-            visibility: edit === editKey ? 'visible' : 'hidden',
+            visibility: edit === key ? 'visible' : 'hidden',
           }}
         />
       </Space>
     ) : (
       <Space
         className={styles.inName}
-        onMouseEnter={() => setEdit(editKey)}
+        onMouseEnter={() => setEdit(key)}
         onMouseLeave={() => setEdit()}>
         -
         <EditOutlined
           className={styles.icon}
           style={{
-            visibility: edit === editKey ? 'visible' : 'hidden',
+            visibility: edit === key ? 'visible' : 'hidden',
+          }}
+        />
+      </Space>
+    )
+  }
+  // 渲染用户姓名编辑按钮
+  function renderEditModal(name, record, key) {
+    return name ? (
+      <Space
+        onClick={() => useManageModalRef.current.open(record)}
+        className={styles.inName}
+        onMouseEnter={() => setEdit(key)}
+        onMouseLeave={() => setEdit()}>
+        {name}
+        <EditOutlined
+          className={styles.icon}
+          style={{
+            visibility: edit === key ? 'visible' : 'hidden',
+          }}
+        />
+      </Space>
+    ) : (
+      <Space
+        className={styles.inName}
+        onMouseEnter={() => setEdit(key)}
+        onMouseLeave={() => setEdit()}>
+        -
+        <EditOutlined
+          className={styles.icon}
+          style={{
+            visibility: edit === key ? 'visible' : 'hidden',
           }}
         />
       </Space>
@@ -202,8 +235,7 @@ function UserManage() {
       dataIndex: 'nickName',
       key: 'nickName',
       ellipsis: true,
-      width: 100,
-      // render: (_, record) => renderNickName(record),
+      width: 170,
       render: (text, { headUrl }) => (
         <Space>
           <Avatar src={headUrl} />
@@ -216,40 +248,39 @@ function UserManage() {
       dataIndex: 'inName',
       key: 'inName',
       ellipsis: true,
-      width: 100,
-      // render: (text) => renderInName(text),
-      render: (text, record) => renderEdit(text, `inName_${record.uuid}`),
+      width: 150,
+      render: (text, record) => renderEditModal(text, record, 'inName'),
     },
     {
       title: '所属部门',
       dataIndex: 'deptName',
       key: 'deptName',
       ellipsis: true,
-      width: 180,
-      // render: (text) => renderDeptName(text),
-      render: (text, record) => renderEdit(text, `deptName_${record.uuid}`),
+      width: 285,
+      render: (text, record) => renderEdit(text, record, 'deptName'),
     },
     {
       title: '所属团队',
       dataIndex: 'team',
       key: 'team',
       ellipsis: true,
-      width: 100,
-      render: (text, record) => renderEdit(text, `team_${record.uuid}`),
+      width: 130,
+      render: (text, record) => renderEdit(text, record, 'team'),
     },
     {
       title: '角色类型',
       dataIndex: 'roleName',
       key: 'roleName',
       ellipsis: true,
-      width: 100,
+      width: 130,
+      render: (text, record) => renderEdit(text, record, 'roleName'),
     },
     {
       title: '创建时间',
       dataIndex: 'gmtCreate',
       key: 'gmtCreate',
       ellipsis: true,
-      width: 100,
+      width: 180,
     },
     {
       title: '操作',
@@ -258,12 +289,16 @@ function UserManage() {
       ellipsis: true,
       width: 100,
       render: (text, record) => (
-        <>
-          <span onClick={() => userManageDrawerRef.current.open(record)}>
+        <Space>
+          <Link
+            target="_blank"
+            onClick={() => userManageDrawerRef.current.open(record, 'edit')}>
             编辑
-          </span>
-          <span>解绑</span>
-        </>
+          </Link>
+          <Text type="danger" style={{ cursor: 'pointer' }}>
+            解绑
+          </Text>
+        </Space>
       ),
     },
   ]
@@ -288,7 +323,7 @@ function UserManage() {
     </div>
   )
 
-  function clearFilter(){
+  function clearFilter() {
     setParams(initParams)
     selectedRowKeys.length && setSelectedRowKeys([])
   }
@@ -338,9 +373,7 @@ function UserManage() {
                 ))}
               </Select>
             </div>
-            <div
-              className={styles.clearFilter}
-              onClick={clearFilter}>
+            <div className={styles.clearFilter} onClick={clearFliter}>
               清空筛选
             </div>
           </div>
@@ -350,7 +383,9 @@ function UserManage() {
             </Button>
             <Button type="primary">
               <PlusOutlined />
-              <span>添加子账号</span>
+              <span onClick={() => useAccountModalRef.current.open(tableData)}>
+                添加子账号
+              </span>
             </Button>
           </div>
         </div>
@@ -372,6 +407,8 @@ function UserManage() {
         </div>
       </div>
       <UserManageDrawer ref={userManageDrawerRef} />
+      <UserManageModal ref={useManageModalRef} />
+      <UserAccountModal ref={useAccountModalRef} />
     </div>
   )
 }
