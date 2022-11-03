@@ -1,24 +1,32 @@
-import { Modal, Form, Input } from 'antd'
+import { Modal, Form, Input, message } from 'antd'
 import React, { useState, useImperativeHandle, forwardRef } from 'react'
 import styles from './index.module.less'
+import { reqModifyName } from '@/api/companyManage'
 
-function UserManageModal(props, ref) {
+function UserEditNameModal(props, ref) {
+  const { onSuccess } = props
+  const [form] = Form.useForm()
   const [record, setRecord] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [params, setParams] = useState({
-    userUuid: '',
-  })
   function handleOk() {
-    setIsModalOpen(false)
+    // setIsModalOpen(false)
+    form.submit()
   }
   function handleCancel() {
     setIsModalOpen(false)
   }
-  function onFinish(values) {
-    console.log('Success:', values)
-  }
-  function onFinishFailed(errorInfo) {
-    console.log('Failed:', errorInfo)
+  async function onFinish(values) {
+    // console.log('Success:', values)
+    const params = { ...values, uuid: record.uuid }
+    const res = await reqModifyName(params)
+    const { success, message: msg, data } = res
+    if (success && data) {
+      message.success('修改用户名称成功')
+      setIsModalOpen(false)
+      onSuccess()
+    } else {
+      message.error(msg || '修改用户名称失败')
+    }
   }
 
   // 让外层点击的时候可以获取里层的方法
@@ -28,9 +36,7 @@ function UserManageModal(props, ref) {
         // 设置打开
         setIsModalOpen(true)
         setRecord(record)
-        const _params = { ...params, userUuid: [record.uuid] }
-        console.log(_params)
-        setParams(_params)
+        form.setFieldsValue({ name: record.inName })
       },
     }
   })
@@ -43,21 +49,17 @@ function UserManageModal(props, ref) {
       onCancel={handleCancel}>
       <div className={styles.title}>修改成员的名称，方便同协成员间的沟通</div>
       <div className={styles.infoBox}>
-        <Form
-          name="basic"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off">
+        <Form form={form} onFinish={onFinish} autoComplete="off">
           <Form.Item
             label="输入名称"
-            name="输入名称"
+            name="name"
             rules={[
               {
                 required: true,
                 message: '名称不能为空',
               },
             ]}>
-            <Input placeholder="请输入名称" defaultValue={record.inName} />
+            <Input placeholder="请输入名称" />
           </Form.Item>
         </Form>
       </div>
@@ -65,4 +67,4 @@ function UserManageModal(props, ref) {
   )
 }
 
-export default forwardRef(UserManageModal)
+export default forwardRef(UserEditNameModal)

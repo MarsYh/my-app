@@ -5,30 +5,23 @@ import styles from './index.module.less'
 import { reqUserList, reqEditUser } from '@/api/companyManage'
 
 function UserManageDrawer(props, ref) {
-  const [indeterminate, setIndeterminate] = useState(true)
-  const [checkAll, setCheckAll] = useState(false)
   const [checkedList, setCheckedList] = useState([])
   const [open, setOpen] = useState(false)
   const [record, setRecord] = useState({})
-  const [key, setKey] = useState({})
+  const [type, setType] = useState({})
   // 列表数据
   const [data, setData] = useState({})
   const [listLoading, setListLoading] = useState(false)
-  // 列表请求参数
-  const [params, setParams] = useState({
-    userUuid: [],
-  })
 
   // 让外层点击的时候可以获取里层的方法
   useImperativeHandle(ref, () => {
     return {
-      open(record, key) {
+      open(record, type) {
         // 设置打开
         setOpen(true)
         setRecord(record)
-        setKey(key)
-        const _params = { ...params, userUuid: [record.uuid] }
-        setParams(_params)
+        setType(type)
+        const _params = { userUuid: [record.uuid] }
         getUserList(_params)
       },
     }
@@ -47,11 +40,11 @@ function UserManageDrawer(props, ref) {
       })
       .finally(() => setListLoading(false))
   }
-  function handleSet(editStatus) {
+  function handleEditUserInfo() {
     const params = {
       deptUuid: record.deptUuid,
       roleUuid: record.roleUuid,
-      userUuid: record.userUuid,
+      userUuid: [record.userUuid],
     }
     reqEditUser(params).then((res) => {
       const { success, message: msg, data } = res
@@ -66,20 +59,15 @@ function UserManageDrawer(props, ref) {
   function onTeamListChange(checkedList) {
     // console.log(value)
     setCheckedList(checkedList)
-    setCheckAll(checkedList.length === teamList.length)
-    setIndeterminate(
-      !!checkedList.length && checkedList.length < teamList.length
-    )
   }
   function onCheckAllChange(e) {
-    setIndeterminate(false)
-    setCheckedList(e.target.checked ? teamList : [])
-    setCheckAll(e.target.checked)
+    setCheckedList(e.target.checked ? teamList.map(({ uuid }) => uuid) : [])
   }
 
   const { deptList = [], roleList = [], teamList = [] } = data
-  return key === 'edit' ? (
+  return (
     <Drawer
+      title="编辑信息"
       loading={listLoading}
       closable={false}
       open={open}
@@ -89,101 +77,20 @@ function UserManageDrawer(props, ref) {
       footer={
         <div className={styles.drawerFooter}>
           <Button
-            onClick={() => handleSet('1')}
+            onClick={() => setOpen(false)}
             className={classNames(styles.cancelBtn, styles.btn)}>
             取消
           </Button>
           <Button
             type="primary"
-            onClick={() => handleSet('2')}
+            onClick={handleEditUserInfo}
             className={classNames(styles.setBtn, styles.btn)}>
             确认设置
           </Button>
         </div>
       }>
-      <h2 className={styles.drawerHead}>编辑用户信息</h2>
       <div className={styles.container}>
-        <div className={styles.box}>
-          <div className={styles.title}>所属部门</div>
-          <div>
-            <Radio.Group className={styles.radioGroup}>
-              {deptList.map((item) => (
-                <Radio key={item.uuid} value={item.uuid}>
-                  {item.deptName}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </div>
-        </div>
-        <div className={styles.box}>
-          <div className={styles.title}>角色类型</div>
-          <div>
-            <Radio.Group className={styles.radioGroup}>
-              {roleList.map((item) => (
-                <Radio key={item.roleUuid} value={item.roleUuid}>
-                  {item.roleName}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </div>
-        </div>
-        <div className={styles.box}>
-          <div className={styles.title}>
-            <span>所属团队</span>
-            <Checkbox
-              onChange={onCheckAllChange}
-              checked={checkAll}
-              indeterminate={indeterminate}>
-              全选
-            </Checkbox>
-          </div>
-          <div>
-            <Checkbox.Group
-              className={styles.radioGroup}
-              value={checkedList}
-              onChange={onTeamListChange}>
-              {teamList.map((item) => (
-                <Checkbox key={item.uuid} value={item.uuid}>
-                  {item.name}
-                </Checkbox>
-              ))}
-            </Checkbox.Group>
-          </div>
-        </div>
-      </div>
-    </Drawer>
-  ) : (
-    <Drawer
-      loading={listLoading}
-      closable={false}
-      open={open}
-      placement="right"
-      width="360px"
-      onClose={() => setOpen(false)}
-      footer={
-        <div className={styles.drawerFooter}>
-          <Button
-            onClick={() => handleSet('1')}
-            className={classNames(styles.cancelBtn, styles.btn)}>
-            取消
-          </Button>
-          <Button
-            type="primary"
-            onClick={() => handleSet('2')}
-            className={classNames(styles.setBtn, styles.btn)}>
-            确认设置
-          </Button>
-        </div>
-      }>
-      {key === 'deptName' ? (
-        <h2 className={styles.drawerHead}>所属部门</h2>
-      ) : key === 'team' ? (
-        <h2 className={styles.drawerHead}>所属团队</h2>
-      ) : key === 'roleName' ? (
-        <h2 className={styles.drawerHead}>角色类型</h2>
-      ) : null}
-      <div className={styles.container}>
-        {key === 'deptName' ? (
+        {type === 'edit' || type === 'deptName' ? (
           <div className={styles.box}>
             <div className={styles.title}>所属部门</div>
             <div>
@@ -197,7 +104,7 @@ function UserManageDrawer(props, ref) {
             </div>
           </div>
         ) : null}
-        {key === 'roleName' ? (
+        {type === 'edit' || type === 'roleName' ? (
           <div className={styles.box}>
             <div className={styles.title}>角色类型</div>
             <div>
@@ -211,14 +118,15 @@ function UserManageDrawer(props, ref) {
             </div>
           </div>
         ) : null}
-        {key === 'team' ? (
+        {type === 'edit' || type === 'team' ? (
           <div className={styles.box}>
             <div className={styles.title}>
               <span>所属团队</span>
               <Checkbox
                 onChange={onCheckAllChange}
-                checked={checkAll}
-                indeterminate={indeterminate}>
+                checked={
+                  checkedList.length && checkedList.length === teamList.length
+                }>
                 全选
               </Checkbox>
             </div>

@@ -16,11 +16,11 @@ import { PlusOutlined, EditOutlined } from '@ant-design/icons'
 import classNames from 'classnames'
 import UserManageDrawer from './components/UserManageDrawer'
 import { useDebounceFn } from 'ahooks'
-import UserManageModal from './components/UserManageModal'
+import UserEditNameModal from './components/UserEditNameModal'
 import UserAccountModal from './components/UserAccountModal'
 
 function UserManage() {
-  const useManageModalRef = useRef()
+  const useEditNameModalRef = useRef()
   const userManageDrawerRef = useRef()
   const useAccountModalRef = useRef()
 
@@ -161,63 +161,29 @@ function UserManage() {
     setParams(initParams)
     selectedRowKeys.length && setSelectedRowKeys([])
   }
-  // 渲染编辑按钮
-  function renderEdit(name, record, key) {
-    return name ? (
-      <Space
-        onClick={() => userManageDrawerRef.current.open(record, key)}
-        className={styles.inName}
-        onMouseEnter={() => setEdit(key)}
-        onMouseLeave={() => setEdit()}>
-        {name}
-        <EditOutlined
-          className={styles.icon}
-          style={{
-            visibility: edit === key ? 'visible' : 'hidden',
-          }}
-        />
-      </Space>
-    ) : (
-      <Space
-        className={styles.inName}
-        onMouseEnter={() => setEdit(key)}
-        onMouseLeave={() => setEdit()}>
-        -
-        <EditOutlined
-          className={styles.icon}
-          style={{
-            visibility: edit === key ? 'visible' : 'hidden',
-          }}
-        />
-      </Space>
-    )
+
+  function onEditSuccess() {
+    setParams({ ...params })
   }
-  // 渲染用户姓名编辑按钮
-  function renderEditModal(name, record, key) {
-    return name ? (
+  // 渲染编辑按钮
+  function renderEdit(record, key) {
+    const name = record[key]
+    const editKey = `${key}_${record.uuid}`
+    return (
       <Space
-        onClick={() => useManageModalRef.current.open(record)}
+        onClick={() =>
+          key === 'inName'
+            ? useEditNameModalRef.current.open(record)
+            : userManageDrawerRef.current.open(record, key)
+        }
         className={styles.inName}
-        onMouseEnter={() => setEdit(key)}
+        onMouseEnter={() => setEdit(editKey)}
         onMouseLeave={() => setEdit()}>
-        {name}
+        {name || '-'}
         <EditOutlined
           className={styles.icon}
           style={{
-            visibility: edit === key ? 'visible' : 'hidden',
-          }}
-        />
-      </Space>
-    ) : (
-      <Space
-        className={styles.inName}
-        onMouseEnter={() => setEdit(key)}
-        onMouseLeave={() => setEdit()}>
-        -
-        <EditOutlined
-          className={styles.icon}
-          style={{
-            visibility: edit === key ? 'visible' : 'hidden',
+            visibility: edit === editKey ? 'visible' : 'hidden',
           }}
         />
       </Space>
@@ -244,7 +210,7 @@ function UserManage() {
       key: 'inName',
       ellipsis: true,
       width: 150,
-      render: (text, record) => renderEditModal(text, record, 'inName'),
+      render: (text, record) => renderEdit(record, 'inName'),
     },
     {
       title: '所属部门',
@@ -252,7 +218,7 @@ function UserManage() {
       key: 'deptName',
       ellipsis: true,
       width: 285,
-      render: (text, record) => renderEdit(text, record, 'deptName'),
+      render: (text, record) => renderEdit(record, 'deptName'),
     },
     {
       title: '所属团队',
@@ -260,7 +226,7 @@ function UserManage() {
       key: 'team',
       ellipsis: true,
       width: 130,
-      render: (text, record) => renderEdit(text, record, 'team'),
+      render: (text, record) => renderEdit(record, 'team'),
     },
     {
       title: '角色类型',
@@ -268,7 +234,7 @@ function UserManage() {
       key: 'roleName',
       ellipsis: true,
       width: 130,
-      render: (text, record) => renderEdit(text, record, 'roleName'),
+      render: (text, record) => renderEdit(record, 'roleName'),
     },
     {
       title: '创建时间',
@@ -397,7 +363,7 @@ function UserManage() {
         </div>
       </div>
       <UserManageDrawer ref={userManageDrawerRef} />
-      <UserManageModal ref={useManageModalRef} />
+      <UserEditNameModal ref={useEditNameModalRef} onSuccess={onEditSuccess} />
       <UserAccountModal ref={useAccountModalRef} />
     </div>
   )
