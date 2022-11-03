@@ -17,3 +17,11 @@ export function reqUserList (data) {
 export function reqRoleList (params) {
   return request.get("/api/throwdata/throw/data/role/getRoleList", { params })
 }
+// 编辑用户
+export function reqEditUser (data) {
+  return request.post("/api/throwdata/throw/data/user/user7", data)
+}
+// 获取部门列表
+export function reqDeptList (data) {
+  return request.post("/api/throwdata/throw/data/dept/getDeptList", data)
+}

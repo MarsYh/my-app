@@ -12,12 +12,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import IconSearch from './img/icon-search.svg'
 import { reqUserManage, reqUserNum, reqRoleList } from '@/api/companyManage'
-import {
-  CloseCircleOutlined,
-  PlusOutlined,
-  EditOutlined,
-} from '@ant-design/icons'
-import { CHARACTER_TYPE_CONFIG } from './sourceData'
+import { PlusOutlined, EditOutlined } from '@ant-design/icons'
 import classNames from 'classnames'
 import UserManageDrawer from './components/UserManageDrawer'
 import { useDebounceFn } from 'ahooks'
@@ -378,7 +373,7 @@ function UserManage() {
             </Button>
             <Button type="primary">
               <PlusOutlined />
-              <span onClick={() => useAccountModalRef.current.open(roleList)}>
+              <span onClick={() => useAccountModalRef.current.open(tableData)}>
                 添加子账号
               </span>
             </Button>

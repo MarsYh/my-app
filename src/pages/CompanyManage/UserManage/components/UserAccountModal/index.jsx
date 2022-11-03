@@ -1,10 +1,12 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { Modal, Form, Select, Divider, Button } from 'antd'
+import { Modal, Form, Select, Divider, Button, message } from 'antd'
 import styles from './index.module.less'
+import { reqDeptList } from '@/api/companyManage'
 
 function UserAccountModal(props, ref) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [roleList, setRoleList] = useState([])
+  const [deptList, setDeptList] = useState([])
   const { Option } = Select
 
   function handleOk() {
@@ -16,14 +18,26 @@ function UserAccountModal(props, ref) {
   // 让外层点击的时候可以获取里层的方法
   useImperativeHandle(ref, () => {
     return {
-      open(roleList) {
+      open(data) {
+        console.log(data)
         // 设置打开
         setIsModalOpen(true)
         setRoleList(roleList)
-        console.log(roleList)
+        getDeptList()
+        setDeptList()
       },
     }
   })
+  function getDeptList() {
+    reqDeptList().then((res) => {
+      const { success, message: msg, data } = res
+      if (success && data) {
+        message.success('操作成功')
+      } else {
+        message.error(msg || '获取部门列表失败')
+      }
+    })
+  }
   return (
     <Modal
       width={433}

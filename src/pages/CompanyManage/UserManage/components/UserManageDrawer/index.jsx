@@ -2,7 +2,7 @@ import { Drawer, Button, message, Radio, Checkbox } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import classNames from 'classnames'
 import styles from './index.module.less'
-import { reqUserList } from '@/api/companyManage'
+import { reqUserList, reqEditUser } from '@/api/companyManage'
 
 function UserManageDrawer(props, ref) {
   const [indeterminate, setIndeterminate] = useState(true)
@@ -47,7 +47,21 @@ function UserManageDrawer(props, ref) {
       })
       .finally(() => setListLoading(false))
   }
-  function handleSet() {}
+  function handleSet(editStatus) {
+    const params = {
+      deptUuid: record.deptUuid,
+      roleUuid: record.roleUuid,
+      userUuid: record.userUuid,
+    }
+    reqEditUser(params).then((res) => {
+      const { success, message: msg, data } = res
+      if (success && data) {
+        setData(data)
+      } else {
+        message.error(msg || '此任务状态不能重试！')
+      }
+    })
+  }
 
   function onTeamListChange(checkedList) {
     // console.log(value)
@@ -92,7 +106,7 @@ function UserManageDrawer(props, ref) {
         <div className={styles.box}>
           <div className={styles.title}>所属部门</div>
           <div>
-            <Radio.Group className={styles.radioGroup} value={params.uuid}>
+            <Radio.Group className={styles.radioGroup}>
               {deptList.map((item) => (
                 <Radio key={item.uuid} value={item.uuid}>
                   {item.deptName}
@@ -104,7 +118,7 @@ function UserManageDrawer(props, ref) {
         <div className={styles.box}>
           <div className={styles.title}>角色类型</div>
           <div>
-            <Radio.Group className={styles.radioGroup} value={params.roleUuid}>
+            <Radio.Group className={styles.radioGroup}>
               {roleList.map((item) => (
                 <Radio key={item.roleUuid} value={item.roleUuid}>
                   {item.roleName}
