@@ -1,1 +1,1 @@
-export { reqUserManage, reqUserNum, reqUserList, reqRoleList, reqEditUser, reqDeptList } from "./userManage"
+export { reqUserManage, reqUserNum, reqUserList, reqRoleList, reqEditUser, reqDeptList,reqModifyName } from "./userManage"
