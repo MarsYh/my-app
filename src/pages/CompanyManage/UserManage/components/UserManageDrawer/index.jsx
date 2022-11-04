@@ -92,15 +92,15 @@ function UserManageDrawer(props, ref) {
       <div className={styles.container}>
         {type === 'edit' || type === 'deptName' ? (
           <div className={styles.box}>
-            <div className={styles.title}>所属部门</div>
-            <div>
-              <Radio.Group className={styles.radioGroup}>
-                {deptList.map((item) => (
-                  <Radio key={item.uuid} value={item.uuid}>
-                    {item.deptName}
-                  </Radio>
-                ))}
-              </Radio.Group>
+            <div className={styles.title}>
+              <span>所属部门</span>
+            </div>
+            <div className={styles.radioGroup}>
+              {deptList.map((item) => (
+                <Radio key={item.uuid} value={item.uuid}>
+                  {item.deptName}
+                </Radio>
+              ))}
             </div>
           </div>
         ) : null}

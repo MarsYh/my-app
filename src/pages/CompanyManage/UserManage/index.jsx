@@ -18,11 +18,13 @@ import UserManageDrawer from './components/UserManageDrawer'
 import { useDebounceFn } from 'ahooks'
 import UserEditNameModal from './components/UserEditNameModal'
 import UserAccountModal from './components/UserAccountModal'
+import UserCancelBindModal from './components/UserCancelBindModal'
 
 function UserManage() {
   const useEditNameModalRef = useRef()
   const userManageDrawerRef = useRef()
   const useAccountModalRef = useRef()
+  const userCancelBindRef = useRef()
 
   const { Text, Link } = Typography
   const { Option } = Select
@@ -256,9 +258,13 @@ function UserManage() {
             onClick={() => userManageDrawerRef.current.open(record, 'edit')}>
             编辑
           </Link>
-          <Text type="danger" style={{ cursor: 'pointer' }}>
+          <Link
+            target="_blank"
+            type="danger"
+            style={{ cursor: 'pointer' }}
+            onClick={() => userCancelBindRef.current.open(record)}>
             解绑
-          </Text>
+          </Link>
         </Space>
       ),
     },
@@ -339,7 +345,7 @@ function UserManage() {
             </Button>
             <Button type="primary">
               <PlusOutlined />
-              <span onClick={() => useAccountModalRef.current.open(tableData)}>
+              <span onClick={() => useAccountModalRef.current.open(roleList)}>
                 添加子账号
               </span>
             </Button>
@@ -364,6 +370,7 @@ function UserManage() {
       </div>
       <UserManageDrawer ref={userManageDrawerRef} />
       <UserEditNameModal ref={useEditNameModalRef} onSuccess={onEditSuccess} />
+      <UserCancelBindModal ref={userCancelBindRef} />
       <UserAccountModal ref={useAccountModalRef} />
     </div>
   )
