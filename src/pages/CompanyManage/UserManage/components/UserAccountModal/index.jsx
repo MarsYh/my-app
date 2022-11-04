@@ -1,42 +1,40 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { Modal, Form, Select, Divider, Button, message } from 'antd'
-import styles from './index.module.less'
-import { reqDeptList } from '@/api/companyManage'
+import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { Modal, Form, Select, Divider, Button, message } from "antd";
+import styles from "./index.module.less";
+import { reqDeptList } from "@/api/companyManage";
 
 function UserAccountModal(props, ref) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [roleList, setRoleList] = useState([])
-  const [deptList, setDeptList] = useState({})
-  const { Option } = Select
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [roleList, setRoleList] = useState([]);
+  const [deptList, setDeptList] = useState([]);
+  const { Option } = Select;
 
   function handleOk() {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   }
   function handleCancel() {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   }
   // 让外层点击的时候可以获取里层的方法
   useImperativeHandle(ref, () => {
     return {
       open(roleList) {
-        // console.log(roleList)
         // 设置打开
-        setIsModalOpen(true)
-        setRoleList(roleList)
-        getDeptList()
-        setDeptList()
+        setIsModalOpen(true);
+        setRoleList(roleList);
+        getDeptList();
       },
-    }
-  })
+    };
+  });
   function getDeptList() {
-    reqDeptList().then((res) => {
-      const { success, message: msg, data } = res
+    reqDeptList({}).then((res) => {
+      const { success, message: msg, data } = res;
       if (success && data) {
-        message.success('操作成功')
+        setDeptList(data.records);
       } else {
-        message.error(msg || '获取部门列表失败')
+        message.error(msg || "获取部门列表失败");
       }
-    })
+    });
   }
   return (
     <Modal
@@ -45,7 +43,8 @@ function UserAccountModal(props, ref) {
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      footer="">
+      footer=""
+    >
       <div>
         <Form>
           <Form.Item
@@ -55,7 +54,8 @@ function UserAccountModal(props, ref) {
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Select placeholder="请选择角色">
               {roleList?.map((item) => (
                 <Option key={item.roleUuid} value={item.roleUuid}>
@@ -71,13 +71,14 @@ function UserAccountModal(props, ref) {
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Select placeholder="请选择部门">
-              {/* {deptList?.map((item) => (
+              {deptList?.map((item) => (
                 <Option key={item.uuid} value={item.uuid}>
                   {item.deptName}
                 </Option>
-              ))} */}
+              ))}
             </Select>
           </Form.Item>
         </Form>
@@ -88,7 +89,7 @@ function UserAccountModal(props, ref) {
         </div>
       </div>
     </Modal>
-  )
+  );
 }
 
-export default forwardRef(UserAccountModal)
+export default forwardRef(UserAccountModal);
