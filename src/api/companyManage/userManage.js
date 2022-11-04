@@ -25,8 +25,7 @@ export function reqEditUser (data) {
 export function reqDeptList (data) {
   return request.post("/api/throwdata/throw/data/dept/getDeptList", data)
 }
-
-// 修改用户名称
+// 编辑用户名称
 export function reqModifyName (data) {
   return request.post("/api/throwdata/throw/data/user/modifyName", data)
 }

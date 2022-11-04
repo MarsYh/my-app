@@ -6,7 +6,7 @@ import { reqDeptList } from '@/api/companyManage'
 function UserAccountModal(props, ref) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [roleList, setRoleList] = useState([])
-  const [deptList, setDeptList] = useState([])
+  const [deptList, setDeptList] = useState({})
   const { Option } = Select
 
   function handleOk() {
@@ -18,8 +18,8 @@ function UserAccountModal(props, ref) {
   // 让外层点击的时候可以获取里层的方法
   useImperativeHandle(ref, () => {
     return {
-      open(data) {
-        console.log(data)
+      open(roleList) {
+        // console.log(roleList)
         // 设置打开
         setIsModalOpen(true)
         setRoleList(roleList)
@@ -73,9 +73,9 @@ function UserAccountModal(props, ref) {
               },
             ]}>
             <Select placeholder="请选择部门">
-              {/* {roleList?.map((item) => (
-                <Option key={item.roleUuid} value={item.roleUuid}>
-                  {item.roleName}
+              {/* {deptList?.map((item) => (
+                <Option key={item.uuid} value={item.uuid}>
+                  {item.deptName}
                 </Option>
               ))} */}
             </Select>
