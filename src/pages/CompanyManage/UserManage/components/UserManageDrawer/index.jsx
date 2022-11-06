@@ -1,12 +1,10 @@
-import { Drawer, Button, message, Radio, Checkbox } from 'antd'
+import { Drawer, Button, message, Radio, Checkbox, Avatar } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import classNames from 'classnames'
 import styles from './index.module.less'
 import { reqUserList, reqEditUser } from '@/api/companyManage'
 
-
 function UserManageDrawer(props, ref) {
-
   const { onSuccess } = props
 
   const [open, setOpen] = useState(false)
@@ -16,7 +14,7 @@ function UserManageDrawer(props, ref) {
   const [viewData, setViewData] = useState({})
   const [listLoading, setListLoading] = useState(false)
   // 请求编辑接口的参数
-  const [checkParams,setCheckParams] = useState({})
+  const [checkParams, setCheckParams] = useState({})
   // 让外层点击的时候可以获取里层的方法
   useImperativeHandle(ref, () => {
     return {
@@ -24,10 +22,10 @@ function UserManageDrawer(props, ref) {
         // 设置打开
         setOpen(true)
         setType(type)
-        const o = { userUuid:[] }
-        if(Array.isArray(record)){
-          o.userUuid = record.map(item => item.uuid)
-        }else{
+        const o = { userUuid: [] }
+        if (Array.isArray(record)) {
+          o.userUuid = record.map((item) => item.uuid)
+        } else {
           o.userUuid = [record.uuid]
         }
         setRecord(record)
@@ -43,7 +41,7 @@ function UserManageDrawer(props, ref) {
       .then((res) => {
         const { success, message: msg, data } = res
         if (success && data) {
-          filterCheck(data,params.userUuid)
+          filterCheck(data, params.userUuid)
         } else {
           message.error(msg || '获取列表失败')
         }
@@ -52,19 +50,21 @@ function UserManageDrawer(props, ref) {
   }
 
   // 过滤查找出默认被选中的信息
-  function filterCheck(info,userUuid){
+  function filterCheck(info, userUuid) {
     const { deptList = [], roleList = [], teamList = [] } = info
-    const _findSingle = ({check})=>check
-    const deptUuid  = deptList.find(_findSingle)?.uuid
+    const _findSingle = ({ check }) => check
+    const deptUuid = deptList.find(_findSingle)?.uuid
     const roleUuid = roleList.find(_findSingle)?.roleUuid
-    const teamUuidList = teamList.map(team => team.check && team.uuid).filter(Boolean)
+    const teamUuidList = teamList
+      .map((team) => team.check && team.uuid)
+      .filter(Boolean)
 
     // 设置当前被选中的值
     setCheckParams({
       userUuid,
       deptUuid,
       roleUuid,
-      teamUuidList
+      teamUuidList,
     })
 
     // 设置渲染的值
@@ -72,19 +72,19 @@ function UserManageDrawer(props, ref) {
   }
 
   async function handleEditUserInfo() {
-     const res = await reqEditUser(checkParams)
-     const { success,data,message:msg } = res
-     if(success && data) {
+    const res = await reqEditUser(checkParams)
+    const { success, data, message: msg } = res
+    if (success && data) {
       setOpen(false)
-      message.success("编辑成功")
+      message.success('编辑成功')
       onSuccess()
-     }else{
-      message.error(msg || "编辑失败")
-     }
+    } else {
+      message.error(msg || '编辑失败')
+    }
   }
 
   function onTeamListChange(checkedList) {
-    const _checkParams = {...checkParams}
+    const _checkParams = { ...checkParams }
     _checkParams.teamUuidList = checkedList
     setCheckParams(_checkParams)
   }
@@ -92,23 +92,23 @@ function UserManageDrawer(props, ref) {
   function onCheckAllChange(e) {
     const _checkParams = { ...checkParams }
     const { checked } = e.target
-    if(checked){
+    if (checked) {
       _checkParams.teamUuidList = teamList.map(({ uuid }) => uuid)
-    }else{
+    } else {
       _checkParams.teamUuidList = []
     }
     setCheckParams(_checkParams)
   }
 
   // 部门回调
-  function onDeptChange(deptUuid){
+  function onDeptChange(deptUuid) {
     const _checkParams = { ...checkParams }
     _checkParams.deptUuid = deptUuid
     setCheckParams(_checkParams)
   }
 
   // 角色回调
-  function onRoleChange(e){
+  function onRoleChange(e) {
     const { value } = e.target
     const _checkParams = { ...checkParams }
     _checkParams.roleUuid = value
@@ -116,7 +116,7 @@ function UserManageDrawer(props, ref) {
   }
 
   const { deptList = [], roleList = [], teamList = [] } = viewData
-  const { deptUuid,roleUuid,teamUuidList = [] } = checkParams
+  const { deptUuid, roleUuid, teamUuidList = [] } = checkParams
 
   return (
     <Drawer
@@ -144,9 +144,19 @@ function UserManageDrawer(props, ref) {
       }>
       <div className={styles.container}>
         {/* 批量选择的用户头像 */}
-        {type === "batch" ? <div>
-          选中了{record.length}个
-        </div> : null}
+        {type === 'batch' ? (
+          <div className={classNames(styles.selectedUsers, styles.radioGroup)}>
+            <div>选中了</div>
+            <div>
+              <Avatar src={record.headUrl} />
+            </div>
+            {record.length === 1 ? (
+              <div>{record.length}个</div>
+            ) : (
+              <div>等{record.length}个</div>
+            )}
+          </div>
+        ) : null}
         {type === 'batch' || type === 'edit' || type === 'deptName' ? (
           <div className={styles.box}>
             <div className={styles.title}>
@@ -154,7 +164,10 @@ function UserManageDrawer(props, ref) {
             </div>
             <div className={styles.radioGroup}>
               {deptList.map((item) => (
-                <Radio key={item.uuid} checked={item.uuid === deptUuid} onChange={()=>onDeptChange(item.uuid)}>
+                <Radio
+                  key={item.uuid}
+                  checked={item.uuid === deptUuid}
+                  onChange={() => onDeptChange(item.uuid)}>
                   {item.deptName}
                 </Radio>
               ))}
@@ -165,7 +178,10 @@ function UserManageDrawer(props, ref) {
           <div className={styles.box}>
             <div className={styles.title}>角色类型</div>
             <div>
-              <Radio.Group className={styles.radioGroup} value={roleUuid} onChange={onRoleChange}>
+              <Radio.Group
+                className={styles.radioGroup}
+                value={roleUuid}
+                onChange={onRoleChange}>
                 {roleList.map((item) => (
                   <Radio key={item.roleUuid} value={item.roleUuid}>
                     {item.roleName}

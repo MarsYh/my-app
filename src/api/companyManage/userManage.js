@@ -29,3 +29,7 @@ export function reqDeptList (data) {
 export function reqModifyName (data) {
   return request.post("/api/throwdata/throw/data/user/modifyName", data)
 }
+// 主账号生成绑定码
+export function reqGetBindCode (data) {
+  return request.post("/api/throwdata/throw/data/user/getBindCode", data)
+}
