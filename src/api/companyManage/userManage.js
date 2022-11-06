@@ -33,3 +33,9 @@ export function reqModifyName (data) {
 export function reqGetBindCode (data) {
   return request.post("/api/throwdata/throw/data/user/getBindCode", data)
 }
+
+// 直接通过邮箱绑定子账号
+export function reqEmailBind (data) {
+  return request.post("/api/throwdata/throw/data/user/emailBind", data)
+}
+
