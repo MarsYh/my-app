@@ -47,10 +47,8 @@ function DeptManage() {
   function onTableChange(pagin, filters, sorter) {
     const o = { ...params }
     const { current, pageSize } = pagin
-    o.page = {
-      pageNo: current,
-      pageSize,
-    }
+    o.current = current 
+    o.size = pageSize
     setParams(o)
   }
 
@@ -76,11 +74,12 @@ function DeptManage() {
   }
 
   function onSuccess() {
-    setParams(initParams)
+    setParams({...params})
   }
 
   const _uuid = data.list.map((item) => item.uuid)
-  function renderEdit() {
+
+  function renderEdit(record) {
     return (
       <div className={styles.tableEdit}>
         <span onClick={() => userManageRef.current?.open(_uuid)}>管理用户</span>
@@ -99,7 +98,7 @@ function DeptManage() {
                   }>
                   编辑
                 </div>
-                <div onClick={() => removeDeptRef.current?.open(data.list)}>
+                <div onClick={() => removeDeptRef.current?.open(record)}>
                   删除
                 </div>
               </div>

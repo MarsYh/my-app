@@ -4,7 +4,7 @@ import styles from './index.module.less'
 import { reqAddDept, reqModifyDep } from '@/api/companyManage'
 
 function AddDeptModal(props, ref) {
-  const onSuccess = props
+  const {onSuccess} = props
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [type, setType] = useState({})
   const [list, setList] = useState([])
@@ -29,9 +29,10 @@ function AddDeptModal(props, ref) {
     }
   })
   async function handleAddDept() {
-    const res = reqAddDept(params)
+    const res = await reqAddDept(params)
     const { data, message: msg, success } = res
     if (success && data) {
+      message.success("创建部门成功")
       setList(data)
       setIsModalOpen(false)
       onSuccess()
