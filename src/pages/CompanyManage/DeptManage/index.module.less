@@ -1,0 +1,108 @@
+.container {
+  font-family: DINPro;
+  margin: 0 35px 0 8px;
+  :global {
+    .ant-btn-primary {
+      background: #727fff;
+      border-color: #727fff;
+    }
+    .ant-table-tbody {
+      font-size: 14px;
+      line-height: 20px;
+      color: #636666;
+    }
+    .ant-table-container table > thead > tr:first-child th:last-child {
+      text-align: center;
+    }
+    .ant-table-thead {
+      color: #181a1a !important;
+      font-size: 12px;
+    }
+  }
+}
+.deptHead {
+  display: flex;
+  justify-content: space-between;
+  :global {
+    .ant-btn .ant-btn-primary {
+      font-size: 12px;
+    }
+    .ant-btn {
+      border-radius: 4px;
+    }
+  }
+}
+.searchBox {
+  display: flex;
+  :global {
+    .ant-input-group .ant-input-group-addon:first-child {
+      padding: 0 28px;
+    }
+    .ant-input-group .ant-input-group-addon {
+      background-color: #ffffff;
+      // font-size: 14px;
+    }
+    .ant-input-group .ant-input {
+      padding-right: 32px;
+    }
+    .ant-input {
+      font-size: 12px;
+      padding: 6px 11px;
+    }
+    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+      border-color: #727fff;
+    }
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused {
+      border-color: #727fff;
+      box-shadow: none;
+    }
+  }
+}
+
+.inputBox {
+  width: 380px;
+  height: 32px;
+  border-radius: 4px;
+}
+.tableBox {
+  margin-top: 16px;
+}
+.tableEdit {
+  text-align: center;
+  > span:first-child {
+    font-size: 14px;
+    line-height: 20px;
+    color: #0088ff;
+    margin-right: 16px;
+    cursor: pointer;
+  }
+}
+.ellipsis {
+  cursor: pointer;
+}
+.popoverBox {
+  :global {
+    .ant-popover-content {
+      .ant-popover-arrow {
+        display: none;
+      }
+    }
+    .ant-popover-inner-content {
+      padding: 10px 14px;
+      border-radius: 8px;
+      // font-size: 12px;
+    }
+  }
+}
+.popoverEdit {
+  > div:first-child {
+    color: #636666;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  > div:last-child {
+    color: #ff401a;
+    cursor: pointer;
+  }
+}

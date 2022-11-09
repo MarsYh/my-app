@@ -8,4 +8,10 @@ export {
   reqModifyName,
   reqGetBindCode,
   reqEmailBind
-} from "./userManage";
+} from "./userManage"
+export {
+  reqAddDept,
+  reqModifyDep,
+  reqRemoveDept,
+  reqDeptManage
+} from "./deptManage"

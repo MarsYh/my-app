@@ -7,297 +7,293 @@ import {
   Avatar,
   Space,
   Typography,
-} from "antd";
-import React, { useState, useEffect, useRef } from "react";
-import styles from "./index.module.less";
-import IconSearch from "./img/icon-search.svg";
-import { reqUserManage, reqUserNum, reqRoleList } from "@/api/companyManage";
-import { PlusOutlined, EditOutlined } from "@ant-design/icons";
-import classNames from "classnames";
-import UserManageDrawer from "./components/UserManageDrawer";
-import { useDebounceFn } from "ahooks";
-import UserEditNameModal from "./components/UserEditNameModal";
-import UserAccountModal from "./components/UserAccountModal";
-import UserCancelBindModal from "./components/UserCancelBindModal";
+} from 'antd'
+import React, { useState, useEffect, useRef } from 'react'
+import styles from './index.module.less'
+import IconSearch from './img/icon-search.svg'
+import { reqUserManage, reqUserNum, reqRoleList } from '@/api/companyManage'
+import { PlusOutlined, EditOutlined } from '@ant-design/icons'
+import classNames from 'classnames'
+import UserManageDrawer from './components/UserManageDrawer'
+import { useDebounceFn } from 'ahooks'
+import UserEditNameModal from './components/UserEditNameModal'
+import UserAccountModal from './components/UserAccountModal'
+import UserCancelBindModal from './components/UserCancelBindModal'
 
 function UserManage() {
-  const useEditNameModalRef = useRef();
-  const userManageDrawerRef = useRef();
-  const useAccountModalRef = useRef();
-  const userCancelBindRef = useRef();
+  const useEditNameModalRef = useRef()
+  const userManageDrawerRef = useRef()
+  const useAccountModalRef = useRef()
+  const userCancelBindRef = useRef()
 
-  const { Text, Link } = Typography;
-  const { Option } = Select;
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedRows,setSelectedRows] = useState([])
-  const [edit, setEdit] = useState();
-  const [userLoading, setUserLoading] = useState(false);
+  const { Text, Link } = Typography
+  const { Option } = Select
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+  const [edit, setEdit] = useState()
+  const [userLoading, setUserLoading] = useState(false)
   // 列表初始参数
   const initParams = {
     current: 1,
     size: 15,
-  };
+  }
   // 任务内容列表接口请求参数
-  const [params, setParams] = useState(initParams);
+  const [params, setParams] = useState(initParams)
   // 部门人数
-  const [deptData, setDeptData] = useState([]);
+  const [deptData, setDeptData] = useState([])
   // 角色列表
-  const [roleList, setRoleList] = useState([]);
+  const [roleList, setRoleList] = useState([])
   // 列表数据
   const [tableData, setTableData] = useState({
     list: [],
     total: 0,
-  });
+  })
 
   // 处理左侧部门数据
   function filterDeptCountList(list) {
-    if (!list || !list.length) return [];
+    if (!list || !list.length) return []
     // 1. 算出全部
     // 2. 把全部的那条数据加入到结果列表中
-    const result = [];
-    let sum = 0;
+    const result = []
+    let sum = 0
     list.forEach((item) => {
-      const { adPostBuyUserDept, count } = item;
-      sum += count;
+      const { adPostBuyUserDept, count } = item
+      sum += count
       const o = {
         deptName: adPostBuyUserDept.deptName,
         uuid: adPostBuyUserDept.uuid,
         count,
-      };
-      result.push(o);
-    });
-    result.unshift({ deptName: "全部", uuid: "", count: sum });
-    return result;
+      }
+      result.push(o)
+    })
+    result.unshift({ deptName: '全部', uuid: '', count: sum })
+    return result
   }
   useEffect(() => {
-    setUserLoading(true);
+    setUserLoading(true)
     reqUserManage(params)
       .then((res) => {
-        const { data, success, message: msg } = res;
+        const { data, success, message: msg } = res
         if (success && data) {
           setTableData({
             list: data.records,
             total: data.total,
-          });
+          })
         } else {
-          message.error(msg || "获取列表数据失败");
+          message.error(msg || '获取列表数据失败')
         }
       })
-      .finally(() => setUserLoading(false));
-  }, [params]);
+      .finally(() => setUserLoading(false))
+  }, [params])
 
   useEffect(() => {
     // 该接口只在页面刚加载的时候运行一次 所以不用给依赖项
     reqUserNum().then((res) => {
-      const { data, success, message: msg } = res;
+      const { data, success, message: msg } = res
       if (success && data) {
-        const _deptCountList = filterDeptCountList(data.deptCountList);
-        setDeptData(_deptCountList);
+        const _deptCountList = filterDeptCountList(data.deptCountList)
+        setDeptData(_deptCountList)
       } else {
-        message.error(msg || "获取各部门人数失败");
+        message.error(msg || '获取各部门人数失败')
       }
-    });
-  }, []);
+    })
+  }, [])
 
   useEffect(() => {
     // 该接口只在页面刚加载的时候运行一次 所以也不用给依赖项
     reqRoleList().then((res) => {
-      const { data, success, message: msg } = res;
+      const { data, success, message: msg } = res
       if (success && data) {
         // console.log('data', data)
-        setRoleList(data);
+        setRoleList(data)
       } else {
-        message.error(msg || "请求角色列表失败");
+        message.error(msg || '请求角色列表失败')
       }
-    });
-  }, []);
+    })
+  }, [])
 
   function onTableChange(pagin, filters, sorter) {
-    const o = { ...params };
-    const { current, pageSize } = pagin;
+    const o = { ...params }
+    const { current, pageSize } = pagin
     o.page = {
       pageNo: current,
       pageSize,
-    };
-    setParams(o);
+    }
+    setParams(o)
   }
   function handleDepClick(value) {
-    const _params = { ...params };
+    const _params = { ...params }
     // console.log(_params)
     if (value) {
-      _params.deptUuid2 = value;
+      _params.deptUuid2 = value
     } else {
-      delete _params.deptUuid2;
+      delete _params.deptUuid2
     }
-    setParams(_params);
+    setParams(_params)
   }
 
   function onRoleListChange(value) {
-    if (params.roleUuid === value) return;
-    const _params = { ...params };
-    _params.roleUuid = value;
-    setParams(_params);
+    if (params.roleUuid === value) return
+    const _params = { ...params }
+    _params.roleUuid = value
+    setParams(_params)
   }
 
   // 设置防抖
   const { run } = useDebounceFn(
     (newParams) => {
-      setParams(newParams);
+      setParams(newParams)
     },
     {
       wait: 500,
     }
-  );
+  )
 
   function onSearchChange(e) {
-    const _name = e.target.value;
-    const newParams = { ...params };
+    const _name = e.target.value
+    const newParams = { ...params }
     if (_name) {
-      newParams.name = _name;
+      newParams.name = _name
     } else {
-      delete newParams.name;
+      delete newParams.name
     }
-    run(newParams);
+    run(newParams)
   }
   // 清空筛选
   function clearFliter() {
-    setParams(initParams);
-    selectedRowKeys.length && setSelectedRowKeys([]);
+    setParams(initParams)
+    selectedRowKeys.length && setSelectedRowKeys([])
   }
 
   function onEditSuccess() {
-    setParams({ ...params });
+    setParams({ ...params })
   }
   // 渲染编辑按钮
   function renderEdit(record, key) {
-    const name = record[key];
-    const editKey = `${key}_${record.uuid}`;
+    const name = record[key]
+    const editKey = `${key}_${record.uuid}`
     return (
       <Space
         onClick={() =>
-          key === "inName"
+          key === 'inName'
             ? useEditNameModalRef.current.open(record)
             : userManageDrawerRef.current.open(record, key)
         }
         className={styles.inName}
         onMouseEnter={() => setEdit(editKey)}
-        onMouseLeave={() => setEdit()}
-      >
-        {name || "-"}
+        onMouseLeave={() => setEdit()}>
+        {name || '-'}
         <EditOutlined
           className={styles.icon}
           style={{
-            visibility: edit === editKey ? "visible" : "hidden",
+            visibility: edit === editKey ? 'visible' : 'hidden',
           }}
         />
       </Space>
-    );
+    )
   }
 
   const columns = [
     {
-      title: "用户昵称",
-      dataIndex: "nickName",
-      key: "nickName",
+      title: '用户昵称',
+      dataIndex: 'nickName',
+      key: 'nickName',
       ellipsis: true,
       width: 170,
       render: (text, { headUrl }) => (
         <Space>
           <Avatar src={headUrl} />
-          <span>{text || "-"}</span>
+          <span>{text || '-'}</span>
         </Space>
       ),
     },
     {
-      title: "用户姓名",
-      dataIndex: "inName",
-      key: "inName",
+      title: '用户姓名',
+      dataIndex: 'inName',
+      key: 'inName',
       ellipsis: true,
       width: 150,
-      render: (text, record) => renderEdit(record, "inName"),
+      render: (text, record) => renderEdit(record, 'inName'),
     },
     {
-      title: "所属部门",
-      dataIndex: "deptName",
-      key: "deptName",
+      title: '所属部门',
+      dataIndex: 'deptName',
+      key: 'deptName',
       ellipsis: true,
       width: 285,
-      render: (text, record) => renderEdit(record, "deptName"),
+      render: (text, record) => renderEdit(record, 'deptName'),
     },
     {
-      title: "所属团队",
-      dataIndex: "team",
-      key: "team",
+      title: '所属团队',
+      dataIndex: 'team',
+      key: 'team',
       ellipsis: true,
       width: 130,
-      render: (text, record) => renderEdit(record, "team"),
+      render: (text, record) => renderEdit(record, 'team'),
     },
     {
-      title: "角色类型",
-      dataIndex: "roleName",
-      key: "roleName",
+      title: '角色类型',
+      dataIndex: 'roleName',
+      key: 'roleName',
       ellipsis: true,
       width: 130,
-      render: (text, record) => renderEdit(record, "roleName"),
+      render: (text, record) => renderEdit(record, 'roleName'),
     },
     {
-      title: "创建时间",
-      dataIndex: "gmtCreate",
-      key: "gmtCreate",
+      title: '创建时间',
+      dataIndex: 'gmtCreate',
+      key: 'gmtCreate',
       ellipsis: true,
       width: 180,
     },
     {
-      title: "操作",
-      dataIndex: "edit",
-      key: "edit",
+      title: '操作',
+      dataIndex: 'edit',
+      key: 'edit',
       ellipsis: true,
       width: 100,
       render: (text, record) => (
         <Space>
           <Link
             target="_blank"
-            onClick={() => userManageDrawerRef.current.open(record, "edit")}
-          >
+            onClick={() => userManageDrawerRef.current.open(record, 'edit')}>
             编辑
           </Link>
           <Link
             target="_blank"
             type="danger"
-            style={{ cursor: "pointer" }}
-            onClick={() => userCancelBindRef.current.open(record)}
-          >
+            style={{ cursor: 'pointer' }}
+            onClick={() => userCancelBindRef.current.open(record)}>
             解绑
           </Link>
         </Space>
       ),
     },
-  ];
+  ]
 
   function isDeptNameChecked(item) {
     // uuid匹配的情况
     if (params.deptUuid2 === item.uuid) {
-      return true;
+      return true
     }
 
     // 是全部
-    if (!params.deptUuid2 && item.deptName === "全部") {
-      return true;
+    if (!params.deptUuid2 && item.deptName === '全部') {
+      return true
     }
 
-    return false;
+    return false
   }
 
   function handleBatchEdit() {
-    userManageDrawerRef.current?.open(selectedRows,'batch')
+    userManageDrawerRef.current?.open(selectedRows, 'batch')
   }
 
   const suffix = (
     <div>
       <img src={IconSearch} alt="" />
     </div>
-  );
-
+  )
 
   return (
     <div className={styles.container}>
@@ -309,8 +305,7 @@ function UserManage() {
               isDeptNameChecked(item) && styles.checked,
               styles.leftItem
             )}
-            onClick={() => handleDepClick(item.uuid)}
-          >
+            onClick={() => handleDepClick(item.uuid)}>
             <span className={styles.depName}>{item.deptName}</span>
             <span>{item.count}</span>
           </div>
@@ -337,8 +332,7 @@ function UserManage() {
                 placeholder="请选择角色类型"
                 style={{
                   width: 224,
-                }}
-              >
+                }}>
                 {roleList?.map((item) => (
                   <Option key={item.roleUuid} value={item.roleUuid}>
                     {item.roleName}
@@ -354,15 +348,14 @@ function UserManage() {
             <Button
               type="primary"
               disabled={!selectedRowKeys.length}
-              onClick={handleBatchEdit}
-            >
+              onClick={handleBatchEdit}>
               批量处理
             </Button>
-            <Button type="primary">
+            <Button
+              type="primary"
+              onClick={() => useAccountModalRef.current.open(roleList)}>
               <PlusOutlined />
-              <span onClick={() => useAccountModalRef.current.open(roleList)}>
-                添加子账号
-              </span>
+              <span>添加子账号</span>
             </Button>
           </div>
         </div>
@@ -376,8 +369,8 @@ function UserManage() {
             showSorterTooltip={false}
             rowSelection={{
               selectedRowKeys,
-              onChange(keys,rows) {
-                setSelectedRowKeys(keys);
+              onChange(keys, rows) {
+                setSelectedRowKeys(keys)
                 setSelectedRows(rows)
               },
             }}
@@ -389,6 +382,6 @@ function UserManage() {
       <UserCancelBindModal ref={userCancelBindRef} />
       <UserAccountModal ref={useAccountModalRef} />
     </div>
-  );
+  )
 }
-export default UserManage;
+export default UserManage

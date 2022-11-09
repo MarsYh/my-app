@@ -2,7 +2,7 @@ import Manage from "../pages/Manage"
 import Resource from "../pages/Resource"
 import Task from "../pages/Task"
 import User from "../pages/User"
-// import CompanyManage from "../pages/CompanyManage"
+import CompanyManage from "../pages/CompanyManage"
 import LayoutPro from "../components/Layout"
 import NotFound from "../pages/NotFound"
 import Redbook from "../pages/Resource/Redbook"
@@ -16,6 +16,7 @@ import ResourceDetail from "../pages/ResourceDetail"
 import TaskContent from "../pages/Task/TaskContent"
 import TaskManage from "../pages/Task/TaskManage"
 import UserManage from "../pages/CompanyManage/UserManage"
+import DeptManage from "../pages/CompanyManage/DeptManage"
 import {
   UploadOutlined,
   UserOutlined,
@@ -103,7 +104,7 @@ const routes = [
       },
       {
         path: "companyManage",
-        // element: <CompanyManage />,
+        element: <CompanyManage />,
         name: "企业管理",
         exact: true,
         icon: <SolutionOutlined />,
@@ -112,7 +113,11 @@ const routes = [
             name: "用户管理",
             path: "userManage",
             element: <UserManage />,
-            icon: <SolutionOutlined />,
+          },
+          {
+            name: "部门管理",
+            path: "deptManage",
+            element: <DeptManage />,
           },
         ],
       },
