@@ -17,6 +17,7 @@ import TaskContent from "../pages/Task/TaskContent"
 import TaskManage from "../pages/Task/TaskManage"
 import UserManage from "../pages/CompanyManage/UserManage"
 import DeptManage from "../pages/CompanyManage/DeptManage"
+import TeamManage from "../pages/CompanyManage/TeamManage"
 import {
   UploadOutlined,
   UserOutlined,
@@ -118,6 +119,11 @@ const routes = [
             name: "部门管理",
             path: "deptManage",
             element: <DeptManage />,
+          },
+          {
+            name: "团队管理",
+            path: "teamManage",
+            element: <TeamManage />,
           },
         ],
       },

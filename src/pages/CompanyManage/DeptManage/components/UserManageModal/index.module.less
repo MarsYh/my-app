@@ -2,6 +2,7 @@
   font-family: DINPro;
   display: flex;
   white-space: nowrap;
+  font-size: 12px;
 }
 .left {
   border-right: 1px solid #e1e6e6;
@@ -46,14 +47,7 @@
     }
   }
 }
-.right {
-  padding: 20px 24px 24px;
-  flex: 1;
-  .head {
-    display: flex;
-    justify-content: space-between;
-  }
-}
+
 .manageModal {
   :global {
     .ant-modal-body {
@@ -68,4 +62,43 @@
 .clearBtn {
   color: #889191;
   cursor: pointer;
+}
+.checkBoxGroup {
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding-bottom: 45px;
+  .head {
+    margin-top: 10px;
+    font-size: 14px !important;
+  }
+  .group {
+    display: grid;
+    grid-template-columns: 180px 180px;
+    grid-row-gap: 24px;
+    margin-top: 12px;
+    :global {
+      .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+        margin-left: 0;
+      }
+    }
+  }
+}
+.checkAll {
+  :global {
+    .ant-checkbox-wrapper {
+      margin-top: 24px;
+    }
+  }
+}
+.right {
+  padding: 20px 24px 24px;
+  flex: 1;
+  .head {
+    display: flex;
+    justify-content: space-between;
+    > div:first-child > span {
+      color: #727fff;
+    }
+  }
 }

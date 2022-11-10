@@ -4,7 +4,7 @@ import styles from './index.module.less'
 import { reqRemoveDept } from '@/api/companyManage'
 
 function RemoveDeptModal(props, ref) {
-  const onSuccess = props
+  const { onSuccess } = props
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [record, setRecord] = useState([])
 
@@ -22,11 +22,11 @@ function RemoveDeptModal(props, ref) {
       },
     }
   })
-  const _id = record.map((item) => item.id)
-  async function handleRemoveDept(_id) {
-    const res = reqRemoveDept(_id)
+  async function handleRemoveDept() {
+    const res = await reqRemoveDept({ id: record.id })
     const { success, message: msg, data } = res
     if (success && data) {
+      message.success('删除部门成功')
       setRecord(data)
       setIsModalOpen(false)
       onSuccess()
@@ -44,12 +44,15 @@ function RemoveDeptModal(props, ref) {
       footer={
         <div className={styles.footer}>
           <Button onClick={() => setIsModalOpen(false)}>取消</Button>
-          <Button type="primary" onClick={() => handleRemoveDept(_id)}>
+          <Button type="primary" onClick={() => handleRemoveDept()}>
             确定
           </Button>
         </div>
       }>
-      <div style={{ marginTop: '8px' }}>确定删除吗？</div>
+      <div style={{ marginTop: '8px' }}>
+        确定删除部门<span style={{ color: '#727fff' }}>{record.deptName}</span>
+        吗？
+      </div>
     </Modal>
   )
 }

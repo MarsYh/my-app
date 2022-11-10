@@ -4,13 +4,17 @@ import styles from './index.module.less'
 import { reqAddDept, reqModifyDep } from '@/api/companyManage'
 
 function AddDeptModal(props, ref) {
-  const onSuccess = props
+  const { onSuccess } = props
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [type, setType] = useState({})
   const [list, setList] = useState([])
   // 创建部门接口数据
   const [params, setParams] = useState({
     deptName: '',
+  })
+  const [editParams, setEditParams] = useState({
+    deptName: '',
+    uuid: '',
   })
   function handleOk() {
     setIsModalOpen(false)
@@ -29,14 +33,27 @@ function AddDeptModal(props, ref) {
     }
   })
   async function handleAddDept() {
-    const res = reqAddDept(params)
+    const res = await reqAddDept(params)
     const { data, message: msg, success } = res
     if (success && data) {
+      message.success('创建部门成功')
       setList(data)
       setIsModalOpen(false)
       onSuccess()
     } else {
       message.error(msg || '创建部门失败')
+    }
+  }
+  async function handleEditModal() {
+    const res = await reqModifyDep(editParams)
+    const { data, message: msg, success } = res
+    if (success && data) {
+      message.success('编辑部门成功')
+      setList(data)
+      setIsModalOpen(false)
+      onSuccess()
+    } else {
+      message.error(msg || '编辑部门失败')
     }
   }
 
@@ -61,7 +78,11 @@ function AddDeptModal(props, ref) {
       footer={
         <div className={styles.footer}>
           <Button onClick={() => setIsModalOpen(false)}>取消</Button>
-          <Button type="primary" onClick={() => handleAddDept()}>
+          <Button
+            type="primary"
+            onClick={() =>
+              type === 'edit' ? handleEditModal() : handleAddDept()
+            }>
             确定
           </Button>
         </div>
@@ -72,6 +93,7 @@ function AddDeptModal(props, ref) {
           placeholder="请输入部门名称"
           autocomplete="off"
           value={params.deptName}
+          defaultValue={editParams.deptName}
           onChange={onDeptChange}
         />
       </div>

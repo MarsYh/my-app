@@ -76,14 +76,15 @@ function DeptManage() {
   }
 
   function onSuccess() {
-    setParams(initParams)
+    setParams({ ...params })
   }
 
-  const _uuid = data.list.map((item) => item.uuid)
-  function renderEdit() {
+  function renderEdit(record) {
     return (
       <div className={styles.tableEdit}>
-        <span onClick={() => userManageRef.current?.open(_uuid)}>管理用户</span>
+        <span onClick={() => userManageRef.current?.open(record)}>
+          管理用户
+        </span>
         <span className={styles.ellipsis}>
           <Popover
             overlayClassName={styles.popoverBox}
@@ -99,7 +100,7 @@ function DeptManage() {
                   }>
                   编辑
                 </div>
-                <div onClick={() => removeDeptRef.current?.open(data.list)}>
+                <div onClick={() => removeDeptRef.current?.open(record)}>
                   删除
                 </div>
               </div>
@@ -132,7 +133,7 @@ function DeptManage() {
       key: 'rate',
       ellipsis: true,
       width: 150,
-      render: (text) => `${text * 100}%`,
+      render: (text) => (text || text === 0 ? `${text * 100}%` : '-'),
     },
     {
       title: '部门负责人',

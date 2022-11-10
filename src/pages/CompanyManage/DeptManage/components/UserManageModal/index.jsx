@@ -1,4 +1,4 @@
-import { Input, message, Modal, Button, Checkbox } from 'antd'
+import { Input, message, Modal, Button, Checkbox, Avatar } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import styles from './index.module.less'
 import { reqDeptManage } from '@/api/companyManage'
@@ -6,12 +6,27 @@ import IconSearch from '../../../UserManage/img/icon-search.svg'
 import { DeleteOutlined } from '@ant-design/icons'
 
 function UserManageModal(props, ref) {
+  const [checkedList, setCheckedList] = useState()
+  const [checkAll, setCheckAll] = useState(false)
+  const options = ['mike', 'tony', 'thomas', 'jack', 'smith', 'mars']
+
+  const options1 = options.slice(0, 5)
+  const options2 = options.slice(-1)
+  const onChange = (list) => {
+    console.log(list)
+    setCheckedList(list)
+    setCheckAll(list.length === options.length)
+  }
+  const onCheckAllChange = (e) => {
+    setCheckedList(e.target.checked ? options : [])
+    setCheckAll(e.target.checked)
+  }
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [id, setId] = useState({})
-  const [params, setParams] = useState({
-    uuid: '',
-  })
-  const [data, setData] = useState({})
+  // const [params, setParams] = useState({
+  //   uuid: '',
+  // })
+  // const [data, setData] = useState({})
 
   function handleOk() {
     setIsModalOpen(false)
@@ -23,24 +38,25 @@ function UserManageModal(props, ref) {
     return {
       open(id) {
         setIsModalOpen(true)
-        getDeptManage(params)
+        // getDeptManage(params)
         setId(id)
       },
     }
   })
 
-  function getDeptManage(params) {
-    reqDeptManage(params).then((res) => {
-      const { success, data, message: msg } = res
-      if (success && data) {
-        setData(data, id)
-      } else {
-        message.error(msg || '请求管理用户失败')
-      }
-    })
-  }
+  // function getDeptManage(params) {
+  //   reqDeptManage(params).then((res) => {
+  //     const { success, data, message: msg } = res
+  //     if (success && data) {
+  //       setData(data, id)
+  //     } else {
+  //       message.error(msg || '请求管理用户失败')
+  //     }
+  //   })
+  // }
   return (
     <Modal
+      width={600}
       className={styles.manageModal}
       title="管理用户"
       open={isModalOpen}
@@ -64,19 +80,42 @@ function UserManageModal(props, ref) {
               addonAfter={<Button type="primary">搜索</Button>}
             />
           </div>
-          <div></div>
+          <div className={styles.checkBox}>
+            <div className={styles.checkAll}>
+              <Checkbox onChange={onCheckAllChange} checked={checkAll}>
+                全选
+              </Checkbox>
+            </div>
+            <div className={styles.checkBoxGroup}>
+              <div className={styles.head}>asssdff</div>
+              <Checkbox.Group
+                className={styles.group}
+                options={options1}
+                value={checkedList}
+                onChange={onChange}
+              />
+              <div className={styles.head}>部门2</div>
+              <Checkbox.Group
+                className={styles.group}
+                options={options2}
+                value={checkedList}
+                onChange={onChange}
+              />
+            </div>
+          </div>
         </div>
         <div className={styles.right}>
           <div className={styles.head}>
             <div>
               已选
-              <span></span>人
+              <span>0</span>人
             </div>
             <div className={styles.clearBtn}>
               <DeleteOutlined />
               <span>清空</span>
             </div>
           </div>
+          <div className={styles.userList}></div>
         </div>
       </div>
     </Modal>
