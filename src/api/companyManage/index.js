@@ -8,11 +8,15 @@ export {
   reqModifyName,
   reqGetBindCode,
   reqEmailBind,
-} from './userManage'
+} from "./userManage";
 export {
   reqAddDept,
   reqModifyDep,
   reqRemoveDept,
   reqDeptManage,
-} from './deptManage'
-export { reqListTeam } from './teamManage'
+} from "./deptManage";
+export {
+  reqListTeam,
+  reqTeamUserInfo,
+  reqSubmitTeamUserInfo,
+} from "./teamManage";
