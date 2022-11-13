@@ -47,10 +47,8 @@ function DeptManage() {
   function onTableChange(pagin, filters, sorter) {
     const o = { ...params }
     const { current, pageSize } = pagin
-    o.page = {
-      pageNo: current,
-      pageSize,
-    }
+    o.current = current
+    o.size = pageSize
     setParams(o)
   }
 
@@ -78,6 +76,8 @@ function DeptManage() {
   function onSuccess() {
     setParams({ ...params })
   }
+
+  const _uuid = data.list.map((item) => item.uuid)
 
   function renderEdit(record) {
     return (

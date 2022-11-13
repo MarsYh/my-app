@@ -50,8 +50,7 @@ function RemoveDeptModal(props, ref) {
         </div>
       }>
       <div style={{ marginTop: '8px' }}>
-        确定删除部门<span style={{ color: '#727fff' }}>{record.deptName}</span>
-        吗？
+        确定删除部门<span style={{ color: 'blue' }}>{record.deptName}</span>吗？
       </div>
     </Modal>
   )

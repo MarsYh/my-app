@@ -57,6 +57,8 @@ function responseCallback (response) {
 
     let code = response.data?.code || response.data.value?.code 
 
+    console.log("response:",response)
+
 
     // 初始化一个请求结构对象
     const result = {
@@ -76,6 +78,7 @@ function responseCallback (response) {
     //     message.error("未登录")
     //     // toLogin()
     // }
+    console.log("result:",result)
 
     return result
 }
