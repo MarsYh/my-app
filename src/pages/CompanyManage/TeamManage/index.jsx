@@ -149,7 +149,7 @@ function TeamManage() {
           }}
         />
       </div>
-      <UserManageModal ref={userManageRef} />
+      <UserManageModal ref={userManageRef} onSuccess={() => setParams({...params})} />
       <AddTeamModal ref={addTeamRef} />
       <RemoveTeamModal ref={removeTeamRef} />
     </div>
