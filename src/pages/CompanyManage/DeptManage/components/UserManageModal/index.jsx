@@ -43,17 +43,6 @@ function UserManageModal(props, ref) {
       },
     }
   })
-
-  // function getDeptManage(params) {
-  //   reqDeptManage(params).then((res) => {
-  //     const { success, data, message: msg } = res
-  //     if (success && data) {
-  //       setData(data, id)
-  //     } else {
-  //       message.error(msg || '请求管理用户失败')
-  //     }
-  //   })
-  // }
   return (
     <Modal
       width={600}
@@ -87,7 +76,7 @@ function UserManageModal(props, ref) {
               </Checkbox>
             </div>
             <div className={styles.checkBoxGroup}>
-              <div className={styles.head}>asssdff</div>
+              {/* <div className={styles.head}>asssdff</div>
               <Checkbox.Group
                 className={styles.group}
                 options={options1}
@@ -100,7 +89,7 @@ function UserManageModal(props, ref) {
                 options={options2}
                 value={checkedList}
                 onChange={onChange}
-              />
+              /> */}
             </div>
           </div>
         </div>
