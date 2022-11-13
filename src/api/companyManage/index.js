@@ -7,11 +7,12 @@ export {
   reqDeptList,
   reqModifyName,
   reqGetBindCode,
-  reqEmailBind
-} from "./userManage"
+  reqEmailBind,
+} from './userManage'
 export {
   reqAddDept,
   reqModifyDep,
   reqRemoveDept,
-  reqDeptManage
-} from "./deptManage"
+  reqDeptManage,
+} from './deptManage'
+export { reqListTeam } from './teamManage'

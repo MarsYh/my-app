@@ -1,3 +1,6 @@
+.container {
+  font-family: DINPro;
+}
 .teamHead {
   width: 100%;
   display: flex;
@@ -55,6 +58,38 @@
     .ant-btn-primary:hover {
       background-color: #99a7ff;
       border-color: #99a7ff;
+    }
+  }
+}
+.userManage {
+  font-size: 14px;
+  line-height: 20px;
+  color: #727fff;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.edit {
+  color: #636666;
+  cursor: pointer;
+}
+.delete {
+  color: #ff401a;
+  cursor: pointer;
+}
+.teamTable {
+  :global {
+    .ant-table-thead > tr > th {
+      font-weight: 400;
+      color: #889191;
+    }
+    .ant-table-tbody .ant-table-row .ant-table-cell {
+      padding: 24px 8px;
+    }
+    .ant-table-selection-col {
+      width: 8px;
+    }
+    .ant-table-thead > tr .ant-table-cell {
+      padding: 12px 8px;
     }
   }
 }
