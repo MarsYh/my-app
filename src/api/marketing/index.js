@@ -1,0 +1,1 @@
+export { reqSearchContent } from "./searchContent"

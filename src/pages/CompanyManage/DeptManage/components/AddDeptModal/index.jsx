@@ -7,11 +7,9 @@ function AddDeptModal(props, ref) {
   const { onSuccess } = props
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [type, setType] = useState({})
-  const [list, setList] = useState([])
+  const [record, setRecord] = useState([])
   // 创建部门接口数据
-  const [params, setParams] = useState({
-    deptName: '',
-  })
+  const [deptName, setDeptName] = useState()
   const [editParams, setEditParams] = useState({
     deptName: '',
     uuid: '',
@@ -25,19 +23,19 @@ function AddDeptModal(props, ref) {
 
   useImperativeHandle(ref, () => {
     return {
-      open(list, type) {
+      open(record, type) {
         setIsModalOpen(true)
         setType(type)
-        setList(list)
+        setRecord(record)
       },
     }
   })
   async function handleAddDept() {
-    const res = await reqAddDept(params)
+    const res = await reqAddDept(deptName)
     const { data, message: msg, success } = res
     if (success && data) {
       message.success('创建部门成功')
-      setList(data)
+      setRecord(data)
       setIsModalOpen(false)
       onSuccess()
     } else {
@@ -49,7 +47,7 @@ function AddDeptModal(props, ref) {
     const { data, message: msg, success } = res
     if (success && data) {
       message.success('编辑部门成功')
-      setList(data)
+      setRecord(data)
       setIsModalOpen(false)
       onSuccess()
     } else {
@@ -58,14 +56,8 @@ function AddDeptModal(props, ref) {
   }
 
   function onDeptChange(e) {
-    const _name = e.target.value
-    const newParams = { ...params }
-    if (_name) {
-      newParams.deptName = _name
-    } else {
-      delete newParams.deptName
-    }
-    setParams(newParams)
+    const _deptName = e.target.value
+    setDeptName(_deptName)
   }
   return (
     <Modal
@@ -92,7 +84,7 @@ function AddDeptModal(props, ref) {
         <Input
           placeholder="请输入部门名称"
           autocomplete="off"
-          value={params.deptName}
+          value={deptName}
           defaultValue={editParams.deptName}
           onChange={onDeptChange}
         />

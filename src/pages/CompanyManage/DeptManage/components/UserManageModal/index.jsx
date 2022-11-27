@@ -21,68 +21,66 @@ import IconSearch from '../../../UserManage/img/icon-search.svg'
 import { DeleteOutlined, CloseCircleFilled } from '@ant-design/icons'
 
 function UserManageModal({ onSuccess }, ref) {
-  // 选中的数据
+  // 当前选中的用户id
   const [checkedObj, setCheckedObj] = useState({})
-  const originalTeamUserInfoRef = useRef([])
-
   const [isModalOpen, setIsModalOpen] = useState(false)
-  // 搜索的值
-  const [searchValue, setSearchValue] = useState()
-  // 团队用户信息
+  // 初始数据
+  const originalTeamUserInfoRef = useRef([])
+  // 团队用户数据
   const [teamUserInfo, setTeamUserInfo] = useState([])
-  // 当前hover的值
-  const [hoverUser, setHoverUser] = useState()
   const [record, setRecord] = useState({})
+  // 右侧列表当前hover的值
+  const [hover, setHover] = useState()
+  // 搜索
+  const [searchValue, setSearchValue] = useState()
 
-  // 选中
-  const onUserChange = (deptName, checkedValues) => {
-    const o = { ...checkedObj }
-    o[deptName] = checkedValues
-    setCheckedObj(o)
-  }
   // 全选
-  const onCheckAllChange = (e) => {
+  function onCheckAllChange(e) {
     const { checked } = e.target
     const o = {}
     if (checked) {
       teamUserInfo.forEach((team) => {
         const [deptName, userList] = team
+        // 被选部门里的uuid等于数据里的uuid 证明被选中
         o[deptName] = userList.map((item) => item.uuid)
       })
     }
     setCheckedObj(o)
   }
 
+  // 选中
+  function onUserChange(deptName, checkedValues) {
+    const o = { ...checkedObj }
+    o[deptName] = checkedValues
+    setCheckedObj(o)
+  }
+
   function handleCancel() {
-    setTeamUserInfo([])
     setCheckedObj({})
-    originalTeamUserInfoRef.current = []
+    setTeamUserInfo([])
     setIsModalOpen(false)
   }
   useImperativeHandle(ref, () => {
     return {
       open(record) {
         setIsModalOpen(true)
-        // getDeptManage(params)
         setRecord(record)
         getTeamUserInfo({ uuid: record.uuid })
       },
     }
   })
-
-  async function getTeamUserInfo(params) {
-    const res = await reqTeamUserInfo(params)
+  async function getTeamUserInfo(uuid) {
+    const res = await reqTeamUserInfo(uuid)
     const { success, data, message: msg } = res
     if (success && data) {
-      // 修改数据结构
       const _data = Object.entries(data)
       setTeamUserInfo(_data)
       originalTeamUserInfoRef.current = _data
-      // 初始化设置有哪些是被勾选上的
+      // 初始化设置的时候有哪些是被勾选上的
       const o = filterCheckedUser(_data)
       setCheckedObj(o)
     } else {
-      message.error(msg || '获取团队成员信息失败')
+      message.error(msg || '获取团队用户信息失败')
     }
   }
 
@@ -100,12 +98,49 @@ function UserManageModal({ onSuccess }, ref) {
     return _checkedObj
   }
 
+  // 计算勾选返回结果
+  const { checkAll, checkedLength } = useMemo(() => {
+    // 如果原始数据数组没有长度
+    const teamUserInfoLength = Object.keys(teamUserInfo).length
+    if (!teamUserInfoLength) {
+      return { checkAll: false, checkedLength: 0 }
+    }
+    // 判断全部选中的长度
+    const allLength = teamUserInfo.reduce((prev, team) => {
+      prev += team[1].length
+      return prev
+    }, 0)
+    // 判断被选中的部门长度
+    const checkedLength = Object.keys(checkedObj).reduce((prev, deptName) => {
+      prev += checkedObj[deptName].length
+      return prev
+    }, 0)
+    return {
+      checkAll: allLength === checkedLength,
+      checkedLength,
+    }
+  }, [checkedObj])
+
+  function onSearch() {
+    const result = []
+    originalTeamUserInfoRef.current.forEach((team) => {
+      const [deptName, userList] = team
+      const includeList = userList.filter((user) =>
+        user.nickName.toUpperCase().includes(searchValue.toUpperCase())
+      )
+      if (includeList.length) {
+        result.push([deptName, includeList])
+      }
+    })
+    setTeamUserInfo(result)
+  }
+
   function flatCheckedObj(obj) {
     const deptNames = Object.keys(obj)
     const result = []
     deptNames.forEach((deptName) => {
-      const checkUserList = checkedObj[deptName]
-      result.push(...checkUserList)
+      const checkedUserList = checkedObj[deptName]
+      result.push(...checkedUserList)
     })
     return result
   }
@@ -118,38 +153,12 @@ function UserManageModal({ onSuccess }, ref) {
     const res = await reqSubmitTeamUserInfo(params)
     const { success, data, message: msg } = res
     if (success && data) {
-      message.success('管理用户成功')
       onSuccess()
-      handleCancel()
+      setIsModalOpen(false)
+      message.success('管理用户成功')
     } else {
       message.error(msg || '管理用户失败')
     }
-  }
-
-  const { checkAll, checkedLength } = useMemo(() => {
-    // 部门数量
-    const teamUserInfoLength = Object.keys(teamUserInfo).length
-    if (!teamUserInfoLength) {
-      return { checkAll: false, checkedLength: 0 }
-    }
-    // 判断用户数量
-    const allLength = teamUserInfo.reduce((prev, team) => {
-      prev += team[1].length
-      return prev
-    }, 0)
-    const checkedLength = Object.keys(checkedObj).reduce((prev, deptName) => {
-      prev += checkedObj[deptName].length
-      return prev
-    }, 0)
-    return {
-      checkAll: allLength === checkedLength,
-      checkedLength,
-    }
-  }, [checkedObj])
-
-  // 清空
-  function handleClear() {
-    setCheckedObj({})
   }
 
   function handleDelUser(deptName, userUuid) {
@@ -158,20 +167,9 @@ function UserManageModal({ onSuccess }, ref) {
     setCheckedObj(o)
   }
 
-  function onSearch() {
-    const result = []
-    originalTeamUserInfoRef.current.forEach((team) => {
-      const [deptName, userList] = team
-      const list = userList.filter((user) =>
-        user.nickName.toUpperCase().includes(searchValue.toUpperCase())
-      )
-      if (list.length) {
-        result.push([deptName, list])
-      }
-    })
-    setTeamUserInfo(result)
+  function handleClear() {
+    setCheckedObj({})
   }
-
   return (
     <Modal
       width={600}
@@ -180,14 +178,16 @@ function UserManageModal({ onSuccess }, ref) {
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      okButtonProps={{ disabled: !checkedLength }}>
+      okButtonProps={{
+        disabled: !checkedLength,
+      }}>
       <div className={styles.box}>
         <div className={styles.left}>
           <div>
             <Input
-              onChange={(e) => setSearchValue(e.target.value)}
-              onPressEnter={onSearch}
               value={searchValue}
+              onPressEnter={onSearch}
+              onChange={(e) => setSearchValue(e.target.value)}
               placeholder="输入名称搜索"
               prefix={<img src={IconSearch} alt="" />}
               addonAfter={<Button type="primary">搜索</Button>}
@@ -240,19 +240,21 @@ function UserManageModal({ onSuccess }, ref) {
           <div className={styles.userList}>
             {teamUserInfo.map((team) => {
               const [deptName, userList] = team
-              // 对应部门当前被选中的用户uuid集合
+              // 对应部门当前被选中的uuid集合
               const checkList = checkedObj[deptName] || []
               return userList.map((item) =>
                 checkList.includes(item.uuid) ? (
                   <div
-                    key={item.uuid}
                     className={styles.checkedUser}
-                    onMouseEnter={() => setHoverUser(item.uuid)}
-                    onMouseLeave={() => setHoverUser()}>
+                    key={item.uuid}
+                    onMouseEnter={() => setHover(item.uuid)}
+                    onMouseLeave={() => setHover()}>
                     <Avatar src={item.headImg} size={20} />
                     <Typography.Text>{item.nickName}</Typography.Text>
-                    {hoverUser === item.uuid && (
+                    {hover === item.uuid && (
                       <CloseCircleFilled
+                        size={40}
+                        className={styles.closeBtn}
                         onClick={() => handleDelUser(deptName, item.uuid)}
                       />
                     )}

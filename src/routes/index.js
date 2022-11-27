@@ -18,14 +18,17 @@ import TaskManage from "../pages/Task/TaskManage"
 import UserManage from "../pages/CompanyManage/UserManage"
 import DeptManage from "../pages/CompanyManage/DeptManage"
 import TeamManage from "../pages/CompanyManage/TeamManage"
+import Marketing from "../pages/Marketing"
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
   MailOutlined,
-  SolutionOutlined
+  SolutionOutlined,
+  FolderOpenOutlined
 } from "@ant-design/icons"
 import { lazy } from "react"
+import SearchContent from "../pages/Marketing/SearchContent"
 
 const routes = [
   {
@@ -38,6 +41,19 @@ const routes = [
         name: "投放结案管理",
         icon: <UploadOutlined />,
         element: lazy(() => import("../pages/Manage")),
+      },
+      {
+        path: "marketing",
+        element: <Marketing />,
+        icon: <FolderOpenOutlined />,
+        name: "营销内容库",
+        children: [
+          {
+            name: "内容搜索",
+            path: "searchContent",
+            element: <SearchContent />,
+          },
+        ],
       },
       {
         path: "resource",

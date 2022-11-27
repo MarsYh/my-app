@@ -15,4 +15,11 @@ export {
   reqRemoveDept,
   reqDeptManage,
 } from './deptManage'
-export { reqListTeam, reqTeamUserInfo, reqSubmitTeamUserInfo } from './teamManage'
+export {
+  reqListTeam,
+  reqTeamUserInfo,
+  reqSubmitTeamUserInfo,
+  reqUpdTeam,
+  reqAddTeam,
+  reqDeleteTeam
+} from './teamManage'

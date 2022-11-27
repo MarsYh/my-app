@@ -1,0 +1,94 @@
+@import '../../../components/common.module.less';
+
+.content {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  position: relative;
+}
+.item:not(:last-child) {
+  margin-right: 32px;
+}
+.item {
+  color: #626a6a;
+  margin-bottom: 15px;
+  > span {
+  }
+}
+
+.hidden {
+  height: 35px;
+  overflow: hidden;
+  .collapse {
+    position: absolute;
+    top: 0;
+    right: 112px;
+    height: 22px;
+    line-height: 22px;
+  }
+}
+.img {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #e1e6e6;
+}
+.checkBox {
+  max-height: 220px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: Microsoft YaHei;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 220px;
+  :global {
+    .ant-checkbox-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 400;
+      color: #3d4242;
+      padding: 6px 12px;
+    }
+  }
+}
+.divider {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.input {
+  color: #889191;
+  width: 220px;
+  padding: 16px 12px 8px;
+  height: 43px;
+}
+.checkGroup {
+  width: 171px;
+  padding: 9px 10px;
+}
+.popover {
+  :global {
+    .ant-popover-inner-content {
+      padding: 0;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+}
+.wrapper {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  position: relative;
+  padding-right: 135px;
+}
+.flex {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
