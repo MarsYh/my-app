@@ -1,0 +1,51 @@
+.content {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  > span {
+    display: inline-block;
+    width: 56px;
+    height: 19px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #889191;
+    margin-right: 8px;
+    position: relative;
+    top: -3px;
+  }
+  > input {
+    width: 321px;
+    height: 32px;
+    border: 1px solid #e1e6e6;
+    border-radius: 4px;
+    padding: 6px 11px;
+  }
+  :global {
+    .ant-input:focus,
+    .ant-input-focused {
+      border-color: #99a7ff;
+      box-shadow: 0 0 0 2px rgb(112 126 255 / 20%);
+    }
+  }
+}
+.footer {
+  :global {
+    .ant-btn {
+      width: 88px;
+      height: 32px;
+      border: 1px solid #e1e1e6;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .ant-btn-primary {
+      background-color: #727fff;
+    }
+  }
+}
+.addDeptModal {
+  :global {
+    .ant-modal-body {
+      height: 120px;
+    }
+  }
+}

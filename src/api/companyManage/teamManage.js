@@ -1,17 +1,26 @@
-import { request } from "../request";
+import { request } from "../request"
 
 // 获取团队列表
-export function reqListTeam(data) {
-  return request.post("/api/throwdata/throw/data/user/listTeam", data);
+export function reqListTeam (data) {
+  return request.post('/api/throwdata/throw/data/user/listTeam', data)
 }
-
-// 获取团队与用户的关系信息
-export function reqTeamUserInfo(params) {
-  return request.get("/api/throwdata/throw/data/user/user6", { params });
+// 请求团队和部门之间的关系
+export function reqTeamUserInfo (params) {
+  return request.get('/api/throwdata/throw/data/user/user6', { params })
 }
-
-// 提交团队成员信息
-export function reqSubmitTeamUserInfo(data) {
-  return request.post("/api/throwdata/throw/data/user/user5", data);
+// 管理用户提交
+export function reqSubmitTeamUserInfo (data) {
+  return request.post('/api/throwdata/throw/data/user/user5', data)
 }
-
+// 编辑修改团队
+export function reqUpdTeam (data) {
+  return request.post('/api/throwdata/throw/data/user/updTeam', data)
+}
+// 新建团队
+export function reqAddTeam (data) {
+  return request.post('/api/throwdata/throw/data/user/addTeam', data)
+}
+// 删除团队
+export function reqDeleteTeam (data) {
+  return request.post('/api/throwdata/throw/data/user/deleteTeam', data)
+}

@@ -27,7 +27,6 @@ function RemoveDeptModal(props, ref) {
     const { success, message: msg, data } = res
     if (success && data) {
       message.success('删除部门成功')
-      setRecord(data)
       setIsModalOpen(false)
       onSuccess()
     } else {

@@ -102,3 +102,27 @@
     }
   }
 }
+.userList {
+  max-height: 330px;
+  overflow: hidden;
+  overflow-y: auto;
+  padding-top: 18px;
+  .checkedUser {
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    padding: 6px 8px;
+    border-radius: 2px;
+    .closeBtn {
+      color: #ff401a;
+      float: right;
+      position: relative;
+      top: -12px;
+      left: 8px;
+    }
+  }
+  .checkedUser:hover {
+    background-color: #edf2f2;
+  }
+}

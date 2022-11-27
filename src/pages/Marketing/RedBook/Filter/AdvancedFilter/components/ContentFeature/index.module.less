@@ -1,0 +1,76 @@
+@import '../../../../../components/common.module.less';
+
+.content {
+  :global {
+    .ant-tag:not(:last-child) {
+      margin-right: 15px;
+    }
+    .ant-tag {
+      padding: 2px 8px;
+      color: #626a6a;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+  }
+}
+.bottom {
+  margin-bottom: -20px;
+}
+.popoverPro {
+  :global {
+    .ant-checkbox-group {
+      display: grid;
+    }
+    .ant-checkbox-wrapper {
+      margin-left: 0;
+      color: #626a6a;
+    }
+  }
+}
+.options {
+  margin-bottom: 9px;
+  :global {
+    .ant-tag {
+      color: #626a6a;
+      padding: 2px 8px;
+      font-size: 14px;
+      font-family: Microsoft YaHei-Regular, Microsoft YaHei;
+      margin-right: 15px;
+    }
+  }
+}
+.tagList {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.disabledTag:not(:last-child) {
+  margin-right: 32px;
+}
+.disabledTag {
+  color: #afb6b6 !important;
+  cursor: not-allowed;
+  &:first-child {
+    margin-left: 8px;
+  }
+}
+.toolTip {
+  :global {
+    .ant-tooltip-inner {
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  }
+}
+.btnList {
+  display: flex;
+  color: #626a6a;
+}
+.btn {
+  border: 1px solid transparent;
+  display: flex;
+  padding: 0 16px;
+  margin-right: 0 !important;
+  cursor: pointer;
+  font-size: 14px !important;
+}

@@ -1,0 +1,141 @@
+.wrapper {
+  font-family: Microsoft YaHei;
+  z-index: 999 !important;
+  z-index: 1;
+  border-radius: 8px;
+  :global {
+    .ant-btn-primary {
+      border: none;
+      border-radius: 4px;
+      background-color: #727fff;
+      font-size: 14px;
+    }
+    .ant-checkbox-wrapper {
+      font-size: 14px;
+      color: #626a6a;
+      margin-left: 0;
+      margin-right: 32px;
+    }
+    .ant-checkbox + span {
+      padding: 0 4px;
+    }
+    .ant-checkbox-disabled + span {
+      color: #626a6a;
+      cursor: not-allowed;
+    }
+    .ant-divider {
+      color: #e1e6e6 !important;
+      border-color: #e1e6e6 !important;
+    }
+  }
+}
+.searchBox {
+  margin-bottom: 16px;
+}
+.top {
+  display: flex;
+  img {
+    margin-right: 4px;
+    position: relative;
+    top: 1px;
+  }
+  .item {
+    transition: all 0.3s;
+    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px 4px 0px 0px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    height: 32px;
+  }
+}
+.checked {
+  background: #f0f5f5;
+  border: 1px solid transparent;
+  border-bottom: none;
+}
+.bottom {
+  display: flex;
+  margin-top: -6px;
+  > div {
+    display: flex;
+  }
+  .left {
+    :global {
+      .ant-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        height: 32px;
+        border-color: transparent;
+      }
+    }
+  }
+  .controlBtn {
+    display: flex;
+    height: 32px;
+    align-items: center;
+    background: #edf2f2;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #626a6a;
+    margin-left: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    :global {
+      .ant-space-item {
+        width: auto;
+      }
+    }
+  }
+  :global {
+    .ant-input {
+      height: 32px;
+      width: 440px;
+      border-top-left-radius: 0;
+      background: rgba(237, 242, 242, 0.8);
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-color: transparent;
+    }
+  }
+}
+.downArrow {
+  display: inline-block;
+  width: 14px;
+  top: 2px;
+  height: 14px;
+  border-radius: 50%;
+  position: relative;
+  background: rgba(114, 127, 255, 0.1);
+}
+.downArrow::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  z-index: 1;
+  height: 0px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 0px;
+  border-top: 4px solid #727fff;
+  border-right: 3px solid transparent;
+  border-bottom: 0px solid transparent;
+  border-left: 3px solid transparent;
+}
+.tableView {
+  display: flex;
+  justify-content: space-between;
+}
+.hide {
+  display: none;
+}
+.filter {
+  background: #fff;
+  padding: 24px 32px 9px 32px;
+  border-radius: 8px;
+}

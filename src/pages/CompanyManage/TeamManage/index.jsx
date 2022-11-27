@@ -7,6 +7,7 @@ import { reqListTeam } from '@/api/companyManage'
 import UserManageModal from '../DeptManage/components/UserManageModal'
 import AddTeamModal from './components/AddTeamModal'
 import RemoveTeamModal from './components/RemoveTeamModal'
+import { useDebounceFn } from 'ahooks'
 
 function TeamManage() {
   const initParams = {
@@ -48,6 +49,9 @@ function TeamManage() {
     }
     setParams(o)
   }
+  function handleBatchEdit() {
+    removeTeamRef.current?.open(selectedRows, 'batch')
+  }
   function renderEdit(record) {
     return (
       <Space>
@@ -56,7 +60,11 @@ function TeamManage() {
           className={styles.userManage}>
           管理用户
         </span>
-        <span className={styles.edit}>编辑</span>
+        <span
+          className={styles.edit}
+          onClick={() => addTeamRef.current?.open(record, 'edit')}>
+          编辑
+        </span>
         <span
           className={styles.delete}
           onClick={() => removeTeamRef.current?.open(record)}>
@@ -64,6 +72,27 @@ function TeamManage() {
         </span>
       </Space>
     )
+  }
+
+  //  防抖
+  const { run } = useDebounceFn(
+    (newParams) => {
+      setParams(newParams)
+    },
+    {
+      wait: 500,
+    }
+  )
+
+  function onSearchChange(e) {
+    const _name = e.target.value
+    const newParams = { ...params }
+    if (_name) {
+      newParams.name = _name
+    } else {
+      delete newParams.name
+    }
+    run(newParams)
   }
   const columns = [
     {
@@ -102,26 +131,23 @@ function TeamManage() {
       <div className={styles.teamHead}>
         <div className={styles.searchBox}>
           <Input
+            value={params.name}
             className={styles.inputBox}
             allowClear
+            onChange={onSearchChange}
             placeholder="请输入团队名称进行搜索"
             addonBefore="用户搜索"
             suffix={<img src={IconSearch} alt="" />}
           />
         </div>
         <Space className={styles.btnGroup}>
-          <Button disabled>
+          <Button disabled={!selectedRowKeys.length} onClick={handleBatchEdit}>
             <DeleteOutlined />
             <span>批量删除</span>
           </Button>
           <Button
             type="primary"
-            onClick={() =>
-              addTeamRef.current?.open(
-                data.list.map((item) => item),
-                'edit'
-              )
-            }>
+            onClick={() => addTeamRef.current?.open({}, 'add')}>
             <PlusOutlined />
             <span>新建团队</span>
           </Button>
@@ -149,9 +175,18 @@ function TeamManage() {
           }}
         />
       </div>
-      <UserManageModal ref={userManageRef} onSuccess={() => setParams({...params})} />
-      <AddTeamModal ref={addTeamRef} />
-      <RemoveTeamModal ref={removeTeamRef} />
+      <UserManageModal
+        ref={userManageRef}
+        onSuccess={() => setParams({ ...params })}
+      />
+      <AddTeamModal
+        ref={addTeamRef}
+        onSuccess={() => setParams({ ...params })}
+      />
+      <RemoveTeamModal
+        ref={removeTeamRef}
+        onSuccess={() => setParams({ ...params })}
+      />
     </div>
   )
 }
