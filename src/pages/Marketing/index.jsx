@@ -1,7 +1,13 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import SearchContent from "./SearchContent";
 
 function Marketing() {
-  return <Outlet />
+  return (
+    <div>
+      <SearchContent />
+      <Outlet />
+    </div>
+  );
 }
-export default Marketing
+export default Marketing;

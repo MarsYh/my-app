@@ -13,6 +13,6 @@ export function reqXhsSimilarImage (data) {
   return request.post("/api/kol/resource/xhs/note/similarImage", data)
 }
 // 投放行业
-export function reqXhsBrandPage (data) {
-  return request.post("/api/kol/xdnphb/kol/resource/brand/page", data)
+export function reqXhsBrandPage () {
+  return request.post("/api/kol/xdnphb/kol/resource/brand/page")
 }

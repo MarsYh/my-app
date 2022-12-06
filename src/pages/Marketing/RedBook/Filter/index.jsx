@@ -6,25 +6,26 @@ import LaunchIndustry from './LaunchIndustry'
 import PublicTime from './PublicTime'
 import AdvancedFilter from './AdvancedFilter'
 import { Divider, message } from 'antd'
-import { reqXhsBrandPage } from '@/api/marketing'
-import { useXhsContentSearch } from '@/store/xhsContentSearch'
+// import { reqXhsBrandPage } from '@/api/marketing'
+// import { useXhsContentSearch } from '@/store/xhsContentSearch'
 
 function Filter() {
-  const { tableParams } = useXhsContentSearch()
+  // const { tableParams } = useXhsContentSearch()
   const [selectedRecord, setSelectedRecord] = useState({})
-  const [dataSource, setDataSource] = useState({})
-  const sortFiled = tableParams.sortFiled
+  // const [dataSource, setDataSource] = useState({})
+  // const sortFiled = tableParams.sortFiled
 
-  useEffect(() => {
-    reqXhsBrandPage({ sortFiled }).then((res) => {
-      const { success, msg, data } = res
-      if (success && data) {
-        setDataSource(data)
-      } else {
-        message.error(msg || '筛选数据请求失败')
-      }
-    })
-  }, [sortFiled])
+  // useEffect(() => {
+  //   reqXhsBrandPage().then((res) => {
+  //     const { success, msg, data } = res
+  //     if (success && data) {
+  //       setDataSource(data)
+  //     } else {
+  //       message.error(msg || '筛选数据请求失败')
+  //     }
+  //   })
+  // }, [])
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -38,7 +39,6 @@ function Filter() {
           setSelectedRecord={setSelectedRecord}
         />
         <LaunchIndustry
-          dataSource={dataSource}
           selectedRecord={selectedRecord}
           setSelectedRecord={setSelectedRecord}
         />
@@ -48,6 +48,9 @@ function Filter() {
         />
         <AdvancedFilter />
         <Divider dashed className={styles.divider} />
+
+        {/* ？ sort组件 */}
+        {/* 筛选条件 */}
       </div>
     </div>
   )

@@ -10,13 +10,13 @@ export const SEARCH_TYPE_CONFIG = [
   { label: '作品标签', value: 'officialKeyword' },
 ]
 export const PUBLIC_TIME_CONFIG = [
-  { label: '近3天', value: '1' },
-  { label: '近7天', value: '2' },
-  { label: '近15天', value: '3' },
-  { label: '近30天', value: '4' },
-  { label: '近60天', value: '5' },
-  { label: '近90天', value: '6' },
-  { label: '自定义', value: '7' },
+  { label: '近3天', value: -3 },
+  { label: '近7天', value: -7 },
+  { label: '近15天', value: -15 },
+  { label: '近30天', value: -30 },
+  { label: '近60天', value: -60 },
+  { label: '近90天', value: -90 },
+  { label: '自定义', value: 'user_defined' },
 ]
 export const ADVANCED_FILTER_CONFIG = [
   { label: '内容特征', value: '1', icon: IconContentFeature, children: <ContentFeature /> },
