@@ -1,9 +1,14 @@
 import IconContentFeature from "./img/icon-content-feature.svg"
 import IconKolFeature from "./img/icon-kol-feature.svg"
 import IconPerformance from "./img/icon-performance.svg"
-import IconBrand from "./img/icon-brand.webp"
 import ContentFeature from "./AdvancedFilter/components/ContentFeature"
 
+export const SEARCH_TYPE_CONFIG = [
+  { label: '标题', value: 'title' },
+  { label: '正文', value: 'desc' },
+  { label: '@用户', value: 'ats.name' },
+  { label: '作品标签', value: 'officialKeyword' },
+]
 export const PUBLIC_TIME_CONFIG = [
   { label: '近3天', value: '1' },
   { label: '近7天', value: '2' },
@@ -19,13 +24,13 @@ export const ADVANCED_FILTER_CONFIG = [
   { label: '传播表现', value: '3', icon: IconPerformance },
 ]
 export const SORT_CONFIG = [
-  { label: '阅读最多', value: '1' },
-  { label: '互动最多', value: '2' },
-  { label: '点赞最多', value: '3' },
-  { label: '评论最多', value: '4' },
-  { label: '分享最多', value: '5' },
-  { label: '收藏最多', value: '6' },
-  { label: '最新发布', value: '7' },
+  { label: '阅读最多', value: 'readNum' },
+  { label: '互动最多', value: 'interactiveCount' },
+  { label: '点赞最多', value: 'likedCount' },
+  { label: '评论最多', value: 'commentsCount' },
+  { label: '分享最多', value: 'sharedCount' },
+  { label: '收藏最多', value: 'collectedCount' },
+  { label: '最新发布', value: 'time' },
 ]
 export const LAUNCH_INDUSTRY_CONFIG = [
   { label: '3C及电器', value: '1' },
@@ -49,25 +54,25 @@ export const LAUNCH_INDUSTRY_CONFIG = [
   { label: '游戏', value: '11' },
 ]
 export const LAUNCH_INDUSTRY_ITEM_CONFIG = [
-  { label: '3C及电器', value: '1', icon: IconBrand },
-  { label: '食品饮料', value: '2', icon: IconBrand },
-  { label: '服装配饰', value: '3', icon: IconBrand },
-  { label: '医疗保健', value: '4', icon: IconBrand },
-  { label: '生活服务', value: '5', icon: IconBrand },
-  { label: '房地产', value: '6', icon: IconBrand },
-  { label: '家居建材', value: '7', icon: IconBrand },
-  { label: '教育培训', value: '8', icon: IconBrand },
-  { label: '出行旅游', value: '9', icon: IconBrand },
-  { label: '社会公共', value: '101', icon: IconBrand },
-  { label: '社会公共', value: '102', icon: IconBrand },
-  { label: '社会公共', value: '103', icon: IconBrand },
-  { label: '社会公共', value: '104', icon: IconBrand },
-  { label: '社会公共', value: '105', icon: IconBrand },
-  { label: '社会公共', value: '106', icon: IconBrand },
-  { label: '社会公共', value: '107', icon: IconBrand },
-  { label: '社会公共', value: '108', icon: IconBrand },
-  { label: '社会公共', value: '109', icon: IconBrand },
-  { label: '游戏', value: '11', icon: IconBrand },
+  { label: '3C及电器', value: '1' },
+  { label: '食品饮料', value: '2' },
+  { label: '服装配饰', value: '3' },
+  { label: '医疗保健', value: '4' },
+  { label: '生活服务', value: '5' },
+  { label: '房地产', value: '6' },
+  { label: '家居建材', value: '7' },
+  { label: '教育培训', value: '8' },
+  { label: '出行旅游', value: '9' },
+  { label: '社会公共', value: '101' },
+  { label: '社会公共', value: '102' },
+  { label: '社会公共', value: '103' },
+  { label: '社会公共', value: '104' },
+  { label: '社会公共', value: '105' },
+  { label: '社会公共', value: '106' },
+  { label: '社会公共', value: '107' },
+  { label: '社会公共', value: '108' },
+  { label: '社会公共', value: '109' },
+  { label: '游戏', value: '11' },
 ]
 export const CONTENT_FEATURE_CONFIG = [
   { label: '美妆', value: '1' },

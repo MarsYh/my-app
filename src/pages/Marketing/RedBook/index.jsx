@@ -7,8 +7,20 @@ import Filter from './Filter'
 import List from './List'
 import DetailDraw from './DetailDraw'
 import Sort from './Filter/Sort'
+import context from '@/store/xhsContentSearch'
+import { SORT_CONFIG } from './Filter/sourceData'
 
 function RedBook() {
+  const { Provider } = context
+  const [tableParams, setTableParams] = useState({
+    sortFiled: SORT_CONFIG[0].value,
+    searchFields: ['title'],
+    page: {
+      pageSize: 10,
+      pageNo: 1,
+    },
+    desc: true,
+  })
   const [switchKey, setSwitchKey] = useState('list')
   const [activeKey, setActiveKey] = useState('1')
 
@@ -23,7 +35,9 @@ function RedBook() {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <Provider
+      className={styles.wrapper}
+      value={{ tableParams, dispatch: setTableParams }}>
       <div className={styles.filter}>
         <div className={styles.searchBox}>
           <div className={styles.top}>
@@ -48,14 +62,6 @@ function RedBook() {
               />
               <Button type="primary">搜索</Button>
             </div>
-            <div className={styles.right}>
-              <div className={styles.controlBtn}>
-                <Space size={6}>
-                  <span>展开</span>
-                  <span className={styles.downArrow}></span>
-                </Space>
-              </div>
-            </div>
           </div>
         </div>
         <Filter />
@@ -63,6 +69,7 @@ function RedBook() {
           <Sort />
           {REDBOOK_TYPE_CONFIG.map((item) => (
             <Button
+              key={item.value}
               type="primary"
               className={switchKey === item.value && styles.hide}
               onClick={() => handleTypeClick(item.value)}>
@@ -73,7 +80,7 @@ function RedBook() {
         </div>
       </div>
       {switchKey === 'big' ? <DetailDraw /> : <List />}
-    </div>
+    </Provider>
   )
 }
 

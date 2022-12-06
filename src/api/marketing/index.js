@@ -1,1 +1,1 @@
-export { reqSearchContent } from "./searchContent"
+export { reqSearchContent, reqXhsNote, reqXhsBrandPage } from './searchContent'

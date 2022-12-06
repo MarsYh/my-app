@@ -82,11 +82,12 @@
 .brandBox {
   height: 24px;
   background: #edf2f2;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   border-radius: 12px;
   padding-left: 2px;
   padding-right: 10px;
+  margin-left: 8px;
   img {
     border-radius: 10px;
     width: 20px;
@@ -112,20 +113,6 @@
   margin-top: 7px;
   .tags:first-child {
     margin-left: 0;
-  }
-  .tags {
-    max-width: 64px;
-    background-color: #edf2f2;
-    border-radius: 12px;
-    display: inline-flex;
-    align-items: center;
-    padding-right: 8px;
-    margin-left: 8px;
-    &:hover .iconSearch {
-      width: 12px;
-      transition: all 0.5s;
-      color: #727fff;
-    }
   }
 }
 .ellipsis {
@@ -240,6 +227,7 @@
   }
 }
 .brand {
+  display: inline-flex;
   align-items: center;
   > img:first-child {
     width: 24px;
@@ -304,4 +292,28 @@
   height: 12px;
   margin-left: 4px;
   transition: all 0.5s;
+}
+.tagPopover {
+  :global {
+    .ant-popover-inner-content {
+      padding: 12px;
+    }
+    .ant-popover-inner {
+      border-radius: 4px;
+    }
+  }
+}
+.tags {
+  max-width: 64px;
+  background-color: #edf2f2;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  padding-right: 8px;
+  margin-left: 8px;
+  &:hover .iconSearch {
+    width: 12px;
+    transition: all 0.5s;
+    color: #727fff;
+  }
 }
