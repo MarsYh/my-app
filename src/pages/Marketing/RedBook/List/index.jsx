@@ -292,6 +292,7 @@ function List() {
       width: 400,
       ellipsis: true,
       dataIndex: 'title',
+      fixed:'left',
       render: (_, record) => renderTitle(record),
     },
     {
@@ -370,6 +371,7 @@ function List() {
       width: 100,
       ellipsis: true,
       dataIndex: 'edit',
+      fixed:"right",
       align: 'center',
       render: (_, record) => renderEdit(record),
     },
@@ -391,8 +393,8 @@ function List() {
             total: data.total,
           }}
           scroll={{
-            x: 1600,
-            y: 450,
+            x: columns.reduce((prev,item) => prev += item.width ?? 0),
+            y: 600,
           }}
         />
       </div>
