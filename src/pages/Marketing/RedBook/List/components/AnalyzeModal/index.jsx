@@ -1,8 +1,9 @@
-import { Avatar, Modal, Popover, Tag } from 'antd'
+import { Avatar, message, Modal, Popover, Tag } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import styles from './index.module.less'
 import { CloseOutlined, SyncOutlined, SearchOutlined } from '@ant-design/icons'
 import IconOfficial from '../../img/icon-official.png'
+import { reqXhsNote } from '@/api/marketing'
 import IconHead from '../../img/icon-headImg.jpg'
 import classNames from 'classnames'
 import IconBrand from '../../img/icon-brandImg.jpg'
@@ -17,6 +18,8 @@ import { REDBOOK_LIST_CONFIG } from '../../../../sourceData'
 function AnalyzeModal(props, ref) {
   const [hover, setHover] = useState()
   const [click, setClick] = useState()
+  const [record, setRecord] = useState([])
+  const [data, setData] = useState({})
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -28,11 +31,23 @@ function AnalyzeModal(props, ref) {
   }
   useImperativeHandle(ref, () => {
     return {
-      open() {
+      open(record) {
+        setRecord(record)
         setIsModalOpen(true)
+        getUserNoteInfo()
       },
     }
   })
+  async function getUserNoteInfo() {
+    const res = await reqXhsNote()
+    const { success, data, message: msg } = res
+    console.log('data:', data)
+    if (success && data) {
+      setData(data)
+    } else {
+      message.error(msg || '请求分析数据失败')
+    }
+  }
   return (
     <Modal
       closable={false}

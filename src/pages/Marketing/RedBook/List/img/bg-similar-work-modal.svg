@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="1354" height="429.029" viewBox="0 0 1354 429.029">
+    <defs>
+        <style>.a-bg-similar-work-modal{fill:#fff;stroke:#707070;}.b-bg-similar-work-modal{opacity:0.6;}.c-bg-similar-work-modal{fill:url(#a);}.d-bg-similar-work-modal{clip-path:url(#b);}.e-bg-similar-work-modal,.h-bg-similar-work-modal{opacity:0.1;}.e-bg-similar-work-modal{fill:url(#c);}.f-bg-similar-work-modal{fill:url(#d);}.g-bg-similar-work-modal{fill:url(#g);}.h-bg-similar-work-modal{fill:url(#k);}.i-bg-similar-work-modal{fill:url(#l);}.j-bg-similar-work-modal{fill:url(#o);}.k-bg-similar-work-modal{filter:url(#p);}.l-bg-similar-work-modal{filter:url(#m);}.m-bg-similar-work-modal{filter:url(#h);}.n-bg-similar-work-modal{filter:url(#e);}</style>
+        <linearGradient id="a" x2="0.037" y2="1.179" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#727fff" stop-opacity="0.2"/>
+            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <clipPath id="b">
+            <rect class="a-bg-similar-work-modal" width="389" height="297" rx="12"/>
+        </clipPath>
+        <linearGradient id="c" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#727fff" stop-opacity="0"/>
+            <stop offset="1" stop-color="#2792f5"/>
+        </linearGradient>
+        <linearGradient id="d" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#727fff" stop-opacity="0"/>
+            <stop offset="1" stop-color="#2792f5" stop-opacity="0.2"/>
+        </linearGradient>
+        <filter id="e" x="-160.684" y="-116.852" width="246.583" height="261.104" filterUnits="userSpaceOnUse">
+            <feOffset dy="3" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="4" result="f"/>
+            <feFlood flood-color="#727fff"/>
+            <feComposite operator="in" in2="f"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <linearGradient id="g" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#727fff" stop-opacity="0.2"/>
+            <stop offset="1" stop-color="#2792f5" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="h" x="61.42" y="-138.621" width="316.528" height="340.722" filterUnits="userSpaceOnUse">
+            <feOffset dx="4" dy="8" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="1" result="i"/>
+            <feFlood flood-color="#727fff" flood-opacity="0.341"/>
+            <feComposite operator="in" in2="i"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <linearGradient id="k" y1="0" y2="1" xlink:href="#c"/>
+        <linearGradient id="l" y1="0" y2="1" xlink:href="#d"/>
+        <filter id="m" x="1268.101" y="-116.852" width="246.583" height="261.104" filterUnits="userSpaceOnUse">
+            <feOffset dy="3" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="4" result="n"/>
+            <feFlood flood-color="#727fff"/>
+            <feComposite operator="in" in2="n"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <linearGradient id="o" y1="1" y2="0" xlink:href="#g"/>
+        <filter id="p" x="983.053" y="-138.621" width="316.528" height="340.722" filterUnits="userSpaceOnUse">
+            <feOffset dx="4" dy="8" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="1" result="q"/>
+            <feFlood flood-color="#727fff" flood-opacity="0.341"/>
+            <feComposite operator="in" in2="q"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g class="b-bg-similar-work-modal">
+        <rect class="c-bg-similar-work-modal" width="1354" height="429.029" rx="12"/>
+        <g class="d-bg-similar-work-modal">
+            <g transform="translate(-148.684 -138.621)">
+                <rect class="e-bg-similar-work-modal" width="214.535" height="260.743" rx="7" transform="matrix(-0.891, 0.454, -0.454, -0.891, 423.914, 306.752)"/>
+                <g class="n-bg-similar-work-modal" transform="matrix(1, 0, 0, 1, 148.68, 138.62)">
+                    <rect class="f-bg-similar-work-modal" width="154.274" height="187.502" rx="7" transform="matrix(-0.89, 0.45, -0.45, -0.89, 73.9, 59.21)"/>
+                </g>
+                <g class="m-bg-similar-work-modal" transform="matrix(1, 0, 0, 1, 148.68, 138.62)">
+                    <rect class="g-bg-similar-work-modal" width="214.535" height="260.744" rx="7" transform="matrix(-0.89, -0.45, 0.45, -0.89, 252.57, 191.1)"/>
+                </g>
+            </g>
+        </g>
+        <g class="d-bg-similar-work-modal" transform="translate(965)">
+            <g transform="translate(18.053 -138.621)">
+                <rect class="h-bg-similar-work-modal" width="214.535" height="260.743" rx="7" transform="matrix(0.891, 0.454, -0.454, 0.891, 214.092, 74.428)"/>
+                <g class="l-bg-similar-work-modal" transform="matrix(1, 0, 0, 1, -983.05, 138.62)">
+                    <rect class="i-bg-similar-work-modal" width="154.274" height="187.502" rx="7" transform="matrix(0.89, 0.45, -0.45, 0.89, 1365.23, -107.85)"/>
+                </g>
+                <g class="k-bg-similar-work-modal" transform="matrix(1, 0, 0, 1, -983.05, 138.62)">
+                    <rect class="j-bg-similar-work-modal" width="214.535" height="260.744" rx="7" transform="matrix(0.89, -0.45, 0.45, 0.89, 983.05, -41.22)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

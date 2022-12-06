@@ -2,30 +2,28 @@ import React, { useState, useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import { Table, message, Popover } from 'antd'
 import { reqSearchContent } from '@/api/marketing'
-import IconTitle from './img/icon-title.jpg'
 import IconBrand from './img/icon-brand.png'
-import IconHead from './img/icon-headImg.jpg'
-import IconMiddle from './img/icon-middle.svg'
 import IconOfficial from './img/icon-official.png'
-import IconBrandBig from './img/icon-brandBig.jpg'
 import IconPayment from './img/icon-payment.svg'
 import IconAnalyze from './img/icon-analyze.png'
 import IconOriginal from './img/icon-original.png'
+import IconSimilar from './img/icon-similar.png'
 import classNames from 'classnames'
-import { REDBOOK_LIST_CONFIG } from '../../sourceData'
+import {
+  USER_ATTRIBUTE_PIC_CONFIG,
+  USER_ATTRIBUTE_TEXT_CONFIG,
+} from '../../sourceData'
 import AnalyzeModal from './components/AnalyzeModal'
+import SimilarModal from './components/SimilarModal'
 import { SearchOutlined } from '@ant-design/icons'
+import { useXhsContentSearch } from '@/store/xhsContentSearch'
 
 function List() {
+  const { tableParams, dispatch } = useXhsContentSearch()
+  const [tableLoading, setTableLoading] = useState(false)
   const [hover, setHover] = useState()
   const analyzeRef = useRef()
-  const initParams = {
-    sortFiled: 'likedCount',
-    desc: true,
-    page: { pageNo: 1, pageSize: 10 },
-    searchFields: [],
-  }
-  const [params, setParams] = useState(initParams)
+  const similarRef = useRef()
   const [data, setData] = useState({
     list: [],
     total: 0,
@@ -33,125 +31,168 @@ function List() {
 
   //列表接口
   useEffect(() => {
-    reqSearchContent(params).then((res) => {
-      const { data, message: msg, success } = res
-      if (success && data) {
-        const { list = [], page = {} } = data.pager
-        setData({
-          list: list,
-          total: page.totalSize,
-        })
-      } else {
-        message.error(msg || '获取营销内容库失败')
-      }
-    })
-  }, [params])
+    setTableLoading(true)
+    reqSearchContent(tableParams)
+      .then((res) => {
+        const { data, message: msg, success } = res
+        if (success && data) {
+          console.log(data)
+          setData({
+            list: data.pager.data,
+            total: data.pager.page.totalSize,
+          })
+        } else {
+          message.error(msg || '获取营销内容库失败')
+        }
+      })
+      .finally(() => setTableLoading(false))
+  }, [tableParams])
 
-  function renderContentTag() {
-    const tags = REDBOOK_LIST_CONFIG
+  function renderContentTag(tags) {
+    if (!Array.isArray(tags) || !tags?.length) return null
     // 小于等于三个的情况
-    const preTags = tags.slice(0, 3)
-    const preDom = preTags.map((item) => (
-      <Popover key={item.value} content={item.label}>
+    const preTags = tags?.slice(0, 3)
+    const preDom = preTags?.map((item) => (
+      <Popover
+        overlayClassName={styles.tagPopover}
+        key={item}
+        content={
+          <div className={classNames(styles.tag, styles.pointer)}>{item}</div>
+        }>
         <div
-          onMouseEnter={() => setHover(item.value)}
+          onMouseEnter={() => setHover(item)}
           onMouseLeave={() => setHover()}
           className={classNames(
             styles.tags,
             styles.pointer,
-            hover === item.value && styles.tagHover
+            hover === item && styles.tagHover
           )}>
-          <span className={classNames(styles.tag)}>{item.label}</span>
-          {hover === item.value && (
-            <SearchOutlined className={styles.iconSearch} />
-          )}
+          <span className={classNames(styles.tag, styles.ellipsis)}>
+            {item}
+          </span>
+          {hover === item && <SearchOutlined className={styles.iconSearch} />}
         </div>
       </Popover>
     ))
     // 剩下的tags
-    const restTags = tags.slice(3)
+    const restTags = tags?.slice(3)
     const restDom = (
       <Popover
-        content={restTags.map((child) => (
+        content={restTags?.map((child) => (
           <Popover
-            key={child.value}
-            content={<div className={styles.tags}>{child.label}</div>}>
-            <div className={styles.tags}>
-              <span className={styles.tag}>{child.label}</span>
+            key={child}
+            content={
+              <div className={classNames(styles.tag, styles.pointer)}>
+                {child}
+              </div>
+            }>
+            <div
+              className={classNames(
+                styles.tags,
+                styles.ellipsis,
+                hover === child && styles.tagHover
+              )}
+              onMouseEnter={() => setHover(child)}
+              onMouseLeave={() => setHover()}>
+              <span
+                className={classNames(
+                  styles.tag,
+                  styles.pointer,
+                  styles.ellipsis
+                )}>
+                {child}
+              </span>
+              {hover === child && (
+                <SearchOutlined className={styles.iconSearch} />
+              )}
             </div>
           </Popover>
         ))}>
-        <div className={classNames(styles.tags, styles.pointer)}>
-          <span className={styles.tag}>+{restTags.length}</span>
-        </div>
+        {restTags?.length === 0 ? null : (
+          <div className={classNames(styles.tags, styles.pointer)}>
+            <span className={styles.tag}>+{restTags?.length}</span>
+          </div>
+        )}
       </Popover>
     )
     return [preDom, restDom]
   }
 
-  function renderTitle() {
+  function renderUserInfo(record) {
+    return (
+      <>
+        <div className={classNames(styles.name, styles.pointer)}>
+          <img src={record.images} alt="" />
+          <Popover content={record.nickname}>
+            <span>{record.nickname}</span>
+          </Popover>
+        </div>
+        <div className={styles.infoTag}>
+          <span className={styles.label}>
+            <img src={USER_ATTRIBUTE_PIC_CONFIG[record.userAttribute]} alt="" />
+            {USER_ATTRIBUTE_TEXT_CONFIG[record.userAttribute]}
+          </span>
+        </div>
+      </>
+    )
+  }
+
+  function renderTitle(record) {
     return (
       <div className={styles.titleContainer}>
         <div className={classNames(styles.imgBox, styles.pointer)}>
-          <img src={IconTitle} alt="" />
-          <Popover content="文具手帐">
-            <span className={styles.stickers}>兴趣爱好</span>
+          <img
+            src={record.cover}
+            alt=""
+            onClick={() => analyzeRef.current?.open(data.list)}
+          />
+          <Popover content={record.noteCounterTypeV2}>
+            <span className={styles.stickers}>{record.noteCounterTypeV1}</span>
           </Popover>
-          <span className={styles.duration}>00:55</span>
         </div>
         <div className={styles.infoBox}>
           <div className={styles.titleBox}>
-            <Popover content="拥有这套丙烯马克笔后，我真的省大钱了👏">
+            <Popover content={record.title}>
               <span
+                onClick={() => analyzeRef.current?.open(data.list)}
                 className={classNames(
                   styles.title,
                   styles.ellipsis,
                   styles.pointer
                 )}>
-                拥有这套丙烯马克笔后，我真的省大钱了👏
+                {record.title || '暂无作品标题'}
               </span>
             </Popover>
             <div
               className={styles.brandBox}
-              onMouseEnter={() => setHover('sta')}
+              onMouseEnter={() => setHover(record.id)}
               onMouseLeave={() => setHover()}>
               <img src={IconBrand} alt="" />
-              <Popover content="STA斯塔">
+              <Popover content={record.cooperateBindsName}>
                 <span
                   className={classNames(
                     styles.name,
                     styles.ellipsis,
                     styles.pointer,
-                    hover === 'sta' && styles.tagHover
+                    hover === record.id && styles.tagHover
                   )}>
-                  STA斯塔
+                  {record.cooperateBindsName}
                 </span>
-                {hover === 'sta' && (
+                {hover === record.id && (
                   <SearchOutlined className={styles.iconSearch} />
                 )}
               </Popover>
             </div>
           </div>
-          <div className={styles.tagBox}>{renderContentTag()}</div>
+          <div className={styles.tagBox}>
+            {renderContentTag(record?.officialKeyword)}
+          </div>
           <div className={styles.timeBox}>
             <span>
-              发布于&nbsp;<span>2022-08-10 17:30:00</span>
+              发布于&nbsp;<span>{record.time}</span>
             </span>
           </div>
-          <div className={styles.personBox}>
-            <div className={classNames(styles.name, styles.pointer)}>
-              <img src={IconHead} alt="" />
-              <Popover content="大葱明说文具">
-                <span>大葱明说文具</span>
-              </Popover>
-            </div>
-            <div className={styles.infoTag}>
-              <span className={styles.label}>
-                <img src={IconMiddle} alt="" />
-                腰部达人
-              </span>
-            </div>
-          </div>
+          <div className={styles.personBox}>{renderUserInfo(record.user)}</div>
         </div>
       </div>
     )
@@ -166,31 +207,20 @@ function List() {
     )
   }
 
-  function renderReadNum() {
-    return <div>564.09w</div>
-  }
-  function renderInteractiveCount() {
-    return <div>83.53w</div>
-  }
-  function renderLikedCount() {
-    return <div>54.93w</div>
-  }
-  function renderCommentsCount() {
-    return <div>2169</div>
-  }
-  function renderSharedCount() {
-    return <div>2845</div>
-  }
-  function renderCollectedCount() {
-    return <div>28.1w</div>
+  function renderNum(text) {
+    return text >= 10000
+      ? `${(text / 10000).toFixed(2)}w`
+      : text === 0
+      ? '-'
+      : text
   }
 
-  function renderBrand() {
+  function renderBrand(record) {
     return (
       <div className={styles.brand}>
-        <img src={IconBrandBig} alt="" />
-        <Popover content="STA斯塔">
-          <span>STA斯塔</span>
+        <img src={record.cooperateBindsImageUrl} alt="" />
+        <Popover content={record.cooperateBindsName}>
+          <span className={styles.ellipsis}>{record.cooperateBindsName}</span>
         </Popover>
         <Popover
           overlayClassName={styles.paymentPopover}
@@ -202,43 +232,59 @@ function List() {
     )
   }
 
-  function renderEdit() {
+  function renderEdit(record) {
     return (
       <div className={styles.editBox}>
-        <div className={styles.edit} onClick={() => analyzeRef.current?.open()}>
+        <div
+          className={styles.edit}
+          onClick={() => analyzeRef.current?.open(record)}>
           <img src={IconAnalyze} alt="" />
           <span>分析</span>
         </div>
         <div className={styles.edit}>
           <img src={IconOriginal} alt="" />
-          <span>原文</span>
+          <span>
+            <a
+              style={{ color: '#3d4242' }}
+              target="_blank"
+              rel="noreferrer"
+              href={record.link}>
+              原文
+            </a>
+          </span>
+        </div>
+        <div
+          className={styles.edit}
+          onClick={() => similarRef.current?.open(record)}>
+          <img src={IconSimilar} alt="" />
+          <span>相似作品</span>
         </div>
       </div>
     )
   }
 
   function onTableChange(pagin, filters, sorter) {
-    const o = { ...params }
+    const o = { ...tableParams }
     console.log(o)
 
-    // // 分页
-    // const { current, pageSize } = pagin
-    // o.page = {
-    //   pageNo: current,
-    //   pageSize,
-    // }
+    // 分页
+    const { current, pageSize } = pagin
+    o.page = {
+      pageNo: current,
+      pageSize,
+    }
 
-    // // 排序
-    // const { sortFiled, order } = sorter
-    // if (order) {
-    //   o.sortName = sortFiled
-    //   o.sortType = order === 'desc' ? 1 : 2
-    // } else {
-    //   delete o.sortName
-    //   delete o.sortType
-    // }
+    // 排序
+    const { sortFiled, order } = sorter
+    if (order) {
+      o.sortName = sortFiled
+      o.sortType = order === 'desc' ? 1 : 2
+    } else {
+      delete o.sortName
+      delete o.sortType
+    }
 
-    setParams(o)
+    dispatch(o)
   }
   const columns = [
     {
@@ -246,7 +292,7 @@ function List() {
       width: 400,
       ellipsis: true,
       dataIndex: 'title',
-      render: renderTitle,
+      render: (_, record) => renderTitle(record),
     },
     {
       title: '作品类型',
@@ -262,7 +308,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'readNum',
       align: 'center',
-      render: renderReadNum,
+      render: (text) => renderNum(text),
     },
     {
       title: '互动量',
@@ -270,7 +316,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'interactiveCount',
       align: 'center',
-      render: renderInteractiveCount,
+      render: (text) => renderNum(text),
     },
     {
       title: '点赞量',
@@ -278,7 +324,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'likedCount',
       align: 'center',
-      render: renderLikedCount,
+      render: (text) => renderNum(text),
     },
     {
       title: '评论量',
@@ -286,7 +332,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'commentsCount',
       align: 'center',
-      render: renderCommentsCount,
+      render: (text) => renderNum(text),
     },
     {
       title: '分享量',
@@ -294,7 +340,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'sharedCount',
       align: 'center',
-      render: renderSharedCount,
+      render: (text) => renderNum(text),
     },
     {
       title: '收藏量',
@@ -302,7 +348,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'collectedCount',
       align: 'center',
-      render: renderCollectedCount,
+      render: (text) => renderNum(text),
     },
     {
       title: '提及品牌',
@@ -310,41 +356,48 @@ function List() {
       ellipsis: true,
       dataIndex: 'cooperateBindsName',
       align: 'center',
-      render: renderBrand,
+      render: (_, record) => renderBrand(record),
     },
-    {
-      title: '数据趋势',
-      width: 100,
-      ellipsis: true,
-      dataIndex: 'interactiveTrend',
-      align: 'center',
-    },
+    // {
+    //   title: '数据趋势',
+    //   width: 100,
+    //   ellipsis: true,
+    //   dataIndex: 'interactiveTrend',
+    //   align: 'center',
+    // },
     {
       title: '操作',
       width: 100,
       ellipsis: true,
       dataIndex: 'edit',
       align: 'center',
-      render: renderEdit,
+      render: (_, record) => renderEdit(record),
     },
   ]
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <Table
+          loading={tableLoading}
           className={styles.table}
           columns={columns}
           onChange={onTableChange}
           rowKey={'id'}
-          dataSource={[123]}
-          // pagination={{
-          //   pageSize: data.pager.page.pageSize,
-          //   current: data.pager.page.curPage,
-          //   total: data.total,
-          // }}
+          dataSource={data.list}
+          pagination={{
+            pageSize: tableParams.page.pageSize,
+            current: tableParams.page.pageNo,
+            total: data.total,
+          }}
+          scroll={{
+            x: 1600,
+            y: 450,
+          }}
         />
       </div>
       <AnalyzeModal ref={analyzeRef} />
+      <SimilarModal ref={similarRef} />
     </div>
   )
 }

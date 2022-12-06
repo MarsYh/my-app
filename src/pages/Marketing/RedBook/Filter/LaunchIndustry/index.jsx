@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Checkbox, Divider, Input, Popover, Typography } from 'antd'
 import styles from './index.module.less'
 import FilterRow from '../../../components/FilterRow'
+import FilterSelected from '../../../components/FilterSelected'
 import classNames from 'classnames'
+import IconBrand from '../img/icon-brand.webp'
 import {
   LAUNCH_INDUSTRY_CONFIG,
   LAUNCH_INDUSTRY_ITEM_CONFIG,
@@ -10,8 +12,11 @@ import {
 import { useDebounce, useSize } from 'ahooks'
 import { CaretDownOutlined, SearchOutlined } from '@ant-design/icons'
 
-function LaunchIndustry() {
+function LaunchIndustry(props) {
+  const { dataSource, selectedRecord, setSelectedRecord } = props
+
   const [visible, setVisible] = useState(false)
+  const [brandTypeL1, setBrandTypeL1] = useState('')
   // 是否被折叠
   const [collapse, setCollapse] = useState(true)
   // 展开/收起 是否显示
@@ -19,6 +24,7 @@ function LaunchIndustry() {
   const ref = useRef(null)
   const size = useSize(ref) || { size: {} }
   const debouncedValue = useDebounce(size.width, { wait: 500 })
+
   // 展开或者收起功能
   useEffect(() => {
     if (debouncedValue) {
@@ -48,9 +54,9 @@ function LaunchIndustry() {
                   <Divider className={styles.divider} />
                   <div className={styles.checkGroup}>
                     {LAUNCH_INDUSTRY_ITEM_CONFIG.map((check) => (
-                      <div className={styles.check}>
+                      <div className={styles.check} key={check.value}>
                         <Checkbox key={check.value} value={check.value}>
-                          <img className={styles.img} src={check.icon} alt="" />
+                          <img className={styles.img} src={IconBrand} alt="" />
                           <span>{check.label}</span>
                         </Checkbox>
                       </div>

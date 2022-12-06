@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="46" viewBox="0 0 160 46">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="矩形_33493" data-name="矩形 33493" width="160" height="46" rx="23" transform="translate(-5199 -6556)" fill="#fff"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#727fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2792f5"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#727fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2792f5" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="矩形_31459" x="-73.155" y="-48.361" width="115.551" height="121.523" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#727fff"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-4" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#727fff" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#2792f5" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="矩形_31460" x="135.263" y="-86.017" width="134.312" height="146.618" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur-2"/>
+      <feFlood flood-color="#727fff" flood-opacity="0.341"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="矩形_33494" x="138.263" y="-77.456" width="134.312" height="146.618" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur-3"/>
+      <feFlood flood-color="#727fff" flood-opacity="0.341"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="组_67006" data-name="组 67006" transform="translate(5199 6390)">
+    <rect id="矩形_33490" data-name="矩形 33490" width="160" height="46" rx="23" transform="translate(-5199 -6390)" fill="#fff"/>
+    <g id="蒙版组_52599" data-name="蒙版组 52599" transform="translate(0 166)" clip-path="url(#clip-path)">
+      <g id="组_63112" data-name="组 63112" transform="translate(-5221.155 -6606.017)">
+        <rect id="矩形_31458" data-name="矩形 31458" width="88.241" height="107.246" rx="7" transform="matrix(-0.891, -0.454, 0.454, -0.891, 172.385, 215.035)" opacity="0.1" fill="url(#linear-gradient)"/>
+        <rect id="矩形_33495" data-name="矩形 33495" width="88.241" height="107.246" rx="7" transform="matrix(-0.891, -0.454, 0.454, -0.891, 164.385, 219.035)" opacity="0.1" fill="url(#linear-gradient)"/>
+        <g transform="matrix(1, 0, 0, 1, 22.16, 50.02)" filter="url(#矩形_31459)">
+          <rect id="矩形_31459-2" data-name="矩形 31459" width="63.454" height="77.122" rx="7" transform="matrix(-0.89, 0.45, -0.45, -0.89, 30.4, 29.35)" fill="url(#linear-gradient-3)"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 22.16, 50.02)" filter="url(#矩形_31460)">
+          <rect id="矩形_31460-2" data-name="矩形 31460" width="88.241" height="107.247" rx="7" transform="matrix(-0.89, -0.45, 0.45, -0.89, 213.89, 49.6)" fill="url(#linear-gradient-4)"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 22.16, 50.02)" filter="url(#矩形_33494)">
+          <rect id="矩形_33494-2" data-name="矩形 33494" width="88.241" height="107.247" rx="7" transform="matrix(-0.89, -0.45, 0.45, -0.89, 216.89, 58.16)" fill="url(#linear-gradient-4)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

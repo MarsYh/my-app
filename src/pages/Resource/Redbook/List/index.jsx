@@ -9,9 +9,6 @@ import {
   Popover,
   Tooltip,
   message,
-  Empty,
-  Input,
-  Modal,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
@@ -24,15 +21,12 @@ import IconFemale from '@/assets/img/icon-female.svg'
 import { reqXhsList } from '@/api/resource/'
 import classNames from 'classnames'
 import IconPGY from '@/assets/img/icon-pugongying.svg'
-import { ATTRIBUTE_CONFIG, SEARCH_TYPE_CONFIG } from './sourceData'
-import { TYPE_CONFIG } from '../sourceData'
+import { ATTRIBUTE_CONFIG } from './sourceData'
 import IconVerify from '@/assets/img/icon-verify.svg'
 import IconEst from '@/assets/img/icon-estimate.svg'
 import IconEstText from '@/assets/img/icon-estimate-text.svg'
 import IconOff from '@/assets/img/icon-official.svg'
 import IconOffText from '@/assets/img/icon-official-text.svg'
-import IconAccount from '@/assets/img/icon-account.svg'
-import IconPrivate from '@/assets/img/icon-private.svg'
 import { useNavigate } from 'react-router-dom'
 import { useXhsResource } from '@/store/xhsResource'
 
@@ -40,34 +34,11 @@ const List = () => {
   // 更改复选框的状态
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const { tableParams, dispatch } = useXhsResource()
-  // 列表接口请求参数
-  // const [params, setParams] = useState({
-  //   type: TYPE_CONFIG[0].value,
-  //   source: 1,
-  //   page: {
-  //     pageSize: 20,
-  //     pageNo: 1,
-  //   },
-  // })
   // 列表数据
   const [tableData, setTableData] = useState({
     list: [],
     total: 0,
   })
-  // const [isModalOpen, setIsModalOpen] = useState(false)
-
-  // const showModal = () => {
-  //   setIsModalOpen(true)
-  // }
-
-  // const handleOk = () => {
-  //   setIsModalOpen(false)
-  // }
-
-  // const handleCancel = () => {
-  //   setIsModalOpen(false)
-  // }
-
   const navigate = useNavigate()
 
   useEffect(() => {

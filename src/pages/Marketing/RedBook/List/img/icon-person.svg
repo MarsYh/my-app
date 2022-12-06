@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+    <defs>
+        <style>.a-person{fill:#2998ff;}.b-person{fill:#fff;}</style>
+    </defs>
+    <g transform="translate(-692 -1127)">
+        <circle class="a-person" cx="7" cy="7" r="7" transform="translate(692 1127)"/>
+        <g transform="translate(477.902 996.51)">
+            <path class="b-person" d="M345.77,135.27m-1.77,0a1.77,1.77,0,1,0,1.77-1.77A1.77,1.77,0,0,0,344,135.27Z" transform="translate(-124.672)"/>
+            <path class="b-person" d="M221.1,511.5a3.1,3.1,0,0,0-3.1,3.1c0,1.711,1.387.442,3.1.442s3.1,1.269,3.1-.442A3.1,3.1,0,0,0,221.1,511.5Z" transform="translate(0 -374.017)"/>
+        </g>
+    </g>
+</svg>
