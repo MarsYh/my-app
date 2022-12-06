@@ -244,11 +244,7 @@ function List() {
         <div className={styles.edit}>
           <img src={IconOriginal} alt="" />
           <span>
-            <a
-              style={{ color: '#3d4242' }}
-              target="_blank"
-              rel="noreferrer"
-              href={record.link}>
+            <a target="_blank" rel="noreferrer" href={record.link}>
               原文
             </a>
           </span>
@@ -292,6 +288,7 @@ function List() {
       width: 400,
       ellipsis: true,
       dataIndex: 'title',
+      fixed: 'left',
       render: (_, record) => renderTitle(record),
     },
     {
@@ -371,6 +368,7 @@ function List() {
       ellipsis: true,
       dataIndex: 'edit',
       align: 'center',
+      fixed: 'right',
       render: (_, record) => renderEdit(record),
     },
   ]
@@ -391,8 +389,8 @@ function List() {
             total: data.total,
           }}
           scroll={{
-            x: 1600,
-            y: 450,
+            x: columns.reduce((prev, item) => (prev += item.width)),
+            y: 600,
           }}
         />
       </div>

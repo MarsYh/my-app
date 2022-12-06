@@ -15,7 +15,6 @@ function SearchContent() {
           defaultActiveKey="redbook"
         />
       </div>
-      <div className={styles.content}></div>
     </div>
   )
 }
