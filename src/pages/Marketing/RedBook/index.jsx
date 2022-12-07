@@ -73,17 +73,11 @@ function RedBook() {
             <Button
               key={item.value}
               type="primary"
-<<<<<<< HEAD
               className={classNames(
                 styles.btns,
                 switchKey === item.value && styles.hide
               )}
               onClick={() => handleTypeClick(item.value)}>
-=======
-              className={switchKey === item.value && styles.hide}
-              onClick={() => handleTypeClick(item.value)}
-            >
->>>>>>> e8c55e447301ca6cc5f6b0f07e1b0ec79625ff4f
               <img src={item.icon} alt="" />
               <span>{item.label}</span>
             </Button>
