@@ -8,6 +8,7 @@ import AdvancedFilter from "./AdvancedFilter";
 import Sort from "./Sort";
 import { Divider, message } from "antd";
 import { useXhsSelected } from "@/store/xhsContentSelected";
+import FilterRow from "../../components/FilterRow";
 // import { reqXhsBrandPage } from '@/api/marketing'
 // import { useXhsContentSearch } from '@/store/xhsContentSearch'
 
@@ -55,7 +56,9 @@ function Filter() {
         <Sort />
 
         {/* 筛选条件 */}
-        {Object.keys(selected).map((key) => selected[key])}
+        <FilterRow title="已选条件">
+          {Object.keys(selected).map((key) => selected[key])}
+        </FilterRow>
       </div>
     </div>
   );

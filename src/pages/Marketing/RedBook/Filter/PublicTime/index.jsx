@@ -19,15 +19,15 @@ function PublicTime() {
   function handleDel() {
     // 1.清除筛选条件
     const _selected = { ...selected };
-    delete _selected.time
+    delete _selected.time;
     dispatchSelected(_selected);
     // 2.清除带给后端的筛选字段
-    const _tableParams = {...tableParams}
-    delete _tableParams.publishTimeMax
-    delete _tableParams.publishTimeMin
-    dispatch(_tableParams)
+    const _tableParams = { ...tableParams };
+    delete _tableParams.publishTimeMax;
+    delete _tableParams.publishTimeMin;
+    dispatch(_tableParams);
     // 3.删除选中状态
-    setChecked()
+    setChecked();
   }
 
   const onRangeChange = (dates, dateStrings) => {
@@ -42,17 +42,21 @@ function PublicTime() {
     }
     dispatch(o);
 
-    // 条件
-    const dom = (
-      <div>
-        <span>
-          {min}-{max}
-        </span>
-        <span onClick={handleDel}>x</span>
-      </div>
-    );
     const _selected = { ...selected };
-    _selected.time = [dom];
+    if (min && max) {
+      // 条件
+      const dom = (
+        <div>
+          <span>
+            {min}-{max}
+          </span>
+          <span onClick={handleDel}>x</span>
+        </div>
+      );
+      _selected.time = [dom];
+    } else {
+      delete _selected.time;
+    }
     dispatchSelected(_selected);
   };
 
