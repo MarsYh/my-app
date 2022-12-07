@@ -23,24 +23,24 @@ function PublicTime() {
     }
     dispatch(o)
   }
-  // const rangePresets = [
-  //   {
-  //     label: 'Last 7 Days',
-  //     value: [dayjs().add(-7, 'd'), dayjs()],
-  //   },
-  //   {
-  //     label: 'Last 14 Days',
-  //     value: [dayjs().add(-14, 'd'), dayjs()],
-  //   },
-  //   {
-  //     label: 'Last 30 Days',
-  //     value: [dayjs().add(-30, 'd'), dayjs()],
-  //   },
-  //   {
-  //     label: 'Last 90 Days',
-  //     value: [dayjs().add(-90, 'd'), dayjs()],
-  //   },
-  // ]
+  const rangePresets = [
+    {
+      label: 'Last 7 Days',
+      value: [dayjs().add(-7, 'd'), dayjs()],
+    },
+    {
+      label: 'Last 14 Days',
+      value: [dayjs().add(-14, 'd'), dayjs()],
+    },
+    {
+      label: 'Last 30 Days',
+      value: [dayjs().add(-30, 'd'), dayjs()],
+    },
+    {
+      label: 'Last 90 Days',
+      value: [dayjs().add(-90, 'd'), dayjs()],
+    },
+  ]
   function handleTimeChecked(checkedValue) {
     if (checked === checkedValue) return
     setChecked(checkedValue)
@@ -69,10 +69,7 @@ function PublicTime() {
           </CheckableTag>
         ))}
         {checked === 'user_defined' && (
-          <RangePicker
-            //  presets={rangePresets}
-            onChange={onRangeChange}
-          />
+          <RangePicker presets={rangePresets} onChange={onRangeChange} />
         )}
       </div>
     </FilterRow>
