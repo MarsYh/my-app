@@ -77,7 +77,7 @@ function AnalyzeModal(props, ref) {
         </div>
       </div>
       <div className={styles.modalContent}>
-        <div className={styles.closeBtn}>
+        <div className={styles.closeBtn} onClick={handleCancel}>
           <CloseOutlined className={styles.closeIcon} />
         </div>
         <div className={styles.header}>

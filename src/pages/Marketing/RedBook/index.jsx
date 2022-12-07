@@ -39,7 +39,7 @@ function RedBook() {
       className={styles.wrapper}
       value={{ tableParams, dispatch: setTableParams }}>
       <div className={styles.filter}>
-        <div className={styles.searchBox}>
+        {/* <div className={styles.searchBox}>
           <div className={styles.top}>
             {SEARCH_CONTENT_CONFIG.map((item) => (
               <div
@@ -63,15 +63,18 @@ function RedBook() {
               <Button type="primary">搜索</Button>
             </div>
           </div>
-        </div>
+        </div> */}
         <Filter />
         <div className={styles.tableView}>
-          <Sort />
+          {/* <Sort /> */}
           {REDBOOK_TYPE_CONFIG.map((item) => (
             <Button
               key={item.value}
               type="primary"
-              className={switchKey === item.value && styles.hide}
+              className={classNames(
+                styles.btns,
+                switchKey === item.value && styles.hide
+              )}
               onClick={() => handleTypeClick(item.value)}>
               <img src={item.icon} alt="" />
               <span>{item.label}</span>
