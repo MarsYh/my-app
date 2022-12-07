@@ -288,7 +288,11 @@ function List() {
       width: 400,
       ellipsis: true,
       dataIndex: 'title',
+<<<<<<< HEAD
       fixed: 'left',
+=======
+      fixed:'left',
+>>>>>>> e8c55e447301ca6cc5f6b0f07e1b0ec79625ff4f
       render: (_, record) => renderTitle(record),
     },
     {
@@ -367,6 +371,7 @@ function List() {
       width: 100,
       ellipsis: true,
       dataIndex: 'edit',
+      fixed:"right",
       align: 'center',
       fixed: 'right',
       render: (_, record) => renderEdit(record),
@@ -389,7 +394,11 @@ function List() {
             total: data.total,
           }}
           scroll={{
+<<<<<<< HEAD
             x: columns.reduce((prev, item) => (prev += item.width)),
+=======
+            x: columns.reduce((prev,item) => prev += item.width ?? 0),
+>>>>>>> e8c55e447301ca6cc5f6b0f07e1b0ec79625ff4f
             y: 600,
           }}
         />

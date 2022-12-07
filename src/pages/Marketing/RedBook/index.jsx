@@ -1,43 +1,44 @@
-import React, { useState } from 'react'
-import styles from './index.module.less'
-import { SEARCH_CONTENT_CONFIG, REDBOOK_TYPE_CONFIG } from '../sourceData'
-import classNames from 'classnames'
-import { Button, Divider, Input, Space } from 'antd'
-import Filter from './Filter'
-import List from './List'
-import DetailDraw from './DetailDraw'
-import Sort from './Filter/Sort'
-import context from '@/store/xhsContentSearch'
-import { SORT_CONFIG } from './Filter/sourceData'
+import React, { useState } from "react";
+import styles from "./index.module.less";
+import { SEARCH_CONTENT_CONFIG, REDBOOK_TYPE_CONFIG } from "../sourceData";
+import classNames from "classnames";
+import { Button, Divider, Input, Space } from "antd";
+import Filter from "./Filter";
+import List from "./List";
+import DetailDraw from "./DetailDraw";
+import Sort from "./Filter/Sort";
+import context from "@/store/xhsContentSearch";
+import { SORT_CONFIG } from "./Filter/sourceData";
 
 function RedBook() {
-  const { Provider } = context
+  const { Provider } = context;
   const [tableParams, setTableParams] = useState({
     sortFiled: SORT_CONFIG[0].value,
-    searchFields: ['title'],
+    searchFields: ["title"],
     page: {
       pageSize: 10,
       pageNo: 1,
     },
     desc: true,
-  })
-  const [switchKey, setSwitchKey] = useState('list')
-  const [activeKey, setActiveKey] = useState('1')
+  });
+  const [switchKey, setSwitchKey] = useState("list");
+  const [activeKey, setActiveKey] = useState("1");
 
   function handleClick(type) {
-    if (activeKey === type) return
-    setActiveKey(type)
+    if (activeKey === type) return;
+    setActiveKey(type);
   }
 
   function handleTypeClick(type) {
-    if (switchKey === type) return
-    setSwitchKey(type)
+    if (switchKey === type) return;
+    setSwitchKey(type);
   }
 
   return (
     <Provider
       className={styles.wrapper}
-      value={{ tableParams, dispatch: setTableParams }}>
+      value={{ tableParams, dispatch: setTableParams }}
+    >
       <div className={styles.filter}>
         {/* <div className={styles.searchBox}>
           <div className={styles.top}>
@@ -48,7 +49,8 @@ function RedBook() {
                   styles.item,
                   activeKey === item.value && styles.checked
                 )}
-                onClick={() => handleClick(item.value)}>
+                onClick={() => handleClick(item.value)}
+              >
                 <img src={item.icon} alt="" />
                 <span>{item.label}</span>
               </div>
@@ -71,20 +73,26 @@ function RedBook() {
             <Button
               key={item.value}
               type="primary"
+<<<<<<< HEAD
               className={classNames(
                 styles.btns,
                 switchKey === item.value && styles.hide
               )}
               onClick={() => handleTypeClick(item.value)}>
+=======
+              className={switchKey === item.value && styles.hide}
+              onClick={() => handleTypeClick(item.value)}
+            >
+>>>>>>> e8c55e447301ca6cc5f6b0f07e1b0ec79625ff4f
               <img src={item.icon} alt="" />
               <span>{item.label}</span>
             </Button>
           ))}
         </div>
       </div>
-      {switchKey === 'big' ? <DetailDraw /> : <List />}
+      {switchKey === "big" ? <DetailDraw /> : <List />}
     </Provider>
-  )
+  );
 }
 
-export default RedBook
+export default RedBook;

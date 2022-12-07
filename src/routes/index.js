@@ -28,7 +28,6 @@ import {
   FolderOpenOutlined
 } from "@ant-design/icons"
 import { lazy } from "react"
-import SearchContent from "../pages/Marketing/SearchContent"
 
 const routes = [
   {
@@ -51,6 +50,7 @@ const routes = [
             name: "内容搜索",
             path: "noteSearch",
             element: <Marketing />,
+<<<<<<< HEAD
             children: [
               {
                 path: 'redBook',
@@ -59,6 +59,16 @@ const routes = [
               {
                 index: true,
                 element: <Navigate to={"/marketing/noteSearch/redBook"} />
+=======
+            children:[
+              {
+                path:"xiaohongshu",
+                element:lazy(()=>import("../pages/Marketing/RedBook"))
+              },
+              {
+                index:true,// 索引路由
+                element: <Navigate to={"/marketing/noteSearch/xiaohongshu"} />,
+>>>>>>> e8c55e447301ca6cc5f6b0f07e1b0ec79625ff4f
               }
             ]
           },
