@@ -20,3 +20,41 @@
     }
   }
 }
+.pointer {
+  cursor: pointer;
+}
+.selectedBox {
+  display: flex;
+  align-items: center;
+  font-family: Microsoft YaHei;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #626a6a;
+  font-weight: 400;
+  border: none;
+  padding: 4px 12px 4px 8px;
+  border-radius: 4px;
+  margin-right: 16px;
+  background-color: rgb(237 242 242);
+  > span:nth-child(2) {
+    color: #727fff;
+    margin-left: 8px;
+  }
+  > span:nth-child(3) {
+    color: #000;
+  }
+  > span:last-child {
+    color: #ff401a;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+}
+.reset {
+  color: #ff401a;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
