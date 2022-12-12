@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo, useCallback, Suspense } from 'react'
 import Parent from './Parent'
 import { ConfigProvider } from 'antd'
 import zhCN from "antd/es/locale/zh_CN"
+import { RecoilRoot } from "recoil"
 
 function App () {
   const element = useRoutes(routes)
@@ -35,17 +36,18 @@ function App () {
 
   return (
     <div className="App">
-      <ConfigProvider locale={zhCN}>
-        <Suspense fallback={<div>loading</div>}>
-          {element}
-        </Suspense></ConfigProvider>
-      {/* <h1>{result()}</h1>
+      <RecoilRoot>
+        <ConfigProvider locale={zhCN}>
+          <Suspense fallback={<div>loading</div>}>
+            {element}
+          </Suspense></ConfigProvider>
+        {/* <h1>{result()}</h1>
       <p>点击{a}次</p>
       <p onClick={fn}>fn click</p>
       <p onClick={fb}>fb click</p>
       <button onClick={() => setA(a + 1)}>click</button>
       <Parent /> */}
-
+      </RecoilRoot>
     </div>
   )
 }

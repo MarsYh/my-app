@@ -1,19 +1,39 @@
 import React, { useState } from 'react'
 import { Tag, DatePicker } from 'antd'
+import { UndoOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import styles from './index.module.less'
 import FilterRow from '../../../components/FilterRow'
 import { PUBLIC_TIME_CONFIG } from '../sourceData'
 import { useXhsContentSearch } from '@/store/xhsContentSearch'
+import { useXhsSelected } from '@/store/xhsContentSelected'
 
 const { CheckableTag } = Tag
 const { RangePicker } = DatePicker
+
 function PublicTime() {
   const { tableParams, dispatch } = useXhsContentSearch()
   const [checked, setChecked] = useState()
+  // 当前选择的条件
+  const [selected, dispatchSelected] = useXhsSelected()
+
+  function handleDel() {
+    // 1.清除筛选条件
+    const _selected = { ...selected }
+    delete _selected.time
+    dispatchSelected(_selected)
+    // 2.清除带给后端的筛选字段
+    const _tableParams = { ...tableParams }
+    delete _tableParams.publishTimeMax
+    delete _tableParams.publishTimeMin
+    dispatch(_tableParams)
+    // 3.删除选中状态
+    setChecked()
+  }
+
   const onRangeChange = (dates, dateStrings) => {
     const o = { ...tableParams }
-    const [max, min] = dateStrings
+    const [min, max] = dateStrings
     if (min && max) {
       o.publishTimeMin = min
       o.publishTimeMax = max
@@ -22,7 +42,32 @@ function PublicTime() {
       delete o.publishTimeMax
     }
     dispatch(o)
+
+    const _selected = { ...selected }
+    if (min && max) {
+      // 条件
+      const dom = (
+        <div style={{ display: 'flex' }}>
+          <span className={styles.selectedBox}>
+            <span>发布时间：</span>
+            <span>
+              {min}-{max}
+            </span>
+            <span onClick={handleDel}>x</span>
+          </span>
+          <span className={styles.reset}>
+            <UndoOutlined />
+            重置所有筛选
+          </span>
+        </div>
+      )
+      _selected.time = [dom]
+    } else {
+      delete _selected.time
+    }
+    dispatchSelected(_selected)
   }
+
   const rangePresets = [
     {
       label: 'Last 7 Days',
@@ -41,20 +86,43 @@ function PublicTime() {
       value: [dayjs().add(-90, 'd'), dayjs()],
     },
   ]
-  function handleTimeChecked(checkedValue) {
+
+  function handleTimeChecked(item) {
+    const checkedValue = item.value
     if (checked === checkedValue) return
     setChecked(checkedValue)
-    if (checked === 'user_defined') {
+
+    if (checkedValue === 'user_defined') {
       console.log('用户自定义')
       return
     }
+
     const d = dayjs()
     const maxTime = d.format('YYYY-MM-DD')
     const minTime = d.add(checkedValue, 'day').format('YYYY-MM-DD')
+
     const o = { ...tableParams }
-    o.publishTimeMin = minTime
     o.publishTimeMax = maxTime
+    o.publishTimeMin = minTime
     dispatch(o)
+
+    // 显示的条件
+    const dom = (
+      <div style={{ display: 'flex' }}>
+        <span className={styles.selectedBox}>
+          <span>发布时间：</span>
+          <span>{item.label}</span>
+          <span onClick={handleDel}>x</span>
+        </span>
+        <span className={styles.reset}>
+          <UndoOutlined />
+          重置所有筛选
+        </span>
+      </div>
+    )
+    const _selected = { ...selected }
+    _selected.time = [dom]
+    dispatchSelected(_selected)
   }
 
   return (
@@ -64,13 +132,11 @@ function PublicTime() {
           <CheckableTag
             key={item.value}
             checked={checked === item.value}
-            onClick={() => handleTimeChecked(item.value)}>
+            onClick={() => handleTimeChecked(item)}>
             {item.label}
           </CheckableTag>
         ))}
-        {checked === 'user_defined' && (
-          <RangePicker presets={rangePresets} onChange={onRangeChange} />
-        )}
+        {checked === 'user_defined' && <RangePicker onChange={onRangeChange} />}
       </div>
     </FilterRow>
   )

@@ -7,22 +7,24 @@ import PublicTime from './PublicTime'
 import AdvancedFilter from './AdvancedFilter'
 import Sort from './Sort'
 import { Divider, message } from 'antd'
-import { reqXhsBrandPage } from '@/api/marketing'
-import { useXhsContentSearch } from '@/store/xhsContentSearch'
+// import { reqXhsBrandPage } from '@/api/marketing'
+// import { useXhsContentSearch } from '@/store/xhsContentSearch'
+import { useXhsSelected } from '@/store/xhsContentSelected'
 
 function Filter() {
   // const { tableParams } = useXhsContentSearch()
   const [selectedRecord, setSelectedRecord] = useState({})
+  const [selected, dispatchSelected] = useXhsSelected()
 
-  useEffect(() => {
-    reqXhsBrandPage().then((res) => {
-      const { success, msg, data } = res
-      if (success && data) {
-      } else {
-        message.error(msg || '筛选数据请求失败')
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   reqXhsBrandPage().then((res) => {
+  //     const { success, msg, data } = res
+  //     if (success && data) {
+  //     } else {
+  //       message.error(msg || '筛选数据请求失败')
+  //     }
+  //   })
+  // }, [])
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -44,6 +46,8 @@ function Filter() {
           setSelectedRecord={setSelectedRecord}
         />
         <AdvancedFilter />
+        {/* 筛选条件 */}
+        {Object.keys(selected).map((key) => selected[key])}
         <Divider dashed className={styles.divider} />
         <Sort />
       </div>
